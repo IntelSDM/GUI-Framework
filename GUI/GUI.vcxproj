@@ -169,9 +169,11 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Misc\Pch\pch.cpp" />
+    <ClCompile Include="Misc\Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Misc\Pch\pch.h" />
+    <ClInclude Include="Misc\Vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
