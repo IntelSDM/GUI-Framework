@@ -40,6 +40,7 @@
 #include <vector>
 #include <d2d1_1.h>
 
+// only add headers here that wont frequently be updated. such as frameworks
 #include "Colour.h"
 #include "Graphics.h"
 #include "font.h"
