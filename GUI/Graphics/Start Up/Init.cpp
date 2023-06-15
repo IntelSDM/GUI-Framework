@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Init.h"
+#include "drawing.h"
 
 ID2D1Factory* Factory;
 IDWriteFactory* FontFactory;
@@ -14,14 +15,22 @@ void InitD2D(HWND hWnd)
     RECT rect;
     GetClientRect(hWnd, &rect);
     result = Factory->CreateHwndRenderTarget(D2D1::RenderTargetProperties(D2D1_RENDER_TARGET_TYPE_DEFAULT, D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED)), D2D1::HwndRenderTargetProperties(hWnd, D2D1::SizeU(rect.right, rect.bottom), D2D1_PRESENT_OPTIONS_IMMEDIATELY), &RenderTarget);
-    if (SUCCEEDED(result))
-    {
+    if (!SUCCEEDED(result))
+        return;
+   
         result = DWriteCreateFactory(
             DWRITE_FACTORY_TYPE_ISOLATED,
             __uuidof(IDWriteFactory),
             reinterpret_cast<IUnknown**>(&FontFactory)
         );
-    }
+   
+    if (!SUCCEEDED(result))
+        return;
+    CreateFonts("Verdana", L"Verdana", 10, DWRITE_FONT_WEIGHT_SEMI_BOLD);
+
+    RenderTarget->CreateSolidColorBrush(D2D1::ColorF(0, 0, 0, 0), &Brush); // create global brush
+    RenderTarget->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);  // set aa mode
+  
 }
 
 void CleanD2D()
@@ -34,7 +43,11 @@ void CleanD2D()
     RenderTarget->Release();
     if(Brush)
     Brush->Release();
-   
+    for (std::pair dict : Fonts)
+    {
+        if(dict.second)
+        dict.second->Release();
+    }
 }
 int FrameRate() {
     static int fps;
@@ -62,7 +75,8 @@ void RenderFrame()
     RenderTarget->Clear(Colour(0, 0, 0, 255)); // clear over the last buffer
     RenderTarget->SetTransform(D2D1::Matrix3x2F::Identity()); // set new transform
 
-
+    Text("test123", 200, 10, 50, "Verdana", Colour(255, 0, 0, 255),FontAlignment::None);
+    TextClipped("test123", 200, 100,50,50, 50, "Verdana", Colour(255, 0, 0, 255), FontAlignment::None);
     RenderTarget->EndDraw();
 
 }

@@ -42,5 +42,5 @@
 
 #include "Colour.h"
 #include "Graphics.h"
-
+#include "font.h"
 #endif //PCH_H

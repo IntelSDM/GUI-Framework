@@ -32,22 +32,25 @@ void GetTextSize(const std::string text, float* const width, float* const height
         IDWriteTextLayout* layout = nullptr;
         const HRESULT status = FontFactory->CreateTextLayout(convertedtext.data(), static_cast<std::uint32_t>(text.length()), Fonts[font], 4096.f, 4096.f, &layout);
         float modifier = layout->GetFontSize() / 4.0f;
-        if (SUCCEEDED(status))
+        if (!SUCCEEDED(status))
         {
-            DWRITE_TEXT_METRICS metrics{};
-            if (SUCCEEDED(layout->GetMetrics(&metrics)))
-            {
-                if (width)
-                {
-                    *width = metrics.width + modifier;
-                }
-                if (height)
-                {
-                    *height = metrics.height + modifier;
-                }
-            }
-            layout->Release();
+            layout->Release(); // free memory
+            return;
         }
+        DWRITE_TEXT_METRICS metrics{};
+        if (SUCCEEDED(layout->GetMetrics(&metrics)))
+        {
+            if (width)
+            {
+                *width = metrics.width + modifier;
+            }
+            if (height)
+            {
+                *height = metrics.height;
+            }
+        }
+        layout->Release();
+        
     }
 }
 
