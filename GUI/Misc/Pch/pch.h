@@ -43,4 +43,6 @@
 #include "Colour.h"
 #include "Graphics.h"
 #include "font.h"
+#include "Vector.h"
+#include "Input.h"
 #endif //PCH_H

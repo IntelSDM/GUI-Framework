@@ -5,7 +5,7 @@ HWND Hwnd;
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-
+    InputWndProc(hWnd, message, wParam, lParam);
     switch (message)
     {
     case WM_DESTROY:
@@ -45,10 +45,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     MSG msg;
     SetProcessDPIAware();
+    SetInput();
     while (TRUE)
     {
-
-
         if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
         {
             TranslateMessage(&msg);
@@ -61,8 +60,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         RenderFrame();
 
     }
-
-
     CleanD2D();
     return msg.wParam;
 }

@@ -172,6 +172,7 @@
     <ClCompile Include="Graphics\Utility\Colour.cpp" />
     <ClCompile Include="Graphics\Utility\Font.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Misc\Input.cpp" />
     <ClCompile Include="Misc\Pch\pch.cpp" />
     <ClCompile Include="Misc\Vector.cpp" />
   </ItemGroup>
@@ -181,6 +182,7 @@
     <ClInclude Include="Graphics\Utility\Colour.h" />
     <ClInclude Include="Graphics\Utility\Font.h" />
     <ClInclude Include="Graphics\Graphics.h" />
+    <ClInclude Include="Misc\Input.h" />
     <ClInclude Include="Misc\Pch\pch.h" />
     <ClInclude Include="Misc\Vector.h" />
   </ItemGroup>

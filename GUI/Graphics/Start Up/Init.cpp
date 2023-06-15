@@ -74,7 +74,6 @@ void RenderFrame()
     RenderTarget->BeginDraw();
     RenderTarget->Clear(Colour(0, 0, 0, 255)); // clear over the last buffer
     RenderTarget->SetTransform(D2D1::Matrix3x2F::Identity()); // set new transform
-
     Text("test123", 200, 10, 50, "Verdana", Colour(255, 0, 0, 255),FontAlignment::None);
     TextClipped("test123", 200, 100,50,50, 50, "Verdana", Colour(255, 0, 0, 255), FontAlignment::None);
     RenderTarget->EndDraw();
