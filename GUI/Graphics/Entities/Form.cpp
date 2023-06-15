@@ -8,6 +8,7 @@
 #include "GUI.h"
 Form::Form(float x, float y, float w, float h, float borderwidth, float borderheight, std::string text, bool stretch)
 {
+    Form::Title = text;
     Form::Pos = { x, y };
     Form::Size = { w, h };
     Form::OriginalSize = Form::Size;
@@ -92,9 +93,6 @@ void Form::Update()
     Form::Cursor = MousePos;
 
 
-
-    //  if (clock() * 0.00001f > Form::InitTime)
-    //  {
     Form::DragAction();
     Form::StretchAction();
     if (IsMouseInRectangle(Form::Pos.x + (Form::Size.x) - 48, Form::Pos.y, (Form::Pos.x + (Form::Size.x) - 28) - (Form::Pos.x + (Form::Size.x) - 48), 19) && (IsKeyClicked(VK_LBUTTON)))
@@ -103,7 +101,7 @@ void Form::Update()
         exit(NULL);
 
     Container::Update();
-    // }
+
 }
 
 void Form::Draw()
@@ -129,29 +127,10 @@ void Form::Draw()
     }
 
     OutlineRectangle((Form::Pos.x - Form::Border.x / 2) + 1, (Form::Pos.y - Form::Border.x / 2) + 1, Form::Size.x + Form::Border.x - 1, Form::Size.y + Form::Border.x - 1, 1, Colour(140, 140, 140, 255)); // Draw Border
-
-    FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Size.y, Colour(20, 30, 160, 255)); //39, 44, 193
-    FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Border.y, Colour(20, 30, 160, 255)); // header
-
-    FilledRectangle(Form::Pos.x, Form::Pos.y + (Form::Border.y), Form::Size.x, Form::Border.y, Colour(39, 44, 193, 255)); //description box
-
-    FilledRectangle(Form::Pos.x, Form::Pos.y + Form::Size.y - 75, Form::Size.x, 45, Colour(39, 44, 193, 255)); // interactionbox
+    FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Size.y, Colour(40, 40, 40, 255)); //39, 44, 193
+    FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Border.y, Colour(30, 30, 30, 255)); // header
     FilledRectangle(Form::Pos.x, Form::Pos.y + Form::Size.y - 30, Form::Size.x, 30, Colour(25, 25, 25, 255)); // branding box
-
-
-
-   // FilledRectangle(Form::Pos.x, Form::Pos.y + (Form::Size.y - (Form::Size.y / 5)) + (Form::Size.y / 7), Form::Size.x, Form::Size.y / 14, Colour(10, 10, 10, 255)); // branding box
-
-
-
-  //  Text("abcdefg ABCDEFG", Form::Pos.x + 200, Form::Pos.y + 200, Colour(255, 255, 255, 255), "Verdana", Centre);
-   // Text("abcdefg ABCDEFG", Form::Pos.x + 220, Form::Pos.y + 230, Colour(255, 255, 255, 255), "Tahoma", Centre);
-   // Text("abcdefg ABCDEFG", Form::Pos.x + 260, Form::Pos.y + 260, Colour(255, 255, 255, 255), "Seoge", Centre);
-   // Text("abcdefg ABCDEFG", Form::Pos.x + 290, Form::Pos.y + 290, Colour(255, 255, 255, 255), "Serif", Centre);
- //   FilledLine(Form::Pos.x, Form::Pos.y + Form::Border.y+1, Form::Pos.x + Form::Size.x, Form::Pos.y + Form::Border.y+1, 1, Colour(50, 50, 50, 255));
- //   OutlineRoundedRectangle(Form::Pos.x - Form::Border.x / 2, Form::Pos.y - Form::Border.x / 2, Form::Size.x + Form::Border.x, Form::Size.y + Form::Border.x, Form::Border.x, 3, Colour(50, 50, 50, 255));
- //   Text(Form::Name, Form::Pos.x + 10, Form::Pos.y, Colour(0, 100, 255, 255), "Seoge", None);
- //   FilledLine(Form::Pos.x + Form::TextSize.x + 20, Form::Pos.y + Form::Border.y, Form::Pos.x + Form::TextSize.x + 20, Form::Pos.y, 1, Colour(50, 50, 50, 255));
+    Text(Form::Title, Form::Pos.x + 5, Form::Pos.y + 5, 12, "Verdana", Colour(255,255, 255, 255), None);
 
 
 #pragma region Minimize

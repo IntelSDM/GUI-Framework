@@ -7,7 +7,7 @@ void CreateGUI()
 {
 	MenuEntity = std::make_shared< Container >();
 	// We use the makeshared function instead of declaring new variables because they are automatically disposed
-	auto form = std::make_shared<Form >(800, 100.0f, 480, 300, 2, 30, "FORM", false);
+	auto form = std::make_shared<Form >(800, 100.0f, 480, 300, 2, 30, "FORM", true);
 	{
 	}
 	MenuEntity->push(form);
