@@ -5,13 +5,14 @@ EntityVector MenuEntity;
 
 void CreateGUI()
 {
+	MenuEntity = std::make_shared< Container >();
 	// We use the makeshared function instead of declaring new variables because they are automatically disposed
-}
-void Render()
-{
+	auto form = std::make_shared<Form >(800, 100.0f, 480, 300, 2, 30, "FORM", false);
+	{
+	}
+	MenuEntity->push(form);
 	MenuEntity->Draw();
-	MenuEntity->GetContainer()[0]->Update(); // only allow stretching,dragging and other update stuff if it is the main form, prevents dragging and sizing the wrong forms.
-	SetFormPriority();
+	MenuEntity->Update();
 }
 void SetFormPriority()
 {
@@ -20,4 +21,10 @@ void SetFormPriority()
 	std::sort(MenuEntity->GetContainer().begin(), MenuEntity->GetContainer().end(),
 		[](child a, child b) {return b->GetLastClick() < a->GetLastClick(); }
 	);
+}
+void Render()
+{
+	MenuEntity->Draw();
+	MenuEntity->GetContainer()[0]->Update(); // only allow stretching,dragging and other update stuff if it is the main form, prevents dragging and sizing the wrong forms.
+	SetFormPriority();
 }

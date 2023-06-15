@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Init.h"
 #include "drawing.h"
+#include "GUI.h"
 
 ID2D1Factory* Factory;
 IDWriteFactory* FontFactory;
@@ -30,6 +31,7 @@ void InitD2D(HWND hWnd)
 
     RenderTarget->CreateSolidColorBrush(D2D1::ColorF(0, 0, 0, 0), &Brush); // create global brush
     RenderTarget->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);  // set aa mode
+    CreateGUI();
   
 }
 
@@ -74,8 +76,9 @@ void RenderFrame()
     RenderTarget->BeginDraw();
     RenderTarget->Clear(Colour(0, 0, 0, 255)); // clear over the last buffer
     RenderTarget->SetTransform(D2D1::Matrix3x2F::Identity()); // set new transform
-    Text("test123", 200, 10, 50, "Verdana", Colour(255, 0, 0, 255),FontAlignment::None);
-    TextClipped("test123", 200, 100,50,50, 50, "Verdana", Colour(255, 0, 0, 255), FontAlignment::None);
+    //Text("test123", 200, 10, 50, "Verdana", Colour(255, 0, 0, 255),FontAlignment::None);
+    //TextClipped("test123", 200, 100,50,50, 50, "Verdana", Colour(255, 0, 0, 255), FontAlignment::None);
+    Render();
     RenderTarget->EndDraw();
 
 }
