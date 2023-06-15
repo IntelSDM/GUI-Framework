@@ -120,3 +120,90 @@ void TextClipped(std::string text, int x, int y, int width,int height,int fontsi
     RenderTarget->DrawTextLayout(point, layout, Brush, D2D1_DRAW_TEXT_OPTIONS::D2D1_DRAW_TEXT_OPTIONS_CLIP);
     layout->Release(); // free memory
 }
+
+void OutlineCircle(int x, int y, float radius, float linewidth, D2D1::ColorF colour)
+{
+    Brush->SetColor(colour);
+    RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+    RenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), Brush, linewidth);
+    RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
+}
+void FilledCircle(int x, int y, float radius, D2D1::ColorF colour)
+{
+    Brush->SetColor(colour);
+    RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+    RenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), Brush);
+    RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
+}
+void OutlineRectangle(int x, int y, int width, int height, int linewidth, D2D1::ColorF colour)
+{
+    RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
+    Brush->SetColor(colour);
+    D2D1_RECT_F rect = { static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y) };
+    RenderTarget->DrawRectangle(rect, Brush, linewidth);
+    RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+
+}
+void FilledRectangle(int x, int y, int width, int height, D2D1::ColorF colour)
+{
+    Brush->SetColor(colour);
+    D2D1_RECT_F rect = { static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y) };
+    RenderTarget->FillRectangle(rect, Brush);
+}
+void OutlineRoundedRectangle(int x, int y, int width, int height, int linewidth, int rounding, D2D1::ColorF colour)
+{
+    // RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
+    RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+    Brush->SetColor(colour);
+    D2D1_RECT_F rect = { static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y) };
+    D2D1_ROUNDED_RECT roundedRect = D2D1::RoundedRect(
+        rect,
+        static_cast<float>(rounding),
+        static_cast<float>(rounding)
+    );
+    RenderTarget->DrawRoundedRectangle(roundedRect, Brush, linewidth);
+    //RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+}
+void FilledRoundedRectangle(int x, int y, int width, int height, int rounding, D2D1::ColorF colour)
+{
+    Brush->SetColor(colour);
+    D2D1_RECT_F rect = { static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y) };
+    D2D1_ROUNDED_RECT roundedRect = D2D1::RoundedRect(
+        rect,
+        static_cast<float>(rounding),
+        static_cast<float>(rounding)
+    );
+    RenderTarget->FillRoundedRectangle(roundedRect, Brush);
+}
+void FilledLine(int xstart, int ystart, int xend, int yend, int width, D2D1::ColorF colour)
+{
+    RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+    D2D1_POINT_2F start = { static_cast<float>(xstart), static_cast<float>(ystart) };
+    D2D1_POINT_2F finish = { static_cast<float>(xend), static_cast<float>(yend) };
+    Brush->SetColor(colour);
+    RenderTarget->DrawLine(start, finish, Brush);
+}
+// allows you to draw single lines, rather than being forced to use double
+void FilledLineAliased(int xstart, int ystart, int xend, int yend, int width, D2D1::ColorF colour)
+{
+    RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
+    D2D1_POINT_2F start = { static_cast<float>(xstart), static_cast<float>(ystart) };
+    D2D1_POINT_2F finish = { static_cast<float>(xend), static_cast<float>(yend) };
+    Brush->SetColor(colour);
+    RenderTarget->DrawLine(start, finish, Brush);
+    RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+}
+// draws at native resolution
+void DrawBitmap(ID2D1Bitmap* bmp, int x, int y)
+{
+    
+    RenderTarget->DrawBitmap(bmp, D2D1::RectF(static_cast<float>(x), static_cast<float>(y), bmp->GetSize().width + x, bmp->GetSize().height + y), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, D2D1::RectF(0.0f, 0.0f, bmp->GetSize().width, bmp->GetSize().height));
+
+}
+// squeezes, compresses or expands the image to set variables.
+void DrawBitmap(ID2D1Bitmap* bmp, int x, int y, int width, int height)
+{
+
+    RenderTarget->DrawBitmap(bmp, D2D1::RectF(static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y)), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, D2D1::RectF(0.0f, 0.0f, bmp->GetSize().width, bmp->GetSize().height));
+
+}
