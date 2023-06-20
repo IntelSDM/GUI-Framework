@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "entity.h"
 #include "Form.h"
+#include "TabController.h"
 EntityVector MenuEntity;
 
 void CreateGUI()
@@ -9,8 +10,10 @@ void CreateGUI()
 	// We use the makeshared function instead of declaring new variables because they are automatically disposed
 	auto form = std::make_shared<Form >(800, 100.0f, 480, 300, 2, 30, "FORM", true);
 	{
+		auto tabcontroller = std::make_shared<TabController>();
+		form->Push(tabcontroller);
 	}
-	MenuEntity->push(form);
+	MenuEntity->Push(form);
 	MenuEntity->Draw();
 	MenuEntity->Update();
 }

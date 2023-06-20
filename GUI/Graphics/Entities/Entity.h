@@ -65,7 +65,7 @@ class Container : public Entity
 protected:
 	childcontainer ContainerInstance;
 public:
-	virtual child push(child object)
+	virtual child Push(child object)
 	{
 
 		object.get()->Parent = shared_from_this();

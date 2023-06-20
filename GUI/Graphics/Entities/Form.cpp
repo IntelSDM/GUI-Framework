@@ -129,7 +129,7 @@ void Form::Draw()
     OutlineRectangle((Form::Pos.x - Form::Border.x / 2) + 1, (Form::Pos.y - Form::Border.x / 2) + 1, Form::Size.x + Form::Border.x - 1, Form::Size.y + Form::Border.x - 1, 1, Colour(140, 140, 140, 255)); // Draw Border
     FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Size.y, Colour(40, 40, 40, 255)); //39, 44, 193
     FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Border.y, Colour(30, 30, 30, 255)); // header
-    FilledRectangle(Form::Pos.x, Form::Pos.y + Form::Size.y - 30, Form::Size.x, 30, Colour(25, 25, 25, 255)); // branding box
+
     Text(Form::Title, Form::Pos.x + 5, Form::Pos.y + 5, 12, "Verdana", Colour(255,255, 255, 255), None);
 
 
