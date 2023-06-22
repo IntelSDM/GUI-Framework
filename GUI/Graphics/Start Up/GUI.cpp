@@ -35,7 +35,7 @@ void CreateGUI()
 					Beep(100,100);
 				});
 			tab->Push(button);
-			auto textbox = std::make_shared<TextBox>(10,140,"Textbox",&Text);
+			auto textbox = std::make_shared<TextBox>(10,150,"Textbox",&Text);
 			tab->Push(textbox);
 		}
 		tabcontroller->Push(tab);

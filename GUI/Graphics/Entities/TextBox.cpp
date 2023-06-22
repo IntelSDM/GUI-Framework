@@ -16,7 +16,6 @@ TextBox::TextBox(float x, float y, std::string text, std::string* data = nullptr
 	TextBox::Size = { 277,25 };
 	TextBox::Name = text;
 	TextBox::Active = false;
-	//TextBox::MainString = "Testtdfhfdhfddhfdfhfhdfdhfdhfhdhfddfhfhdfsxgsdgddsgdsdhfdh";
 	TextBox::MainString = data;
 	TextBox::VisibleString = *MainString;
 
@@ -65,7 +64,7 @@ void TextBox::Update()
 	}
 	// probably shouldn't be here for optimization reasons but this is a small project, you don't want to keep making templates each frame for each textbox. i will fix this in the actual gui. 
 	GetTextSize(VisibleString, 11,&TextWidth, &TextHeight ,"Verdana");
-	if (TextBox::TextWidth > TextBox::Size.x - 11) // textsize aint too accurate
+	if (TextBox::TextWidth > TextBox::Size.x - 3) // textsize isn't too accurate
 	{
 		// trim visible text
 		TextBox::VisibleString.erase(TextBox::VisibleString.begin());
@@ -82,13 +81,13 @@ void TextBox::Draw()
 		return;
 
 
-	FilledRoundedRectangle(TextBox::Pos.x + TextBox::ParentPos.x - 1, TextBox::Pos.y + +TextBox::ParentPos.y - 1, TextBox::Size.x + 1, TextBox::Size.y + 1, 4, Colour(20, 30, 190, 255));
-	FilledRoundedRectangle(TextBox::Pos.x + TextBox::ParentPos.x, TextBox::Pos.y + +TextBox::ParentPos.y, TextBox::Size.x, TextBox::Size.y, 4, Colour(200, 200, 255, 255));
+	FilledRoundedRectangle(TextBox::Pos.x + TextBox::ParentPos.x - 1, TextBox::Pos.y + +TextBox::ParentPos.y - 1, TextBox::Size.x + 2, TextBox::Size.y +2, 4, Colour(200, 200, 200, 255));
+	FilledRoundedRectangle(TextBox::Pos.x + TextBox::ParentPos.x, TextBox::Pos.y + +TextBox::ParentPos.y, TextBox::Size.x, TextBox::Size.y, 4, Colour(80, 80, 80, 255));
 	Text(TextBox::Name, TextBox::ParentPos.x + TextBox::Pos.x + (TextBox::Size.x / 2), TextBox::ParentPos.y + TextBox::Pos.y - ((TextBox::Size.y / 2) - 1), 12, "Verdana", Colour(255, 255, 255, 255), CentreCentre); // Title
-	Text(TextBox::VisibleString, TextBox::ParentPos.x + TextBox::Pos.x + 5, TextBox::ParentPos.y + TextBox::Pos.y + (TextBox::Size.y / 2),11,"Verdana", Colour(10, 10, 10, 255), None); // Text
+	TextClipped(TextBox::VisibleString, TextBox::ParentPos.x + TextBox::Pos.x + 3, (TextBox::ParentPos.y + TextBox::Pos.y )+ (TextBox::Size.y / 4),TextBox::Size.x,TextBox::Size.y,11,"Verdana", Colour(255, 255, 255, 255), None); // Text
 
 	if (TextBox::Active)
 	{
-		FilledLine(TextBox::Pos.x + TextBox::ParentPos.x + TextBox::TextWidth + 8, TextBox::Pos.y + TextBox::ParentPos.y + TextBox::Size.y - 3, TextBox::Pos.x + TextBox::ParentPos.x + TextBox::TextWidth + 8, TextBox::Pos.y + TextBox::ParentPos.y + 3, 1, Colour(50, 50, 50, 180));
+		FilledLine(TextBox::Pos.x + TextBox::ParentPos.x + TextBox::TextWidth + 3, TextBox::Pos.y + TextBox::ParentPos.y + TextBox::Size.y - 3, TextBox::Pos.x + TextBox::ParentPos.x + TextBox::TextWidth + 3, TextBox::Pos.y + TextBox::ParentPos.y + 3, 1, Colour(50, 50, 50, 180));
 	}
 }
