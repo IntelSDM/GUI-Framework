@@ -172,7 +172,6 @@
     <ClCompile Include="Graphics\Entities\Entity.cpp" />
     <ClCompile Include="Graphics\Entities\Form.cpp" />
     <ClCompile Include="Graphics\Entities\Label.cpp" />
-    <ClCompile Include="Graphics\Entities\Slider.cpp" />
     <ClCompile Include="Graphics\Entities\Tab.cpp" />
     <ClCompile Include="Graphics\Entities\TabController.cpp" />
     <ClCompile Include="Graphics\Entities\TextBox.cpp" />

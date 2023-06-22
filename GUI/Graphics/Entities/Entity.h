@@ -69,12 +69,12 @@ class Container : public Entity
 protected:
 	childcontainer ContainerInstance;
 public:
-	virtual child Push(child object)
+	virtual child Push(child child)
 	{
 
-		object.get()->Parent = shared_from_this();
-		ContainerInstance.emplace_back(object);
-		return object;
+		child.get()->Parent = shared_from_this();
+		ContainerInstance.emplace_back(child);
+		return child;
 
 	}
 	void Draw();

@@ -7,12 +7,14 @@
 #include "Label.h"
 #include "Button.h"
 #include "TextBox.h"
+#include "Slider.h"
 EntityVector MenuEntity;
 int SelectedTab;
 int TabCount;
 bool ToggleTest;
 bool ToggleTest1 = true;
 std::string Text;
+int intvalue = 0;
 void CreateGUI()
 {
 	MenuEntity = std::make_shared< Container >();
@@ -37,6 +39,8 @@ void CreateGUI()
 			tab->Push(button);
 			auto textbox = std::make_shared<TextBox>(10,150,"Textbox",&Text);
 			tab->Push(textbox);
+			auto slider = std::make_shared<Slider<int>>("Slider Int","", 10, 10, &intvalue);
+			tab->Push(slider);
 		}
 		tabcontroller->Push(tab);
 		auto tab1 = std::make_shared<Tab>("Tab2", 60, 25, 50, 20, &SelectedTab);
