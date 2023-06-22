@@ -5,6 +5,7 @@
 #include "Tab.h"
 #include "Toggle.h"
 #include "Label.h"
+#include "Button.h"
 EntityVector MenuEntity;
 int SelectedTab;
 int TabCount;
@@ -27,6 +28,11 @@ void CreateGUI()
 			tab->Push(toggle1);
 			auto label = std::make_shared<Label>("Label",10,80);
 			tab->Push(label);
+			auto button = std::make_shared<Button>(10, 100, "Button", []()
+				{
+					Beep(100,100);
+				});
+			tab->Push(button);
 		}
 		tabcontroller->Push(tab);
 		auto tab1 = std::make_shared<Tab>("Tab2", 60, 25, 50, 20, &SelectedTab);
