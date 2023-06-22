@@ -6,11 +6,13 @@
 #include "Toggle.h"
 #include "Label.h"
 #include "Button.h"
+#include "TextBox.h"
 EntityVector MenuEntity;
 int SelectedTab;
 int TabCount;
 bool ToggleTest;
 bool ToggleTest1 = true;
+std::string Text;
 void CreateGUI()
 {
 	MenuEntity = std::make_shared< Container >();
@@ -33,6 +35,8 @@ void CreateGUI()
 					Beep(100,100);
 				});
 			tab->Push(button);
+			auto textbox = std::make_shared<TextBox>(10,140,"Textbox",&Text);
+			tab->Push(textbox);
 		}
 		tabcontroller->Push(tab);
 		auto tab1 = std::make_shared<Tab>("Tab2", 60, 25, 50, 20, &SelectedTab);
