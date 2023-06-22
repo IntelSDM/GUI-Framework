@@ -33,13 +33,13 @@ void TextBox::Update()
 	if (IsMouseInRectangle(TextBox::Pos + TextBox::ParentPos, TextBox::Size) && IsKeyClicked(VK_LBUTTON))
 	{
 		Char = NULL;
-		TextBox::Blocked = true;
+		TextBox::Blocked = false;
 	}
-	else if (IsKeyClicked(VK_LBUTTON) && !IsMouseInRectangle(TextBox::Pos + TextBox::ParentPos, TextBox::Size) && TextBox::Blocked)
+	else if (IsKeyClicked(VK_LBUTTON) && !IsMouseInRectangle(TextBox::Pos + TextBox::ParentPos, TextBox::Size) && !TextBox::Blocked)
 	{
-		TextBox::Blocked = false; // prevent 2 being active at the same time unless they are somehow fucking merged
+		TextBox::Blocked = true; // prevent 2 being active at the same time unless they are somehow fucking merged
 	}
-	if (TextBox::Blocked) // take input
+	if (!TextBox::Blocked) // take input
 	{
 		WPARAM character = Char;
 		if (character == VK_BACK && (*TextBox::MainString).length() != 0) // backspace, wndproc doesn't seem to like us using iskeyclicked for backspace right now
@@ -49,7 +49,7 @@ void TextBox::Update()
 		}
 		if (character == VK_RETURN)
 		{
-			TextBox::Blocked = false;
+			TextBox::Blocked = true;
 		}
 		if (Char < 255 && Char != NULL && Char != VK_BACK && Char != VK_RETURN)
 		{
@@ -86,7 +86,7 @@ void TextBox::Draw()
 	Text(TextBox::Name, TextBox::ParentPos.x + TextBox::Pos.x + (TextBox::Size.x / 2), TextBox::ParentPos.y + TextBox::Pos.y - ((TextBox::Size.y / 2) - 1), 12, "Verdana", Colour(255, 255, 255, 255), CentreCentre); // Title
 	TextClipped(TextBox::VisibleString, TextBox::ParentPos.x + TextBox::Pos.x + 3, (TextBox::ParentPos.y + TextBox::Pos.y )+ (TextBox::Size.y / 4),TextBox::Size.x,TextBox::Size.y,11,"Verdana", Colour(255, 255, 255, 255), None); // Text
 
-	if (TextBox::Active)
+	if (!TextBox::Blocked)
 	{
 		FilledLine(TextBox::Pos.x + TextBox::ParentPos.x + TextBox::TextWidth + 3, TextBox::Pos.y + TextBox::ParentPos.y + TextBox::Size.y - 3, TextBox::Pos.x + TextBox::ParentPos.x + TextBox::TextWidth + 3, TextBox::Pos.y + TextBox::ParentPos.y + 3, 1, Colour(50, 50, 50, 180));
 	}

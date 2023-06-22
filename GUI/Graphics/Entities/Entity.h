@@ -24,6 +24,8 @@ protected:
 	Vector2 ParentPos;
 	Vector2 ParentSize;
 
+	std::string Name;
+
 	Entity* Instance = this;
 
 	float LastClick = 0;

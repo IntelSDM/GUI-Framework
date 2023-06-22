@@ -11,7 +11,7 @@ Tab::Tab(std::string name, float x, float y, float width, float height, int* sel
 	Tab::Index = TabCount; // this doesn't need to be changed for a different set of tabs or whatever, you dont need to import a value here you just need a nonce value so you never get a repeated one
 	Tab::Pos = {x,y };
 	Tab::Selected = selectedtab;
-	Tab::TabName = name;
+	Tab::Name = name;
 //	Tab::Size.x += 1;
 	TabCount++;
 }
@@ -57,7 +57,7 @@ void Tab::Draw()
 
 	textcolour = Colour(255, 0, 0, 255);
 	FilledRectangle(Tab::ParentPos.x + Tab::Pos.x, (Tab::ParentPos.y + Tab::ParentSize.y) - Tab::Pos.y, Tab::Size.x, Tab::Size.y, Colour(80, 80, 80, 255));
-	Text(Tab::TabName, Tab::ParentPos.x + Tab::Pos.x + (Tab::Size.x / 2), ((Tab::ParentPos.y + Tab::ParentSize.y) - Tab::Pos.y) + (Tab::Size.y / 2), 12, "Verdana", Colour(255, 255, 255, 255), CentreCentre);
+	Text(Tab::Name, Tab::ParentPos.x + Tab::Pos.x + (Tab::Size.x / 2), ((Tab::ParentPos.y + Tab::ParentSize.y) - Tab::Pos.y) + (Tab::Size.y / 2), 12, "Verdana", Colour(255, 255, 255, 255), CentreCentre);
 
 	if (selected)
 	{

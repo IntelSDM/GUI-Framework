@@ -5,8 +5,6 @@ class Toggle : public Entity
 protected:
     float LastClickTime = 0;
 
-    std::string Name;
-
     bool* Data;
     bool Tabbed = false;
 

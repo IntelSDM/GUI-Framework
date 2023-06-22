@@ -13,7 +13,6 @@ protected:
 
     std::string* MainString;
     std::string VisibleString;
-    std::string Name;
 
     float TextWidth = 0;
     float TextHeight = 0;
