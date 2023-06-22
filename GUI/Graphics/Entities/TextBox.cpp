@@ -88,6 +88,6 @@ void TextBox::Draw()
 
 	if (!TextBox::Blocked)
 	{
-		FilledLine(TextBox::Pos.x + TextBox::ParentPos.x + TextBox::TextWidth + 3, TextBox::Pos.y + TextBox::ParentPos.y + TextBox::Size.y - 3, TextBox::Pos.x + TextBox::ParentPos.x + TextBox::TextWidth + 3, TextBox::Pos.y + TextBox::ParentPos.y + 3, 1, Colour(50, 50, 50, 180));
+		FilledLine(TextBox::Pos.x + TextBox::ParentPos.x + TextBox::TextWidth + 3, TextBox::Pos.y + TextBox::ParentPos.y + TextBox::Size.y - 3, TextBox::Pos.x + TextBox::ParentPos.x + TextBox::TextWidth + 3, TextBox::Pos.y + TextBox::ParentPos.y + 3, 1, Colour(135, 135, 135, 180));
 	}
 }

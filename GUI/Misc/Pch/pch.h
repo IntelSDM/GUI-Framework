@@ -39,6 +39,7 @@
 #include <stdio.h>
 #include <vector>
 #include <d2d1_1.h>
+#include <math.h>
 
 // only add headers here that wont frequently be updated. such as frameworks
 #include "Colour.h"

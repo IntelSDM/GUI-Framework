@@ -16,6 +16,16 @@ protected:
 	std::string Measurement;
 	std::string OutputString;
 	
+	void ConvertValueToString()
+	{
+		OutputString = std::to_string(OutputValue);
+		size_t dotPosition = OutputString.find(".");
+		if (dotPosition != std::string::npos) {
+			if (OutputString.length() > dotPosition + 2) {
+				OutputString.resize(dotPosition + 3); // Truncate to two places after the decimal place
+			}
+		}
+	}
 public:
 	void Update()
 	{
@@ -37,7 +47,11 @@ public:
 		if (Held)
 		{
 			SetBlockedSiblings(true); // make sure no clicks go through when holding.
-
+			const float clamp = std::clamp<float>((float)MousePos.x - (float)(Pos.x + ParentPos.x), 0.00f, (float)Size.x);
+			const float ratio = clamp / Size.x;
+			*Value = MinValue + (MaxValue - MinValue) * ratio;
+			OutputValue = *Value;
+			ConvertValueToString();
 		}
 		else
 		{
@@ -49,10 +63,11 @@ public:
 		if (!IsVisible())
 			return;
 		
-		Text(Name + ": "  + std::to_string(Held), ParentPos.x + Pos.x, (ParentPos.y + Pos.y) - 5, 12, "Verdana", Colour(255, 255, 255, 255), None);
+		Text(Name + ": "  + OutputString, ParentPos.x + Pos.x, (ParentPos.y + Pos.y) - 5, 12, "Verdana", Colour(255, 255, 255, 255), None);
 		OutlineRectangle(ParentPos.x + Pos.x - 1, ParentPos.y + (Pos.y +15)- 1, Size.x + 2, Size.y + 2, 1, Colour(255, 255, 255, 255));
 		FilledRectangle(ParentPos.x + Pos.x,ParentPos.y + (Pos.y + 15),Size.x, Size.y,Colour(80,80,80,255));
-		FilledRectangle(ParentPos.x + Pos.x, ParentPos.y + (Pos.y + 15), OutputValue, Size.y, Colour(255, 0, 0, 255));
+		float ratio = (float)(*Value - (float)MinValue) / float(MaxValue - MinValue);
+		FilledRectangle(ParentPos.x + Pos.x, ParentPos.y + (Pos.y + 15), (int)Size.x * ratio, Size.y, Colour(255, 0, 0, 255));
 	}
 	Slider(int x, int y, std::string name, std::string measurement, T minvalue, T maxvalue, T* value) : Measurement(measurement), MaxValue(maxvalue), MinValue(minvalue), Value(value)
 	{

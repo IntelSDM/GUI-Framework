@@ -15,6 +15,7 @@ bool ToggleTest;
 bool ToggleTest1 = true;
 std::string TextBoxText;
 int intvalue = 0;
+float floatvalue = 0.0f;
 void CreateGUI()
 {
 	MenuEntity = std::make_shared< Container >();
@@ -39,7 +40,7 @@ void CreateGUI()
 			tab->Push(button);
 			auto textbox = std::make_shared<TextBox>(10,150,"Textbox",&TextBoxText);
 			tab->Push(textbox);
-			auto slider = std::make_shared<Slider<int>>(10,190,"Slider Int","", 10, 10, &intvalue);
+			auto slider = std::make_shared<Slider<float>>(10,190,"Slider Int","", 0.0f, 10.0f, &floatvalue);
 			tab->Push(slider);
 		}
 		tabcontroller->Push(tab);
