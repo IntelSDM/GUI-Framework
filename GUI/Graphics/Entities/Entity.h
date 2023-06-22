@@ -21,6 +21,8 @@ protected:
 	Vector2 OriginalSize;
 	Vector2 Scale;
 	Vector2 TextSize;
+	Vector2 ParentPos;
+	Vector2 ParentSize;
 
 	Entity* Instance = this;
 

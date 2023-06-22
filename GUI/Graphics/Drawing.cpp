@@ -70,7 +70,7 @@ void TextClipped(std::string text, int x, int y, int width,int height,int fontsi
     const HRESULT status = FontFactory->CreateTextLayout(convertedtext.data(), static_cast<std::uint32_t>(text.length()), Fonts[font], width, height, &layout);
     if (!SUCCEEDED(status))
     {
-        layout->Release(); // free memory
+       // layout->Release(); // free memory
         return;
     }
 

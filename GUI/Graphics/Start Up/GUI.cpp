@@ -2,8 +2,10 @@
 #include "entity.h"
 #include "Form.h"
 #include "TabController.h"
+#include "Tab.h"
 EntityVector MenuEntity;
-
+int SelectedTab;
+int TabCount;
 void CreateGUI()
 {
 	MenuEntity = std::make_shared< Container >();
@@ -12,6 +14,9 @@ void CreateGUI()
 	{
 		auto tabcontroller = std::make_shared<TabController>();
 		form->Push(tabcontroller);
+		//std::string name, float x, float y, float width, float height, int* selectedtab = nullptr
+		auto tab = std::make_shared<Tab>("Tab",5,25,50,20,&SelectedTab);
+		tabcontroller->Push(tab);
 	}
 	MenuEntity->Push(form);
 	MenuEntity->Draw();

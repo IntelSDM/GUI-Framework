@@ -27,5 +27,6 @@ void TabController::Draw()
         return;
     int size = TabController::Size.x / 12;
     FilledRectangle(TabController::Pos.x, TabController::Pos.y + TabController::Size.y - size, TabController::Size.x, size, Colour(25, 25, 25, 255));
+    
     TabController::Container::Draw();
 }
