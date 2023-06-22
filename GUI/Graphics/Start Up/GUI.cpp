@@ -42,7 +42,7 @@ void CreateGUI()
 			tab->Push(textbox);
 			auto floatslider = std::make_shared<Slider<float>>(10,190,"Slider Float","", 0.0f, 10.0f, &floatvalue);
 			tab->Push(floatslider);
-			auto intslider = std::make_shared<Slider<int>>(10, 220, "Slider Float", "", 0, 10, &intvalue);
+			auto intslider = std::make_shared<Slider<int>>(10, 220, "Slider Int", "%", 0, 100, &intvalue);
 			tab->Push(intslider);
 		}
 		tabcontroller->Push(tab);

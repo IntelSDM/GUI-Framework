@@ -26,6 +26,7 @@ protected:
 			}
 		}
 	}
+	
 public:
 	void Update()
 	{
@@ -63,7 +64,7 @@ public:
 		if (!IsVisible())
 			return;
 		
-		Text(Name + ": "  + OutputString, ParentPos.x + Pos.x, (ParentPos.y + Pos.y) - 5, 12, "Verdana", Colour(255, 255, 255, 255), None);
+		Text(Name + ": "  + OutputString + Measurement, ParentPos.x + Pos.x, (ParentPos.y + Pos.y) - 5, 12, "Verdana", Colour(255, 255, 255, 255), None);
 		OutlineRectangle(ParentPos.x + Pos.x - 1, ParentPos.y + (Pos.y +15)- 1, Size.x + 2, Size.y + 2, 1, Colour(255, 255, 255, 255));
 		FilledRectangle(ParentPos.x + Pos.x,ParentPos.y + (Pos.y + 15),Size.x, Size.y,Colour(80,80,80,255));
 		float ratio = (float)(*Value - (float)MinValue) / float(MaxValue - MinValue);
@@ -74,6 +75,8 @@ public:
 		Pos = { (float)x,(float)y };
 		Name = name;
 		Size = { 100,7 };
+		OutputValue = *Value;
+		ConvertValueToString();
 	}
 
 };
