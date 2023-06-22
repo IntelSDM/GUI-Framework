@@ -55,7 +55,7 @@ public:
 	void SetCondition(condition condition);
 	void SetVisible(bool visible);
 	void SetBlocked(bool block);
-	void SetBlockedChildren(bool block);
+	void SetBlockedSiblings(bool block);
 	void SetParent(child parent);
 	void SetRelativeParent(child parent);
 

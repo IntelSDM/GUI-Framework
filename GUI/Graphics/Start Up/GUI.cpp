@@ -13,7 +13,7 @@ int SelectedTab;
 int TabCount;
 bool ToggleTest;
 bool ToggleTest1 = true;
-std::string Text;
+std::string TextBoxText;
 int intvalue = 0;
 void CreateGUI()
 {
@@ -37,9 +37,9 @@ void CreateGUI()
 					Beep(100,100);
 				});
 			tab->Push(button);
-			auto textbox = std::make_shared<TextBox>(10,150,"Textbox",&Text);
+			auto textbox = std::make_shared<TextBox>(10,150,"Textbox",&TextBoxText);
 			tab->Push(textbox);
-			auto slider = std::make_shared<Slider<int>>("Slider Int","", 10, 10, &intvalue);
+			auto slider = std::make_shared<Slider<int>>(10,190,"Slider Int","", 10, 10, &intvalue);
 			tab->Push(slider);
 		}
 		tabcontroller->Push(tab);

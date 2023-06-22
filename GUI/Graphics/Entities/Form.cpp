@@ -32,6 +32,7 @@ void Form::DragAction()
         Form::Dragging = false;
     if (Form::Dragging)
     {
+        
         Form::Pos.x = Form::Cursor.x - Form::Drag.x;
         Form::Pos.y = Form::Cursor.y - Form::Drag.y;
     }
@@ -48,6 +49,8 @@ void Form::DragAction()
 }
 void Form::StretchAction()
 {
+    if (Form::Blocked)
+        return;
     // If the user clicks in the rectangle we go through all forms and then set this one as the highest priority to draw
     StretchPoint1 = Vector2{ Form::Pos.x + Form::Size.x, Form::Pos.y + Form::Size.y };
     StretchPoint2 = Vector2{ Form::Pos.x + Form::Size.x - (25 * Form::Scale.x), Form::Pos.y + Form::Size.y };
@@ -92,7 +95,8 @@ void Form::Update()
     Form::TitleBar = { Form::Size.x,  Form::Border.y };
     Form::Cursor = MousePos;
 
-
+    if (Form::Blocked)
+        return;
     Form::DragAction();
     Form::StretchAction();
     if (IsMouseInRectangle(Form::Pos.x + (Form::Size.x) - 48, Form::Pos.y, (Form::Pos.x + (Form::Size.x) - 28) - (Form::Pos.x + (Form::Size.x) - 48), 19) && (IsKeyClicked(VK_LBUTTON)))

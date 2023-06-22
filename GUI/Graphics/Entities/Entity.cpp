@@ -33,7 +33,7 @@ child Entity::GetChildRelativeParent()
 {
     return Entity::ChildRelativeParent;
 }
-void Entity::SetBlockedChildren(bool block)
+void Entity::SetBlockedSiblings(bool block)
 {
     for (auto& it : Entity::Parent->Container())
     {
