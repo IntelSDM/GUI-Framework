@@ -15,7 +15,7 @@ TextBox::TextBox(float x, float y, std::string text, std::string* data = nullptr
 	TextBox::Pos = { x,y };
 	TextBox::Size = { 277,25 };
 	TextBox::Name = text;
-	TextBox::Active = false;
+	TextBox::Blocked = false;
 	TextBox::MainString = data;
 	TextBox::VisibleString = *MainString;
 
@@ -33,13 +33,13 @@ void TextBox::Update()
 	if (IsMouseInRectangle(TextBox::Pos + TextBox::ParentPos, TextBox::Size) && IsKeyClicked(VK_LBUTTON))
 	{
 		Char = NULL;
-		TextBox::Active = true;
+		TextBox::Blocked = true;
 	}
-	else if (IsKeyClicked(VK_LBUTTON) && !IsMouseInRectangle(TextBox::Pos + TextBox::ParentPos, TextBox::Size) && TextBox::Active)
+	else if (IsKeyClicked(VK_LBUTTON) && !IsMouseInRectangle(TextBox::Pos + TextBox::ParentPos, TextBox::Size) && TextBox::Blocked)
 	{
-		TextBox::Active = false; // prevent 2 being active at the same time unless they are somehow fucking merged
+		TextBox::Blocked = false; // prevent 2 being active at the same time unless they are somehow fucking merged
 	}
-	if (TextBox::Active) // take input
+	if (TextBox::Blocked) // take input
 	{
 		WPARAM character = Char;
 		if (character == VK_BACK && (*TextBox::MainString).length() != 0) // backspace, wndproc doesn't seem to like us using iskeyclicked for backspace right now
@@ -49,7 +49,7 @@ void TextBox::Update()
 		}
 		if (character == VK_RETURN)
 		{
-			TextBox::Active = false;
+			TextBox::Blocked = false;
 		}
 		if (Char < 255 && Char != NULL && Char != VK_BACK && Char != VK_RETURN)
 		{

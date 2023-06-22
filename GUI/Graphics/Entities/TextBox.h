@@ -11,8 +11,6 @@ protected:
     Vector2 Size;
     Vector2 ParentPos;
 
-    bool Active;
-
     std::string* MainString;
     std::string VisibleString;
     std::string Name;
