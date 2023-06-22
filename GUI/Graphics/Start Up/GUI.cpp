@@ -3,9 +3,12 @@
 #include "Form.h"
 #include "TabController.h"
 #include "Tab.h"
+#include "Toggle.h"
 EntityVector MenuEntity;
 int SelectedTab;
 int TabCount;
+bool ToggleTest;
+bool ToggleTest1 = true;
 void CreateGUI()
 {
 	MenuEntity = std::make_shared< Container >();
@@ -15,8 +18,20 @@ void CreateGUI()
 		auto tabcontroller = std::make_shared<TabController>();
 		form->Push(tabcontroller);
 		//std::string name, float x, float y, float width, float height, int* selectedtab = nullptr
-		auto tab = std::make_shared<Tab>("Tab",5,25,50,20,&SelectedTab);
+		auto tab = std::make_shared<Tab>("Tab1",5,25,50,20,&SelectedTab);
+		{
+			auto toggle = std::make_shared<Toggle>(10, 40, "Toggle", &ToggleTest);
+			tab->Push(toggle);
+			auto toggle1 = std::make_shared<Toggle>(10, 60, "Toggle", &ToggleTest1);
+			tab->Push(toggle1);
+		}
 		tabcontroller->Push(tab);
+		auto tab1 = std::make_shared<Tab>("Tab2", 60, 25, 50, 20, &SelectedTab);
+		tabcontroller->Push(tab1);
+		auto tab2 = std::make_shared<Tab>("Tab3", 115, 25, 50, 20, &SelectedTab);
+		tabcontroller->Push(tab2);
+		auto tab3 = std::make_shared<Tab>("Tab4", 170, 25, 50, 20, &SelectedTab);
+		tabcontroller->Push(tab3);
 	}
 	MenuEntity->Push(form);
 	MenuEntity->Draw();

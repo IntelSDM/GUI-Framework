@@ -47,7 +47,7 @@ void Tab::Draw()
 	bool selected = Index == *Selected;
 	
 		textcolour = Colour(255, 0, 0, 255);
-		FilledRectangle(Tab::ParentPos.x +Tab::Pos.x, (Tab::ParentPos.y + Tab::ParentSize.y) - Tab::Pos.y, Tab::Size.x, Tab::Size.y, Colour(20, 30, 160, 255));
+		FilledRectangle(Tab::ParentPos.x +Tab::Pos.x, (Tab::ParentPos.y + Tab::ParentSize.y) - Tab::Pos.y, Tab::Size.x, Tab::Size.y, Colour(80, 80, 80, 255));
 		Text(Tab::TabName, Tab::ParentPos.x + Tab::Pos.x + (Tab::Size.x / 2), ((Tab::ParentPos.y + Tab::ParentSize.y) - Tab::Pos.y) + (Tab::Size.y / 2), 12, "Verdana", Colour(255, 255, 255, 255), CentreCentre);
 		//Text(Tab::TabName, Tab::Parent->GetPos().x + Tab::Pos.x + (Tab::Size.x / 2), Tab::Parent->GetPos().y + Tab::Pos.y + +(Tab::Size.y / 2), Colour(240, 240, 240, 255), Colour(140, 140, 140, 50), "Verdana 12", Centre);
 		if (!selected)

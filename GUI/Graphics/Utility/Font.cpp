@@ -18,7 +18,7 @@ void CreateFonts(std::string customfontname, std::wstring_view fontname, float s
     );
 }
 
-void GetTextSize(const std::string text, float* const width, float* const height, std::string font)
+void GetTextSize(const std::string text, int fontsize,float* const width, float* const height, std::string font)
 {
 
     if (!text.empty())
@@ -32,6 +32,10 @@ void GetTextSize(const std::string text, float* const width, float* const height
         IDWriteTextLayout* layout = nullptr;
         const HRESULT status = FontFactory->CreateTextLayout(convertedtext.data(), static_cast<std::uint32_t>(text.length()), Fonts[font], 4096.f, 4096.f, &layout);
         float modifier = layout->GetFontSize() / 4.0f;
+        DWRITE_TEXT_RANGE range = DWRITE_TEXT_RANGE();
+        range.length = text.length();
+        range.startPosition = 0;
+        layout->SetFontSize(fontsize, range);
         if (!SUCCEEDED(status))
         {
             layout->Release(); // free memory
