@@ -26,22 +26,24 @@ void Toggle::Update()
 		return;
 
 	Toggle::ParentPos = Toggle::Parent->GetParent()->GetPos();
-	 
-	if (IsMouseInRectangle(Toggle::Pos + Toggle::ParentPos, Toggle::Size) && IsKeyClicked(VK_LBUTTON) && Toggle::LastClickTime < (clock() * 0.00001f))
+	if (!Toggle::Blocked)
 	{
+		// square click check
+		if (IsMouseInRectangle(Toggle::Pos + Toggle::ParentPos, Toggle::Size) && IsKeyClicked(VK_LBUTTON) && Toggle::LastClickTime < (clock() * 0.00001f))
+		{
 
-		*Toggle::Data = !(*Toggle::Data);
-		Toggle::LastClickTime = (clock() * 0.00001f) + 0.002f;
+			*Toggle::Data = !(*Toggle::Data);
+			Toggle::LastClickTime = (clock() * 0.00001f) + 0.002f;
+		}
+		// text click check
+		Vector2 textdimensions = { Toggle::TextWidth + 4,Toggle::TextHeight };
+		if (IsMouseInRectangle(Toggle::ParentPos.x + Toggle::Pos.x + (Toggle::Size.x) + 2, Toggle::ParentPos.y + Toggle::Pos.y - 1, Toggle::TextWidth + 4, Toggle::TextHeight) && IsKeyClicked(VK_LBUTTON) && Toggle::LastClickTime < (clock() * 0.00001f))
+		{
+
+			*Toggle::Data = !(*Toggle::Data);
+			Toggle::LastClickTime = (clock() * 0.00001f) + 0.002f;
+		}
 	}
-	
-	Vector2 textdimensions = { Toggle::TextWidth + 4,Toggle::TextHeight };
-	if (IsMouseInRectangle(Toggle::ParentPos.x + Toggle::Pos.x + (Toggle::Size.x) + 2, Toggle::ParentPos.y + Toggle::Pos.y - 1, Toggle::TextWidth + 4, Toggle::TextHeight) && IsKeyClicked(VK_LBUTTON) && Toggle::LastClickTime < (clock() * 0.00001f))
-	{
-
-		*Toggle::Data = !(*Toggle::Data);
-		Toggle::LastClickTime = (clock() * 0.00001f) + 0.002f;
-	}
-
 }
 
 void Toggle::Draw()

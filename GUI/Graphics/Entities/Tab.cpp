@@ -36,7 +36,7 @@ void Tab::Update()
 			++ignore_count;
 	}
 	bool selected = Index == *Selected;
-	if (!selected)
+	if (!selected && !Tab::Blocked)
 	{
 		if (IsMouseInRectangle(Tab::ParentPos.x + Tab::Pos.x, (Tab::ParentPos.y + Tab::ParentSize.y) - Tab::Pos.y, Tab::Size.x, Tab::Size.y) && IsKeyClicked(VK_LBUTTON) && !selected)
 		{
