@@ -35,7 +35,16 @@ void Tab::Update()
 		if (!it->IsVisible())
 			++ignore_count;
 	}
-
+	bool selected = Index == *Selected;
+	if (!selected)
+	{
+		if (IsMouseInRectangle(Tab::ParentPos.x + Tab::Pos.x, (Tab::ParentPos.y + Tab::ParentSize.y) - Tab::Pos.y, Tab::Size.x, Tab::Size.y) && IsKeyClicked(VK_LBUTTON) && !selected)
+		{
+			*Selected = Index;
+			// ideally you just want to make a timer and use that but since this is just poc we do this
+			Sleep(50); // allows us to smooth into tabs as we don't want inputs to go straight through tabs
+		}
+	}
 
 }
 void Tab::Draw()
@@ -45,20 +54,11 @@ void Tab::Draw()
 	
 	D2D1::ColorF textcolour = Colour(0, 0, 255, 255);
 	bool selected = Index == *Selected;
-	
-		textcolour = Colour(255, 0, 0, 255);
-		FilledRectangle(Tab::ParentPos.x +Tab::Pos.x, (Tab::ParentPos.y + Tab::ParentSize.y) - Tab::Pos.y, Tab::Size.x, Tab::Size.y, Colour(80, 80, 80, 255));
-		Text(Tab::TabName, Tab::ParentPos.x + Tab::Pos.x + (Tab::Size.x / 2), ((Tab::ParentPos.y + Tab::ParentSize.y) - Tab::Pos.y) + (Tab::Size.y / 2), 12, "Verdana", Colour(255, 255, 255, 255), CentreCentre);
-		//Text(Tab::TabName, Tab::Parent->GetPos().x + Tab::Pos.x + (Tab::Size.x / 2), Tab::Parent->GetPos().y + Tab::Pos.y + +(Tab::Size.y / 2), Colour(240, 240, 240, 255), Colour(140, 140, 140, 50), "Verdana 12", Centre);
-		if (!selected)
-		{
-			if (IsMouseInRectangle(Tab::ParentPos.x + Tab::Pos.x, (Tab::ParentPos.y + Tab::ParentSize.y) - Tab::Pos.y, Tab::Size.x, Tab::Size.y) && IsKeyClicked(VK_LBUTTON) && !selected)
-			{
-				*Selected = Index;
-				// ideally you just want to make a timer and use that but since this is just poc we do this
-				Sleep(50); // allows us to smooth into tabs as we don't want inputs to go straight through tabs
-			}
-		}
+
+	textcolour = Colour(255, 0, 0, 255);
+	FilledRectangle(Tab::ParentPos.x + Tab::Pos.x, (Tab::ParentPos.y + Tab::ParentSize.y) - Tab::Pos.y, Tab::Size.x, Tab::Size.y, Colour(80, 80, 80, 255));
+	Text(Tab::TabName, Tab::ParentPos.x + Tab::Pos.x + (Tab::Size.x / 2), ((Tab::ParentPos.y + Tab::ParentSize.y) - Tab::Pos.y) + (Tab::Size.y / 2), 12, "Verdana", Colour(255, 255, 255, 255), CentreCentre);
+
 	if (selected)
 	{
 		Container::Draw();
