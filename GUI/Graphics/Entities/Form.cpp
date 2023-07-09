@@ -33,8 +33,8 @@ void Form::DragAction()
     if (Form::Dragging)
     {
         
-        Form::Pos.x = Form::Cursor.x - Form::Drag.x;
-        Form::Pos.y = Form::Cursor.y - Form::Drag.y;
+        Form::Pos.x = MousePos.x - Form::Drag.x;
+        Form::Pos.y = MousePos.y - Form::Drag.y;
     }
     if (IsMouseInRectangle(Form::Pos, Form::TitleBar))
     {
@@ -43,8 +43,8 @@ void Form::DragAction()
         if (IsKeyClicked(VK_LBUTTON)) // This prevents a user holding down and hovering over the title bar to drag it. You need to actually click down.
             Form::Dragging = true;
 
-        Form::Drag.x = Form::Cursor.x - Form::Pos.x;
-        Form::Drag.y = Form::Cursor.y - Form::Pos.y;
+        Form::Drag.x = MousePos.x - Form::Pos.x;
+        Form::Drag.y = MousePos.y - Form::Pos.y;
     }
 }
 void Form::StretchAction()
@@ -62,8 +62,8 @@ void Form::StretchAction()
     }
     if (Form::Stretching)
     {
-        float stretchx = Form::Cursor.x - Form::Stretch.x;
-        float stretchy = Form::Cursor.y - Form::Stretch.y;
+        float stretchx = MousePos.x - Form::Stretch.x;
+        float stretchy = MousePos.y - Form::Stretch.y;
         Vector2 Stretched{ stretchx,stretchy };
         // Prevent the gui going below the original scale
         if (stretchx > Form::OriginalSize.x && stretchy > Form::OriginalSize.y)
@@ -79,8 +79,8 @@ void Form::StretchAction()
         if (IsKeyClicked(VK_LBUTTON))
             Form::Stretching = true;
 
-        Form::Stretch.x = Form::Cursor.x - (Form::Size.x);
-        Form::Stretch.y = Form::Cursor.y - (Form::Size.y);
+        Form::Stretch.x = MousePos.x - (Form::Size.x);
+        Form::Stretch.y = MousePos.y - (Form::Size.y);
 
     }
 }
@@ -93,7 +93,7 @@ void Form::Update()
         return;
     //SetCursor()
     Form::TitleBar = { Form::Size.x,  Form::Border.y };
-    Form::Cursor = MousePos;
+    MousePos;
 
     if (Form::Blocked)
         return;
