@@ -46,7 +46,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     CreateCursor("Corner Drag", LoadCursor(NULL, IDC_SIZENWSE));
     CreateCursor("Up Down Drag", LoadCursor(NULL, IDC_SIZENS));
     CreateCursor("Side To Side Drag", LoadCursor(NULL, IDC_SIZEWE));
-
+    SetCursor(Cursors["Default"]);
     InitD2D(hWnd);
 
     MSG msg;

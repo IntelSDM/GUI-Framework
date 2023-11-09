@@ -168,6 +168,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Graphics\Drawing.cpp" />
+    <ClCompile Include="Graphics\Entities\Button.cpp" />
     <ClCompile Include="Graphics\Entities\Entity.cpp" />
     <ClCompile Include="Graphics\Entities\Form.cpp" />
     <ClCompile Include="Graphics\Start Up\GUI.cpp" />
@@ -182,6 +183,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics\Drawing.h" />
+    <ClInclude Include="Graphics\Entities\Button.h" />
     <ClInclude Include="Graphics\Entities\Entity.h" />
     <ClInclude Include="Graphics\Entities\Form.h" />
     <ClInclude Include="Graphics\Start Up\GUI.h" />
