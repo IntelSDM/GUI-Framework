@@ -10,3 +10,6 @@ void FilledLine(int xstart, int ystart, int xend, int yend, int width, D2D1::Col
 void FilledLineAliased(int xstart, int ystart, int xend, int yend, int width, D2D1::ColorF colour);	
 void DrawBitmap(ID2D1Bitmap* bmp, int x, int y, int width, int height);
 void DrawBitmap(ID2D1Bitmap* bmp, int x, int y);
+void SaturationSlider(int x, int y, int width, int height, D2D1::ColorF colour);
+void AlphaSlider(int x, int y, int width, int height, D2D1::ColorF col);
+void HueSlider(int x, int y, int width, int height);
