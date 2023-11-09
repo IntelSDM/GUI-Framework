@@ -1,4 +1,5 @@
 # GUI-Framework
+Under Reconstruction. 
 Object-Oriented GUI framework to create a GUI using form priority and a stack to manage the drawing list.
 Effectively allows objects of the GUI to manage each other.
 <br> 
