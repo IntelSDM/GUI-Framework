@@ -7,9 +7,30 @@
 #ifndef PCH_H
 #define PCH_H
 #define WIN32_LEAN_AND_MEAN 
-
-
 #include <windows.h>
+#ifdef DrawText
+#undef DrawText
+#endif
+#ifdef GetCurrentTime
+#undef GetCurrentTime
+#endif
+#ifdef GetObject
+#undef GetObject
+#endif
+#ifdef SendMessage
+#undef SendMessage
+#endif
+#ifdef GetUserName
+#undef GetUserName
+#endif
+#ifdef CreateFont
+#undef CreateFont
+#endif
+#ifdef Button
+#undef Button
+#endif
+
+
 #include <windowsx.h>
 #include <intrin.h> 
 #include <fstream>

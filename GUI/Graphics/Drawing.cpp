@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "Drawing.h"
-
-void Text(std::string text, int x, int y, int fontsize, std::string font, D2D1::ColorF colour, FontAlignment alignment)
+ID2D1LinearGradientBrush* LinearBrush;
+ID2D1GradientStopCollection* GradientStops = NULL;
+void DrawText(std::string text, int x, int y, int fontsize, std::string font, D2D1::ColorF colour, FontAlignment alignment)
 {
     Brush->SetColor(colour);
 
@@ -58,66 +59,6 @@ void Text(std::string text, int x, int y, int fontsize, std::string font, D2D1::
 
     // draw
     RenderTarget->DrawTextLayout(point, layout, Brush, D2D1_DRAW_TEXT_OPTIONS::D2D1_DRAW_TEXT_OPTIONS_NONE);
-    layout->Release(); // free memory
-}
-
-void TextClipped(std::string text, int x, int y, int width,int height,int fontsize, std::string font, D2D1::ColorF colour, FontAlignment alignment)
-{
-    Brush->SetColor(colour);
-
-    std::wstring convertedtext(text.begin(), text.end()); // convert to unicode
-    IDWriteTextLayout* layout = nullptr;
-    const HRESULT status = FontFactory->CreateTextLayout(convertedtext.data(), static_cast<std::uint32_t>(text.length()), Fonts[font], width, height, &layout);
-    if (!SUCCEEDED(status))
-    {
-       // layout->Release(); // free memory
-        return;
-    }
-
-    // set up text range
-    DWRITE_TEXT_RANGE range = DWRITE_TEXT_RANGE();
-    range.length = text.length();
-    range.startPosition = 0;
-    layout->SetFontSize(fontsize, range);
-    DWRITE_TEXT_METRICS metrics{};
-    layout->GetMetrics(&metrics);
-
-    float modifier = layout->GetFontSize() / 4.0f; // metrics isn't ever correct
-    D2D1_POINT_2F point; // position point
-    // set the position
-    switch (alignment)
-    {
-    case FontAlignment::Centre:
-        x -= ((metrics.width + modifier) / 2);
-        break;
-    case FontAlignment::Right:
-        x += ((metrics.width + modifier));
-        break;
-    case FontAlignment::Left:
-        x -= ((metrics.width + modifier));
-        break;
-    case FontAlignment::None:
-        break;
-    case FontAlignment::CentreCentre:
-        x -= ((metrics.width + modifier) / 2);
-        y -= ((metrics.height + modifier) / 2);
-        break;
-    case FontAlignment::CentreLeft:
-        x += ((metrics.width + modifier));
-        y -= ((metrics.height + modifier) / 2);
-        break;
-    case FontAlignment::CentreRight:
-        x += ((metrics.width + modifier));
-        y -= ((metrics.height + modifier) / 2);
-        break;
-    }
-    point.x = x;
-    point.y = y;
-
-
-
-    // draw
-    RenderTarget->DrawTextLayout(point, layout, Brush, D2D1_DRAW_TEXT_OPTIONS::D2D1_DRAW_TEXT_OPTIONS_CLIP);
     layout->Release(); // free memory
 }
 
@@ -192,6 +133,105 @@ void FilledLineAliased(int xstart, int ystart, int xend, int yend, int width, D2
     Brush->SetColor(colour);
     RenderTarget->DrawLine(start, finish, Brush);
     RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
+}
+void SaturationSlider(int x, int y, int width, int height, D2D1::ColorF colour)
+{
+    {
+        D2D1_GRADIENT_STOP stops[] =
+        {
+        { 0.0f, colour },
+        { 1.0f,D2D1::ColorF::Black },
+        };
+        RenderTarget->CreateLinearGradientBrush(
+            D2D1::LinearGradientBrushProperties(
+                D2D1::Point2F(x + width, y),
+                D2D1::Point2F(x, y + height)),
+            GradientStops,
+            &LinearBrush
+        );
+
+        D2D1_RECT_F rect = { static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y) };
+
+        RenderTarget->FillRectangle(rect, LinearBrush);
+        GradientStops->Release();
+        LinearBrush->Release();
+    }
+    {
+        D2D1_GRADIENT_STOP stops[] =
+        {
+            { 0.00f,Colour(255,255,255,200) },
+            { 0.15f,Colour(colour.r,colour.g,colour.b,100) },
+            { 1.0f, Colour(0,0,0,100) },
+            { 0.6f, Colour(40,40,40,100) },
+        };
+        RenderTarget->CreateLinearGradientBrush(
+            D2D1::LinearGradientBrushProperties(
+                D2D1::Point2F(x, y),
+                D2D1::Point2F(x, y + height)),
+            GradientStops,
+            &LinearBrush
+        );
+
+        D2D1_RECT_F rect = { static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y) };
+
+        RenderTarget->FillRectangle(rect, LinearBrush);
+        GradientStops->Release();
+        LinearBrush->Release();
+    }
+}
+void AlphaSlider(int x, int y, int width, int height, D2D1::ColorF col)
+{
+
+    D2D1_GRADIENT_STOP stops[] =
+    {
+        { 0.0f,Colour(col.r,col.g,col.b,255) },
+        { 1.0f,Colour(col.r,col.g,col.b,0) },
+    };
+    RenderTarget->CreateLinearGradientBrush(
+        D2D1::LinearGradientBrushProperties(
+            D2D1::Point2F(x, y),
+            D2D1::Point2F(x, y + height)),
+        GradientStops,
+        &LinearBrush
+    );
+
+    D2D1_RECT_F rect = { static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y) };
+
+    RenderTarget->FillRectangle(rect, LinearBrush);
+    GradientStops->Release();
+    LinearBrush->Release();
+
+}
+
+void HueSlider(int x, int y, int width, int height)
+{
+    D2D1_GRADIENT_STOP stops[] =
+    {
+        { 0.00f, Colour(255,0,0,255) },
+        { 0.00f, Colour(255,0,0,255) },
+        { 0.16f, Colour(255,255,0,255) },
+        { 0.32f,  Colour(0,255,0,255) },
+        { 0.48f,  Colour(0,255,255,255) },
+        { 0.64f,  Colour(0,0,255,255) },
+        { 0.80f,  Colour(255,0,255,255) },
+        { 0.96f,  Colour(255,0,0,255) },
+    };
+
+    RenderTarget->CreateLinearGradientBrush(
+        D2D1::LinearGradientBrushProperties(
+            D2D1::Point2F(x, y),
+            D2D1::Point2F(x + width, y)),
+        GradientStops,
+        &LinearBrush
+    );
+
+    D2D1_RECT_F rect = { static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y) };
+
+    RenderTarget->FillRectangle(rect, LinearBrush);
+    GradientStops->Release();
+    LinearBrush->Release();
+
+
 }
 // draws at native resolution
 void DrawBitmap(ID2D1Bitmap* bmp, int x, int y)
