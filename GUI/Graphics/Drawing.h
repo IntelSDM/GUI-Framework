@@ -1,5 +1,5 @@
 #pragma once
-void DrawText(std::string text, int x, int y, int fontsize, std::string font, D2D1::ColorF colour, FontAlignment alignment);
+void DrawText(int x, int y, std::wstring text, std::string font, int fontsize, D2D1::ColorF colour, FontAlignment alignment);
 void OutlineCircle(int x, int y, float radius, float linewidth, D2D1::ColorF colour);
 void FilledCircle(int x, int y, float radius, D2D1::ColorF colour);
 void OutlineRectangle(int x, int y, int width, int height, int linewidth, D2D1::ColorF colour);
