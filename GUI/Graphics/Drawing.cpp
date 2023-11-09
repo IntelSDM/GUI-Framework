@@ -2,7 +2,7 @@
 #include "Drawing.h"
 ID2D1LinearGradientBrush* LinearBrush;
 ID2D1GradientStopCollection* GradientStops = NULL;
-void DrawText(std::string text, int x, int y, int fontsize, std::string font, D2D1::ColorF colour, FontAlignment alignment)
+void DrawText(int x, int y, std::wstring text, std::string font, int fontsize, D2D1::ColorF colour, FontAlignment alignment)
 {
     Brush->SetColor(colour);
 

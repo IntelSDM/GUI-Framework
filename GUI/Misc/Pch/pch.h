@@ -34,34 +34,24 @@
 #include <windowsx.h>
 #include <intrin.h> 
 #include <fstream>
-#include <winsock2.h>
+
+#include <iostream>
+#include <fstream>
+#include <ppltasks.h>
+#include <windowsx.h>
+#include <psapi.h>
+#include <WinSock2.h>
 #include <ws2tcpip.h>
-#include <d2d1.h>
-#include <dwrite.h>
-#include <float.h>
-#include <thread>
-#include <memory>
-#include <vector>
-#include <functional>
+#include <list>
 #include <string>
 #include <map>
-#include <array>
-#include <list>
-#include <iostream>
-#include <tuple>
-#include <algorithm>
-#include <iomanip>
-#include <sstream>
-#include <conio.h>
-#include <memory>
-#include <stdexcept>
-#include <cstdio>
-#include <sstream>
-#include <stdio.h>
+#include <TlHelp32.h>
+#include <thread>
+#include <math.h>
+#include <cmath>
 #include <vector>
 #include <d2d1_1.h>
-#include <math.h>
-
+#include <dwrite.h>
 // only add headers here that wont frequently be updated. such as frameworks
 #include "Colour.h"
 #include "Graphics.h"
