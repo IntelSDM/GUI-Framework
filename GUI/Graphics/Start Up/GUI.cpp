@@ -9,7 +9,7 @@ bool MenuOpen = true;
 void CreateGUI()
 {
 	MenuEntity = std::make_shared< Container >();
-	auto form = std::make_shared<Form >(100, 100.0f, 533, 600, 2, 30, L"FORM", false);
+	auto form = std::make_shared<Form >(100, 100.0f, 533, 350, 2, 30, L"FORM", false);
 	{
 		auto button = std::make_shared<Button>(100, 100, L"Buttons", []() {Beep(100, 10); });
 		form->Push(button);
