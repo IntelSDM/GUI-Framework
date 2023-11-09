@@ -142,6 +142,13 @@ void SaturationSlider(int x, int y, int width, int height, D2D1::ColorF colour)
         { 0.0f, colour },
         { 1.0f,D2D1::ColorF::Black },
         };
+        RenderTarget->CreateGradientStopCollection(
+            stops,
+            _countof(stops),
+            D2D1_GAMMA_2_2,
+            D2D1_EXTEND_MODE_CLAMP,
+            &GradientStops
+        );
         RenderTarget->CreateLinearGradientBrush(
             D2D1::LinearGradientBrushProperties(
                 D2D1::Point2F(x + width, y),
@@ -156,7 +163,7 @@ void SaturationSlider(int x, int y, int width, int height, D2D1::ColorF colour)
         GradientStops->Release();
         LinearBrush->Release();
     }
-    {
+  {
         D2D1_GRADIENT_STOP stops[] =
         {
             { 0.00f,Colour(255,255,255,200) },
@@ -164,6 +171,13 @@ void SaturationSlider(int x, int y, int width, int height, D2D1::ColorF colour)
             { 1.0f, Colour(0,0,0,100) },
             { 0.6f, Colour(40,40,40,100) },
         };
+        RenderTarget->CreateGradientStopCollection(
+            stops,
+            _countof(stops),
+            D2D1_GAMMA_2_2,
+            D2D1_EXTEND_MODE_CLAMP,
+            &GradientStops
+        );
         RenderTarget->CreateLinearGradientBrush(
             D2D1::LinearGradientBrushProperties(
                 D2D1::Point2F(x, y),
@@ -187,6 +201,13 @@ void AlphaSlider(int x, int y, int width, int height, D2D1::ColorF col)
         { 0.0f,Colour(col.r,col.g,col.b,255) },
         { 1.0f,Colour(col.r,col.g,col.b,0) },
     };
+    RenderTarget->CreateGradientStopCollection(
+        stops,
+        _countof(stops),
+        D2D1_GAMMA_2_2,
+        D2D1_EXTEND_MODE_CLAMP,
+        &GradientStops
+    );
     RenderTarget->CreateLinearGradientBrush(
         D2D1::LinearGradientBrushProperties(
             D2D1::Point2F(x, y),
@@ -217,6 +238,13 @@ void HueSlider(int x, int y, int width, int height)
         { 0.96f,  Colour(255,0,0,255) },
     };
 
+    RenderTarget->CreateGradientStopCollection(
+        stops,
+        _countof(stops),
+        D2D1_GAMMA_2_2,
+        D2D1_EXTEND_MODE_CLAMP,
+        &GradientStops
+    );
     RenderTarget->CreateLinearGradientBrush(
         D2D1::LinearGradientBrushProperties(
             D2D1::Point2F(x, y),
