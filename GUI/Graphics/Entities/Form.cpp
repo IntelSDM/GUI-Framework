@@ -122,10 +122,9 @@ void Form::Draw()
     if (IsMouseInTriangle(StretchPoint1, StretchPoint2, StretchPoint3) && Form::CanStretch)
         SetCurrentCursor("Corner Drag");
 
-    OutlineRectangle((Form::Pos.x - Form::Border.x / 2) + 1, (Form::Pos.y - Form::Border.x / 2) + 1, Form::Size.x + Form::Border.x - 1, Form::Size.y + Form::Border.x - 1, 1, Colour(100, 185, 255, 200)); // Draw Border
-    FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Size.y, Colour(60, 60, 60, 255));
-    //  FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Border.y, Colour(30, 30, 30, 255)); // header
-    FilledLine(Form::Pos.x, Form::Pos.y + Form::Border.y, Form::Pos.x + Form::Size.x, Form::Pos.y + Form::Border.y, 1, Colour(100, 185, 255, 255));
+    OutlineRectangle((Form::Pos.x - Form::Border.x / 2) + 1, (Form::Pos.y - Form::Border.x / 2) + 1, Form::Size.x + Form::Border.x - 1, Form::Size.y + Form::Border.x - 1, 1, Colour(140, 140, 140, 255)); // Draw Border
+    FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Size.y, Colour(40, 40, 40, 255));
+    FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Border.y, Colour(30, 30, 30, 255)); // header
     DrawText(Form::Pos.x + 5, Form::Pos.y + 5, Form::Name, "Verdana", 12, Colour(255, 255, 255, 255), None);
     
 

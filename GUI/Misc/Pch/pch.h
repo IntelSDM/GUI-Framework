@@ -29,7 +29,12 @@
 #ifdef Button
 #undef Button
 #endif
-
+#ifdef max
+#undef max
+#endif
+#ifdef min
+#undef min
+#endif
 
 #include <windowsx.h>
 #include <intrin.h> 
