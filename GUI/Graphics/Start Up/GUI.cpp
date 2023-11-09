@@ -20,40 +20,7 @@ void CreateGUI()
 {
 	MenuEntity = std::make_shared< Container >();
 	// We use the makeshared function instead of declaring new variables because they are automatically disposed
-	auto form = std::make_shared<Form >(800, 100.0f, 480, 300, 2, 30, "FORM", true);
-	{
-		auto tabcontroller = std::make_shared<TabController>();
-		form->Push(tabcontroller);
-		//std::string name, float x, float y, float width, float height, int* selectedtab = nullptr
-		auto tab = std::make_shared<Tab>("Tab1",5,25,50,20,&SelectedTab);
-		{
-			auto toggle = std::make_shared<Toggle>(10, 40, "Toggle", &ToggleTest);
-			tab->Push(toggle);
-			auto toggle1 = std::make_shared<Toggle>(10, 60, "Toggle", &ToggleTest1);
-			tab->Push(toggle1);
-			auto label = std::make_shared<Label>("Label",10,80);
-			tab->Push(label);
-			auto button = std::make_shared<Button>(10, 100, "Button", []()
-				{
-					Beep(100,100);
-				});
-			tab->Push(button);
-			auto textbox = std::make_shared<TextBox>(10,150,"Textbox",&TextBoxText);
-			tab->Push(textbox);
-			auto floatslider = std::make_shared<Slider<float>>(10,190,"Slider Float","", 0.0f, 10.0f, &floatvalue);
-			tab->Push(floatslider);
-			auto intslider = std::make_shared<Slider<int>>(10, 220, "Slider Int", "%", 0, 100, &intvalue);
-			tab->Push(intslider);
-		}
-		tabcontroller->Push(tab);
-		auto tab1 = std::make_shared<Tab>("Tab2", 60, 25, 50, 20, &SelectedTab);
-		tabcontroller->Push(tab1);
-		auto tab2 = std::make_shared<Tab>("Tab3", 115, 25, 50, 20, &SelectedTab);
-		tabcontroller->Push(tab2);
-		auto tab3 = std::make_shared<Tab>("Tab4", 170, 25, 50, 20, &SelectedTab);
-		tabcontroller->Push(tab3);
-	}
-	MenuEntity->Push(form);
+
 	MenuEntity->Draw();
 	MenuEntity->Update();
 }

@@ -103,8 +103,8 @@ void TextClipped(std::string text, int x, int y, int width,int height,int fontsi
         y -= ((metrics.height + modifier) / 2);
         break;
     case FontAlignment::CentreLeft:
-        x -= ((metrics.width + modifier));
-        y += ((metrics.height + modifier) / 2);
+        x += ((metrics.width + modifier));
+        y -= ((metrics.height + modifier) / 2);
         break;
     case FontAlignment::CentreRight:
         x += ((metrics.width + modifier));

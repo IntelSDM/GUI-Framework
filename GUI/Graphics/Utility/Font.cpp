@@ -17,7 +17,40 @@ void CreateFonts(std::string customfontname, std::wstring_view fontname, float s
         &Fonts[customfontname]
     );
 }
+float GetTextWidth(std::wstring text, int fontsize, std::string font)
+{
+    if (text.empty())
+        return 0.0f;
 
+    IDWriteTextLayout* layout = nullptr;
+    const HRESULT status = FontFactory->CreateTextLayout(text.data(), static_cast<std::uint32_t>(text.length()), Fonts[font], 4096.f, 4096.f, &layout);
+    DWRITE_TEXT_RANGE range = DWRITE_TEXT_RANGE();
+    range.length = text.length();
+    range.startPosition = 0;
+    layout->SetFontSize(fontsize, range);
+    float modifier = layout->GetFontSize() / 4.0f;
+    DWRITE_TEXT_METRICS metrics{};
+    layout->GetMetrics(&metrics);
+    return metrics.width;
+}
+float GetTextHeight(std::wstring text, int fontsize, std::string font)
+{
+    if (text.empty())
+        return 0.0f;
+
+    IDWriteTextLayout* layout = nullptr;
+    const HRESULT status = FontFactory->CreateTextLayout(text.data(), static_cast<std::uint32_t>(text.length()), Fonts[font], 4096.f, 4096.f, &layout);
+    DWRITE_TEXT_RANGE range = DWRITE_TEXT_RANGE();
+    range.length = text.length();
+    range.startPosition = 0;
+    layout->SetFontSize(fontsize, range);
+    float modifier = layout->GetFontSize() / 4.0f;
+    DWRITE_TEXT_METRICS metrics{};
+    layout->GetMetrics(&metrics);
+    return metrics.height;
+
+
+}
 void GetTextSize(const std::string text, int fontsize,float* const width, float* const height, std::string font)
 {
 
