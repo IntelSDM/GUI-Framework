@@ -14,6 +14,7 @@ TabListBoxController::TabListBoxController(float x, float y, float width, float 
 	TabListBoxController::PointerEnd = TabListBoxController::Size.y / 20;
 	TabListBoxController::PointerStart = 0;
 	TabListBoxController::SetActiveIndex();
+	TabListBoxController::CachedHeight = height;
 }
 void TabListBoxController::SetActiveIndex()
 {
@@ -65,6 +66,8 @@ void TabListBoxController::ArrowKeyNavigation()
 		return;
 	if (!Active)
 		return;
+	if (!((TabListBoxController::Tabs.size() + 1) * 20 > TabListBoxController::Size.y / 20 && (TabListBoxController::Tabs.size() + 1) * 20 > TabListBoxController::CachedHeight))
+		return;
 	if (IsKeyClicked(VK_DOWN) && TabListBoxController::LastClick < (clock() * 0.00001f))
 	{
 		if (TabListBoxController::Tabs.size() > TabListBoxController::PointerEnd)
@@ -111,7 +114,7 @@ void TabListBoxController::Update()
 			i++;
 			continue;
 		}
-		if (i > TabListBoxController::PointerEnd - 1)
+		if (i > TabListBoxController::PointerEnd)
 		{
 			i++;
 			continue;
@@ -131,6 +134,8 @@ void TabListBoxController::ScrollBarAction()
 {
 	if (TabListBoxController::Tabs.size() < TabListBoxController::Size.y / 20)
 		return;
+	if (!((TabListBoxController::Tabs.size() + 1) * 20 > TabListBoxController::Size.y / 20 && (TabListBoxController::Tabs.size() + 1) * 20 > TabListBoxController::CachedHeight))
+		return;
 	if (!IsKeyDown(VK_LBUTTON))
 		TabListBoxController::ScrollBarHeld = false;
 	if (IsMouseInRectangle(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x, TabListBoxController::ParentPos.y + TabListBoxController::Pos.y, 5, TabListBoxController::Size.y) && IsKeyClicked(VK_LBUTTON))
@@ -143,6 +148,10 @@ void TabListBoxController::ScrollBarAction()
 
 	}
 	TabListBoxController::PointerStart = TabListBoxController::PointerEnd - TabListBoxController::MaxVisibleItems;
+}
+int TabListBoxController::GetActiveIndex()
+{
+	return TabListBoxController::ActiveIndex;
 }
 void TabListBoxController::Draw()
 {
@@ -157,7 +166,7 @@ void TabListBoxController::Draw()
 		}
 	}
 	FilledRectangle(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x, TabListBoxController::ParentPos.y + TabListBoxController::Pos.y, TabListBoxController::Size.x, TabListBoxController::Size.y, Colour(80, 80, 80, 255));
-	OutlineRectangle(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x - 1, TabListBoxController::ParentPos.y + TabListBoxController::Pos.y - 1, TabListBoxController::Size.x + 1, TabListBoxController::Size.y + 1, 1, Colour(150, 150, 150, 255));
+	OutlineRectangle(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x, TabListBoxController::ParentPos.y + TabListBoxController::Pos.y, TabListBoxController::Size.x + 1, TabListBoxController::Size.y + 1, 1, Colour(150, 150, 150, 255));
 
 	int i = 0;
 	for (std::wstring culledname : TabListBoxController::CulledNames)
@@ -167,17 +176,21 @@ void TabListBoxController::Draw()
 			i++;
 			continue;
 		}
-		if (i > TabListBoxController::PointerEnd - 1)
+		if (i > TabListBoxController::PointerEnd)
 		{
 			i++;
 			continue;
 		}
 		float itemposy = TabListBoxController::ParentPos.y + TabListBoxController::Pos.y + ((i - TabListBoxController::PointerStart) * 20);
+		if (i % 2 == 0)
+			FilledRectangle(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x, (itemposy), TabListBoxController::Size.x, 20, Colour(30, 30, 30, 255));
+		else
+			FilledRectangle(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x, (itemposy), TabListBoxController::Size.x, 20, Colour(50, 50, 50, 255));
 		if (!IsMouseInRectangle(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2, (itemposy), TabListBoxController::Size.x - (TabListBoxController::ScrollWidth + 2), 20))
 		{
 			if (i == TabListBoxController::ActiveIndex)
 			{
-				DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2, (itemposy), culledname, "Verdana", 11, Colour(255, 0, 0, 255), None);
+				DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2, (itemposy), culledname, "Verdana", 11, Colour(100, 180, 255, 255), None);
 			}
 			else
 				DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2, (itemposy), culledname, "Verdana", 11, Colour(255, 255, 255, 255), None);
@@ -193,7 +206,7 @@ void TabListBoxController::Draw()
 			i++;
 			continue;
 		}
-		if (i > TabListBoxController::PointerEnd - 1)
+		if (i > TabListBoxController::PointerEnd)
 		{
 			i++;
 			continue;
@@ -204,9 +217,9 @@ void TabListBoxController::Draw()
 			int width = GetTextWidth(name, 11, "Verdana");
 			if (width + TabListBoxController::ScrollWidth + 2 + 5 < TabListBoxController::Size.x)
 			{
-				FilledRectangle(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 5, (itemposy), TabListBoxController::Size.x - (TabListBoxController::ScrollWidth + 5), 20, Colour(120, 120, 120, 255));
+				FilledRectangle(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x, (itemposy), TabListBoxController::Size.x, 20, Colour(120, 120, 120, 255));
 				if (i == TabListBoxController::ActiveIndex)
-					DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy)+5, name, "Verdana", 11, Colour(255, 0, 0, 255), None);
+					DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy)+5, name, "Verdana", 11, Colour(100, 180, 255, 255), None);
 				else
 					DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy), name, "Verdana", 11, Colour(255, 255, 255, 255), None);
 
@@ -215,7 +228,7 @@ void TabListBoxController::Draw()
 			{
 				FilledRectangle(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy), width, 20, Colour(120, 120, 120, 255));
 				if (i == TabListBoxController::ActiveIndex)
-					DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy)+5, name, "Verdana", 11, Colour(255, 0, 0, 255), None);
+					DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy)+5, name, "Verdana", 11, Colour(100, 180, 255, 255), None);
 				else
 					DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy)+5, name, "Verdana", 11, Colour(255, 255, 255, 255), None);
 
@@ -224,7 +237,7 @@ void TabListBoxController::Draw()
 
 		i++;
 	}
-	if (TabListBoxController::Tabs.size() > TabListBoxController::Size.y / 20)
+	if ((TabListBoxController::Tabs.size() + 1) * 20 > TabListBoxController::Size.y / 20 && (TabListBoxController::Tabs.size() + 1) * 20 > TabListBoxController::CachedHeight)
 	{
 		int unselectedelements = Tabs.size() - MaxVisibleItems;
 		float unselectedclamp = std::clamp(unselectedelements, 1, (int)Names.size());
@@ -235,11 +248,14 @@ void TabListBoxController::Draw()
 		FilledRectangle(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x, TabListBoxController::ParentPos.y + TabListBoxController::Pos.y, TabListBoxController::ScrollWidth, TabListBoxController::Size.y, Colour(130, 130, 130, 255));
 		FilledRectangle(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x, scrollyclamp, 5, scrollheight, Colour(255, 0, 0, 255));
 	}
+	else
+		TabListBoxController::ScrollWidth = 5; // no scroll bar, no scrollwidth
 }
 void TabListBoxController::PushBack(std::shared_ptr<TabListBox> tab)
 {
 	TabListBoxController::Tabs.push_back(tab);
 	TabListBoxController::Names.push_back(tab->GetName());
+
 	if (!FirstItem)
 	{
 		TabListBoxController::Selected = tab->Index;
@@ -253,5 +269,9 @@ void TabListBoxController::PushBack(std::shared_ptr<TabListBox> tab)
 		TabListBoxController::MaxVisibleItems = TabListBoxController::Size.y / 20;
 	if (TabListBoxController::PointerEnd > TabListBoxController::Size.y / 20)
 		TabListBoxController::PointerEnd = TabListBoxController::Size.y / 20;
+
+	if (((TabListBoxController::Names.size()) * 20) < TabListBoxController::CachedHeight)
+		TabListBoxController::Size.y = ((TabListBoxController::Names.size()) * 20);
+
 
 }
