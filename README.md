@@ -3,17 +3,14 @@ Universal C++ GUI Framework.<br>
 This is a fully featured and usable GUI framework on a D2D1 Renderer. All you need to do is change the drawing functions to your desired renderer.<br>
 [For an Xbox Gamebar Implementation](https://github.com/IntelSDM/GameBarGUI)
 
-## Images:
-<p align="center">
-  <img src="./Images/2.png"
-    style="width: 60%;" />
-</p>
+## Images/ Video:
+[![IMAGE ALT TEXT](./Images/1.png)](https://youtu.be/KKoIYKhjtCc "Video")
 
-<p align="center">
-  <img src="./Images/1.png"
-    style="width: 60%;" />
-</p>
+[![IMAGE ALT TEXT](./Images/2.png)](https://youtu.be/KKoIYKhjtCc "Video")
 
+[![IMAGE ALT TEXT](./Images/3.png)](https://youtu.be/KKoIYKhjtCc "Video")
+<br>
+_Click Me To Play Video_
 ## Features:
 * Input Management
   * Character Input
