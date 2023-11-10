@@ -174,6 +174,7 @@
     <ClCompile Include="Graphics\Entities\DropDown.cpp" />
     <ClCompile Include="Graphics\Entities\Entity.cpp" />
     <ClCompile Include="Graphics\Entities\Form.cpp" />
+    <ClCompile Include="Graphics\Entities\KeyBind.cpp" />
     <ClCompile Include="Graphics\Entities\Label.cpp" />
     <ClCompile Include="Graphics\Entities\Tab.cpp" />
     <ClCompile Include="Graphics\Entities\TabController.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="Graphics\Entities\DropDown.h" />
     <ClInclude Include="Graphics\Entities\Entity.h" />
     <ClInclude Include="Graphics\Entities\Form.h" />
+    <ClInclude Include="Graphics\Entities\KeyBind.h" />
     <ClInclude Include="Graphics\Entities\Label.h" />
     <ClInclude Include="Graphics\Entities\Slider.h" />
     <ClInclude Include="Graphics\Entities\Tab.h" />
