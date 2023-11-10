@@ -5,6 +5,11 @@
 #include "Button.h"
 #include "ColourPicker.h"
 #include "Label.h"
+#include "tab.h"
+#include "TabController.h"
+int SelectedTab = 1;
+int SelectedSubTab = 0;
+int TabCount = 0;
 EntityVector MenuEntity;
 bool MenuOpen = true;
 D2D1::ColorF ColourPickerClipBoard = D2D1::ColorF::Red;
@@ -14,12 +19,27 @@ void CreateGUI()
 	MenuEntity = std::make_shared< Container >();
 	auto form = std::make_shared<Form >(100, 100.0f, 533, 350, 2, 30, L"FORM", false);
 	{
-		auto button = std::make_shared<Button>(100, 100, L"Buttons", []() {Beep(100, 10); });
-		form->Push(button);
-		auto colourpicker = std::make_shared<ColourPicker>(100, 150, &ColourPick);
-		form->Push(colourpicker);
-		auto label = std::make_shared<Label>(L"Label",100, 200);
-form->Push(label);
+		auto tabcontroller = std::make_shared<TabController>();
+		form->Push(tabcontroller);
+
+		auto tab = std::make_shared<Tab>(L"Tab1", 5, 55, 50, 20, &SelectedTab);
+		{
+			auto button = std::make_shared<Button>(100, 100, L"Buttons", []() {Beep(100, 10); });
+			tab->Push(button);
+			auto colourpicker = std::make_shared<ColourPicker>(100, 150, &ColourPick);
+			tab->Push(colourpicker);
+			auto label = std::make_shared<Label>(L"Label", 100, 200);
+			tab->Push(label);
+		}
+		auto tab1 = std::make_shared<Tab>(L"Tab2", 65, 55, 50, 20, &SelectedTab);
+		{
+		}
+		auto tab2 = std::make_shared<Tab>(L"Tab3", 125, 55, 50, 20, &SelectedTab);
+		{
+		}
+tabcontroller->Push(tab);
+tabcontroller->Push(tab1);
+tabcontroller->Push(tab2);
 	}
 
 	MenuEntity->Push(form);
