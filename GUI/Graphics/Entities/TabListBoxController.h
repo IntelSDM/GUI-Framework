@@ -21,6 +21,7 @@ protected:
 	int PointerEnd;
 	int MaxVisibleItems = TabListBoxController::Size.y / 20;
 	int ActiveIndex = 0;
+	int CachedHeight;
 
 	bool FirstItem = false;
 public:
@@ -28,4 +29,5 @@ public:
 	void Update();
 	void Draw();
 	void PushBack(std::shared_ptr<TabListBox> tab);
+	int GetActiveIndex();
 };

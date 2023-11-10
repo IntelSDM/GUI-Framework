@@ -77,8 +77,32 @@ void CreateGUI()
 				auto label = std::make_shared<Label>(L"List Instance 2", 180, 10);
 				listtab2->Push(label);
 			}
+			auto listtab3 = std::make_shared<TabListBox>(L"List Tab 3");
+			{
+				auto label = std::make_shared<Label>(L"List Instance 3", 180, 10);
+				listtab3->Push(label);
+			}
+			auto listtab4 = std::make_shared<TabListBox>(L"List Tab 4");
+			{
+				auto label = std::make_shared<Label>(L"List Instance 4", 180, 10);
+				listtab4->Push(label);
+			}
+			auto listtab5 = std::make_shared<TabListBox>(L"List Tab 5");
+			{
+				auto label = std::make_shared<Label>(L"List Instance 5", 180, 10);
+				listtab5->Push(label);
+			}
+			auto listtab6 = std::make_shared<TabListBox>(L"List Tab 6");
+			{
+				auto label = std::make_shared<Label>(L"List Instance 6", 180, 10);
+				listtab6->Push(label);
+			}
 			tablist->PushBack(listtab1);
 			tablist->PushBack(listtab2);
+			tablist->PushBack(listtab3);
+			tablist->PushBack(listtab4);
+			tablist->PushBack(listtab5);
+			tablist->PushBack(listtab6);
 			tab1->Push(tablist);
 		}
 		auto tab2 = std::make_shared<Tab>(L"Tab3", 125, 55, 50, 20, &SelectedTab);
