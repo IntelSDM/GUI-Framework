@@ -219,7 +219,7 @@ void TabListBoxController::Draw()
 			{
 				FilledRectangle(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x, (itemposy), TabListBoxController::Size.x, 20, Colour(120, 120, 120, 255));
 				if (i == TabListBoxController::ActiveIndex)
-					DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy)+5, name, "Verdana", 11, Colour(100, 180, 255, 255), None);
+					DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy)+5, name, "Verdana", 11, Colour(255, 0, 0, 255), None);
 				else
 					DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy), name, "Verdana", 11, Colour(255, 255, 255, 255), None);
 
@@ -228,7 +228,7 @@ void TabListBoxController::Draw()
 			{
 				FilledRectangle(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy), width, 20, Colour(120, 120, 120, 255));
 				if (i == TabListBoxController::ActiveIndex)
-					DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy)+5, name, "Verdana", 11, Colour(100, 180, 255, 255), None);
+					DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy)+5, name, "Verdana", 11, Colour(255, 0, 0, 255), None);
 				else
 					DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy)+5, name, "Verdana", 11, Colour(255, 255, 255, 255), None);
 

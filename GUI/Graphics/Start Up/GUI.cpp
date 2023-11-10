@@ -14,6 +14,7 @@
 #include "KeyBind.h"
 #include "TabListBox.h"
 #include "TabListBoxController.h"
+#include "TextBox.h"
 int SelectedTab = 1;
 int SelectedSubTab = 0;
 int TabCount = 0;
@@ -32,6 +33,7 @@ bool Combo3 = false;
 bool Combo4 = true;
 bool Combo5 = false;
 int Key = 0;
+std::wstring TextBoxText = L"Text Box";
 void CreateGUI()
 {
 	MenuEntity = std::make_shared< Container >();
@@ -63,6 +65,8 @@ void CreateGUI()
 			tab->Push(combo);
 			auto keybind = std::make_shared<KeyBind>(10, 215, L"KeyBind", &Key);
 			tab->Push(keybind);
+			auto textbox = std::make_shared<TextBox>(10, 255, L"Textbox", &TextBoxText);
+			tab->Push(textbox);
 		}
 		auto tab1 = std::make_shared<Tab>(L"Tab2", 65, 55, 50, 20, &SelectedTab);
 		{
