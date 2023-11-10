@@ -190,7 +190,7 @@ void TabListBoxController::Draw()
 		{
 			if (i == TabListBoxController::ActiveIndex)
 			{
-				DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2, (itemposy), culledname, "Verdana", 11, Colour(100, 180, 255, 255), None);
+				DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2, (itemposy), culledname, "Verdana", 11, Colour(255, 0, 0, 255), None);
 			}
 			else
 				DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2, (itemposy), culledname, "Verdana", 11, Colour(255, 255, 255, 255), None);
