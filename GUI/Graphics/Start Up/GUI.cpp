@@ -7,6 +7,7 @@
 #include "Label.h"
 #include "tab.h"
 #include "TabController.h"
+#include "Toggle.h"
 int SelectedTab = 1;
 int SelectedSubTab = 0;
 int TabCount = 0;
@@ -14,6 +15,7 @@ EntityVector MenuEntity;
 bool MenuOpen = true;
 D2D1::ColorF ColourPickerClipBoard = D2D1::ColorF::Red;
 D2D1::ColorF ColourPick = Colour(0, 150, 255, 255);
+bool ToggleTest = true;
 void CreateGUI()
 {
 	MenuEntity = std::make_shared< Container >();
@@ -24,12 +26,15 @@ void CreateGUI()
 
 		auto tab = std::make_shared<Tab>(L"Tab1", 5, 55, 50, 20, &SelectedTab);
 		{
-			auto button = std::make_shared<Button>(100, 100, L"Buttons", []() {Beep(100, 10); });
+			auto toggle = std::make_shared<Toggle>(10, 10, L"Toggle", &ToggleTest);
+			tab->Push(toggle);
+			auto button = std::make_shared<Button>(10, 30, L"Buttons", []() {Beep(100, 10); });
 			tab->Push(button);
-			auto colourpicker = std::make_shared<ColourPicker>(100, 150, &ColourPick);
+			auto colourpicker = std::make_shared<ColourPicker>(75, 10, &ColourPick);
 			tab->Push(colourpicker);
-			auto label = std::make_shared<Label>(L"Label", 100, 200);
+			auto label = std::make_shared<Label>(L"Label", 10, 55);
 			tab->Push(label);
+			
 		}
 		auto tab1 = std::make_shared<Tab>(L"Tab2", 65, 55, 50, 20, &SelectedTab);
 		{
