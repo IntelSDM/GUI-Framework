@@ -178,6 +178,8 @@
     <ClCompile Include="Graphics\Entities\Label.cpp" />
     <ClCompile Include="Graphics\Entities\Tab.cpp" />
     <ClCompile Include="Graphics\Entities\TabController.cpp" />
+    <ClCompile Include="Graphics\Entities\TabListBox.cpp" />
+    <ClCompile Include="Graphics\Entities\TabListBoxController.cpp" />
     <ClCompile Include="Graphics\Entities\Toggle.cpp" />
     <ClCompile Include="Graphics\Start Up\GUI.cpp" />
     <ClCompile Include="Graphics\Start Up\Init.cpp" />
@@ -202,6 +204,8 @@
     <ClInclude Include="Graphics\Entities\Slider.h" />
     <ClInclude Include="Graphics\Entities\Tab.h" />
     <ClInclude Include="Graphics\Entities\TabController.h" />
+    <ClInclude Include="Graphics\Entities\TabListBox.h" />
+    <ClInclude Include="Graphics\Entities\TabListBoxController.h" />
     <ClInclude Include="Graphics\Entities\Toggle.h" />
     <ClInclude Include="Graphics\Start Up\GUI.h" />
     <ClInclude Include="Graphics\Start Up\Init.h" />

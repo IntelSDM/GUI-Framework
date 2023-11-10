@@ -12,6 +12,8 @@
 #include "DropDown.h"
 #include "ComboBox.h"
 #include "KeyBind.h"
+#include "TabListBox.h"
+#include "TabListBoxController.h"
 int SelectedTab = 1;
 int SelectedSubTab = 0;
 int TabCount = 0;
@@ -64,6 +66,20 @@ void CreateGUI()
 		}
 		auto tab1 = std::make_shared<Tab>(L"Tab2", 65, 55, 50, 20, &SelectedTab);
 		{
+			auto tablist = std::make_shared<TabListBoxController>(10, 40, 160, 160);
+			auto listtab1 = std::make_shared<TabListBox>(L"List Tab 1");
+			{
+				auto label = std::make_shared<Label>(L"List Instance 1", 180, 10);
+				listtab1->Push(label);
+			}
+			auto listtab2 = std::make_shared<TabListBox>(L"List Tab 2");
+			{
+				auto label = std::make_shared<Label>(L"List Instance 2", 180, 10);
+				listtab2->Push(label);
+			}
+			tablist->PushBack(listtab1);
+			tablist->PushBack(listtab2);
+			tab1->Push(tablist);
 		}
 		auto tab2 = std::make_shared<Tab>(L"Tab3", 125, 55, 50, 20, &SelectedTab);
 		{
