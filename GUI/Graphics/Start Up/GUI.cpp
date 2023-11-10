@@ -8,6 +8,7 @@
 #include "tab.h"
 #include "TabController.h"
 #include "Toggle.h"
+#include "Slider.h"
 int SelectedTab = 1;
 int SelectedSubTab = 0;
 int TabCount = 0;
@@ -16,6 +17,8 @@ bool MenuOpen = true;
 D2D1::ColorF ColourPickerClipBoard = D2D1::ColorF::Red;
 D2D1::ColorF ColourPick = Colour(0, 150, 255, 255);
 bool ToggleTest = true;
+int SliderInt = 50;
+float SliderFloat = 50.0f;
 void CreateGUI()
 {
 	MenuEntity = std::make_shared< Container >();
@@ -34,6 +37,10 @@ void CreateGUI()
 			tab->Push(colourpicker);
 			auto label = std::make_shared<Label>(L"Label", 10, 55);
 			tab->Push(label);
+			auto sliderint = std::make_shared<Slider<int>>(10, 80, L"Slider Int", L"%", 0, 100, &SliderInt);
+			tab->Push(sliderint);
+			auto sliderfloat = std::make_shared<Slider<float>>(10, 110, L"Slider Float", L"%", 0.0f, 100.0f, &SliderFloat);
+			tab->Push(sliderfloat);
 			
 		}
 		auto tab1 = std::make_shared<Tab>(L"Tab2", 65, 55, 50, 20, &SelectedTab);
