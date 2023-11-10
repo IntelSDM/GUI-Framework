@@ -57,7 +57,7 @@ void Toggle::Draw()
 	if (!Toggle::IsVisible())
 		return;
 
-	OutlineRectangle(ParentPos.x + Pos.x, ParentPos.y + Pos.y, Size.x, Size.y, 1, Colour(130, 130, 130, 255));
+	OutlineRectangle(ParentPos.x + Pos.x, ParentPos.y + Pos.y, Size.x+1, Size.y+1, 1, Colour(130, 130, 130, 255));
 	FilledRectangle(ParentPos.x + Pos.x, ParentPos.y + Pos.y, Size.x, Size.y, Colour(80, 80, 80, 255));
 	if (*Toggle::Data == true)
 		FilledRectangle(ParentPos.x + Pos.x + 1, ParentPos.y + Pos.y + 1, Size.x - 2, Size.y - 2, Colour(255, 0, 0, 255));
