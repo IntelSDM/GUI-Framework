@@ -10,6 +10,7 @@
 #include "Toggle.h"
 #include "Slider.h"
 #include "DropDown.h"
+#include "ComboBox.h"
 int SelectedTab = 1;
 int SelectedSubTab = 0;
 int TabCount = 0;
@@ -21,6 +22,11 @@ bool ToggleTest = true;
 int SliderInt = 50;
 float SliderFloat = 50.0f;
 int DropDownValue = 0;
+bool Combo1 = true;
+bool Combo2 = false;
+bool Combo3 = false;
+bool Combo4 = true;
+bool Combo5 = false;
 void CreateGUI()
 {
 	MenuEntity = std::make_shared< Container >();
@@ -46,7 +52,10 @@ void CreateGUI()
 			std::list<std::wstring> downvalues = { L"Value 12345", L"Value 2", L"Value 3", L"Value 4" , L"Value 5", L"Value 6", L"Value 7" , L"Value 8" , L"Value 9" , L"Value 9" };
 			auto dropdown = std::make_shared<DropDown>(10, 140, L"DropDown", &DropDownValue, downvalues);
 			tab->Push(dropdown);
-			
+			std::list<std::wstring> combovalues = { L"Value 12345", L"Value 2", L"Value 3", L"Value 4" , L"Value 5", L"Value 6", L"Value 7" , L"Value 8" };
+			std::list<bool*> bools = { &Combo1 ,&Combo2 ,&Combo3 ,&Combo4 ,&Combo5,&Combo5 ,&Combo5 ,&Combo5 };
+			auto combo = std::make_shared<ComboBox>(10, 170, L"ComboBox", bools, combovalues);
+			tab->Push(combo);
 		}
 		auto tab1 = std::make_shared<Tab>(L"Tab2", 65, 55, 50, 20, &SelectedTab);
 		{
