@@ -137,7 +137,7 @@ void KeyBind::Draw()
 	if (!KeyBind::IsVisible())
 		return;
 
-	OutlineRectangle(ParentPos.x + Pos.x - 1, ParentPos.y + Pos.y - 1, Size.x + 1, Size.y + 1, 1, Colour(130, 130, 130, 255));
+	OutlineRectangle(ParentPos.x + Pos.x, ParentPos.y + Pos.y, Size.x + 1, Size.y + 1, 1, Colour(130, 130, 130, 255));
 	FilledRectangle(ParentPos.x + KeyBind::Pos.x, ParentPos.y + KeyBind::Pos.y, KeyBind::Size.x, KeyBind::Size.y, Colour(80, 80, 80, 255));
 	DrawText(ParentPos.x + KeyBind::Pos.x, ParentPos.y + KeyBind::Pos.y - KeyBind::Size.y, KeyBind::Name, "Verdana", 12, Colour(240, 240, 240, 255), None);
 	DrawText(ParentPos.x + KeyBind::Pos.x + (KeyBind::Size.x / 2), ParentPos.y + KeyBind::Pos.y + (KeyBind::Size.y / 2), KeyName, "Verdana", 10, Colour(240, 240, 240, 255), CentreCentre);
