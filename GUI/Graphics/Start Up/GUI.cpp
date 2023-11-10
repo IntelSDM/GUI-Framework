@@ -54,7 +54,7 @@ void CreateGUI()
 			tab->Push(dropdown);
 			std::list<std::wstring> combovalues = { L"Value 12345", L"Value 2", L"Value 3", L"Value 4" , L"Value 5", L"Value 6", L"Value 7" , L"Value 8" };
 			std::list<bool*> bools = { &Combo1 ,&Combo2 ,&Combo3 ,&Combo4 ,&Combo5,&Combo5 ,&Combo5 ,&Combo5 };
-			auto combo = std::make_shared<ComboBox>(290, 50, L"ComboBox", bools, combovalues);
+			auto combo = std::make_shared<ComboBox>(10, 170, L"ComboBox", bools, combovalues);
 			tab->Push(combo);
 		}
 		auto tab1 = std::make_shared<Tab>(L"Tab2", 65, 55, 50, 20, &SelectedTab);
