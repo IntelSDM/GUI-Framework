@@ -13,3 +13,4 @@ void DrawBitmap(ID2D1Bitmap* bmp, int x, int y);
 void SaturationSlider(int x, int y, int width, int height, D2D1::ColorF colour);
 void AlphaSlider(int x, int y, int width, int height, D2D1::ColorF col);
 void HueSlider(int x, int y, int width, int height);
+void FilledTriangle(int x1, int y1, int x2, int y2, int x3, int y3, D2D1::ColorF colour);
