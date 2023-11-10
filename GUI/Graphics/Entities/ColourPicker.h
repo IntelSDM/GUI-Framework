@@ -4,9 +4,10 @@ class ColourPicker : public Entity
 {
 protected:
     Vector2 ClickedPos;
-    D2D1::ColorF* MainColour;
-    D2D1::ColorF* RangeColour;
-    D2D1::ColorF* SelectedColour;
+    D2D1::ColorF BaseColour = Colour(0,0,0,0);
+    D2D1::ColorF* MainColour = &BaseColour;
+    D2D1::ColorF* RangeColour = &BaseColour;
+    D2D1::ColorF* SelectedColour = &BaseColour;
     Vector2 SelectedPos;
 
     float Saturation = 255;

@@ -172,6 +172,7 @@
     <ClCompile Include="Graphics\Entities\ColourPicker.cpp" />
     <ClCompile Include="Graphics\Entities\Entity.cpp" />
     <ClCompile Include="Graphics\Entities\Form.cpp" />
+    <ClCompile Include="Graphics\Entities\Label.cpp" />
     <ClCompile Include="Graphics\Start Up\GUI.cpp" />
     <ClCompile Include="Graphics\Start Up\Init.cpp" />
     <ClCompile Include="Graphics\Utility\Animation.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="Graphics\Entities\ColourPicker.h" />
     <ClInclude Include="Graphics\Entities\Entity.h" />
     <ClInclude Include="Graphics\Entities\Form.h" />
+    <ClInclude Include="Graphics\Entities\Label.h" />
     <ClInclude Include="Graphics\Start Up\GUI.h" />
     <ClInclude Include="Graphics\Start Up\Init.h" />
     <ClInclude Include="Graphics\Utility\Animation.h" />
