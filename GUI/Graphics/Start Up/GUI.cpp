@@ -11,9 +11,11 @@
 #include "Slider.h"
 #include "DropDown.h"
 #include "ComboBox.h"
+#include "KeyBind.h"
 int SelectedTab = 1;
 int SelectedSubTab = 0;
 int TabCount = 0;
+int KeyBindClipBoard = 0;
 EntityVector MenuEntity;
 bool MenuOpen = true;
 D2D1::ColorF ColourPickerClipBoard = D2D1::ColorF::Red;
@@ -27,6 +29,7 @@ bool Combo2 = false;
 bool Combo3 = false;
 bool Combo4 = true;
 bool Combo5 = false;
+int Key = 0;
 void CreateGUI()
 {
 	MenuEntity = std::make_shared< Container >();
@@ -56,6 +59,8 @@ void CreateGUI()
 			std::list<bool*> bools = { &Combo1 ,&Combo2 ,&Combo3 ,&Combo4 ,&Combo5,&Combo5 ,&Combo5 ,&Combo5 };
 			auto combo = std::make_shared<ComboBox>(10, 170, L"ComboBox", bools, combovalues);
 			tab->Push(combo);
+			auto keybind = std::make_shared<KeyBind>(10, 215, L"KeyBind", &Key);
+			tab->Push(keybind);
 		}
 		auto tab1 = std::make_shared<Tab>(L"Tab2", 65, 55, 50, 20, &SelectedTab);
 		{
