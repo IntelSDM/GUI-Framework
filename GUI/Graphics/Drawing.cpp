@@ -275,3 +275,28 @@ void DrawBitmap(ID2D1Bitmap* bmp, int x, int y, int width, int height)
     RenderTarget->DrawBitmap(bmp, D2D1::RectF(static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y)), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, D2D1::RectF(0.0f, 0.0f, bmp->GetSize().width, bmp->GetSize().height));
 
 }
+
+void FilledTriangle(int x1, int y1, int x2, int y2, int x3, int y3, D2D1::ColorF colour)
+{
+    // Define the points of the triangle
+    D2D1_POINT_2F p1 = D2D1::Point2F(static_cast<FLOAT>(x1), static_cast<FLOAT>(y1));
+    D2D1_POINT_2F p2 = D2D1::Point2F(static_cast<FLOAT>(x2), static_cast<FLOAT>(y2));
+    D2D1_POINT_2F p3 = D2D1::Point2F(static_cast<FLOAT>(x3), static_cast<FLOAT>(y3));
+    //render triangle in d2d1 using points
+    
+    Brush->SetColor(colour);
+    ID2D1PathGeometry* pathgeometry = NULL;
+    Factory->CreatePathGeometry(&pathgeometry);
+    ID2D1GeometrySink* sink = NULL;
+    pathgeometry->Open(&sink);
+    sink->BeginFigure(p1, D2D1_FIGURE_BEGIN_FILLED);
+    sink->AddLine(p2);
+    sink->AddLine(p3);
+    sink->EndFigure(D2D1_FIGURE_END_CLOSED);
+    sink->Close();
+    RenderTarget->FillGeometry(pathgeometry, Brush);
+    pathgeometry->Release();
+    sink->Release();
+
+
+}
