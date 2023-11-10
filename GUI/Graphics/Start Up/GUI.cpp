@@ -4,10 +4,11 @@
 #include "Form.h"
 #include "Button.h"
 #include "ColourPicker.h"
+#include "Label.h"
 EntityVector MenuEntity;
 bool MenuOpen = true;
 D2D1::ColorF ColourPickerClipBoard = D2D1::ColorF::Red;
-D2D1::ColorF ColourPick = D2D1::ColorF::Magenta;
+D2D1::ColorF ColourPick = Colour(0, 150, 255, 255);
 void CreateGUI()
 {
 	MenuEntity = std::make_shared< Container >();
@@ -17,6 +18,8 @@ void CreateGUI()
 		form->Push(button);
 		auto colourpicker = std::make_shared<ColourPicker>(100, 150, &ColourPick);
 		form->Push(colourpicker);
+		auto label = std::make_shared<Label>(L"Label",100, 200);
+form->Push(label);
 	}
 
 	MenuEntity->Push(form);
