@@ -26,7 +26,7 @@ _Click Me To Play Video_
   * Clipped Text
   * Rounded Rectangle
   * Lines
-  * Sprite Batch Drawing (Optimised Drawing For Many Draw Calls)
+  * Bitmap Rendering
 * Font System
   * Create Fonts
   * Retrieve Fonts From Dictionary
