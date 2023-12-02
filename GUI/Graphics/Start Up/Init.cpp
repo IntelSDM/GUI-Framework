@@ -49,6 +49,13 @@ void CleanD2D()
 		if (fontInfo.font)
 			fontInfo.font->Release();
 	}
+	//Clean all cached text layours
+	for (std::pair dict : TextLayouts)
+	{
+		IDWriteTextLayout* layout = dict.second;
+		if (layout)
+			layout->Release();
+	}
 }
 
 int FrameRate()
