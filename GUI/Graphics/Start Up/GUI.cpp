@@ -15,6 +15,7 @@
 #include "TabListBox.h"
 #include "TabListBoxController.h"
 #include "TextBox.h"
+
 int SelectedTab = 1;
 int SelectedSubTab = 0;
 int TabCount = 0;
@@ -34,19 +35,20 @@ bool Combo4 = true;
 bool Combo5 = false;
 int Key = 0;
 std::wstring TextBoxText = L"Text Box";
+
 void CreateGUI()
 {
-	MenuEntity = std::make_shared< Container >();
-	auto form = std::make_shared<Form >(100, 100.0f, 533, 350, 2, 30, L"FORM", false);
+	MenuEntity = std::make_shared<Container>();
+	auto form = std::make_shared<Form>(100, 100.0f, 533, 350, 2, 30, L"FORM", false);
 	{
 		auto tabcontroller = std::make_shared<TabController>();
 		form->Push(tabcontroller);
 
-		auto tab = std::make_shared<Tab>(L"Tab1", 5, 55, 50, 20, &SelectedTab);
+		auto tab = std::make_shared<Tab>(L"Tab1", 5, 55, &SelectedTab, 50, 20);
 		{
 			auto toggle = std::make_shared<Toggle>(10, 10, L"Toggle", &ToggleTest);
 			tab->Push(toggle);
-			auto button = std::make_shared<Button>(10, 30, L"Buttons", []() {Beep(100, 10); });
+			auto button = std::make_shared<Button>(10, 30, L"Buttons", []() { Beep(100, 10); });
 			tab->Push(button);
 			auto colourpicker = std::make_shared<ColourPicker>(75, 10, &ColourPick);
 			tab->Push(colourpicker);
@@ -56,11 +58,11 @@ void CreateGUI()
 			tab->Push(sliderint);
 			auto sliderfloat = std::make_shared<Slider<float>>(10, 110, L"Slider Float", L"%", 0.0f, 100.0f, &SliderFloat);
 			tab->Push(sliderfloat);
-			std::list<std::wstring> downvalues = { L"Value 12345", L"Value 2", L"Value 3", L"Value 4" , L"Value 5", L"Value 6", L"Value 7" , L"Value 8" , L"Value 9" , L"Value 9" };
+			std::list<std::wstring> downvalues = {L"Value 12345", L"Value 2", L"Value 3", L"Value 4", L"Value 5", L"Value 6", L"Value 7", L"Value 8", L"Value 9", L"Value 9"};
 			auto dropdown = std::make_shared<DropDown>(10, 140, L"DropDown", &DropDownValue, downvalues);
 			tab->Push(dropdown);
-			std::list<std::wstring> combovalues = { L"Value 12345", L"Value 2", L"Value 3", L"Value 4" , L"Value 5", L"Value 6", L"Value 7" , L"Value 8" };
-			std::list<bool*> bools = { &Combo1 ,&Combo2 ,&Combo3 ,&Combo4 ,&Combo5,&Combo5 ,&Combo5 ,&Combo5 };
+			std::list<std::wstring> combovalues = {L"Value 12345", L"Value 2", L"Value 3", L"Value 4", L"Value 5", L"Value 6", L"Value 7", L"Value 8"};
+			std::list<bool*> bools = {&Combo1, &Combo2, &Combo3, &Combo4, &Combo5, &Combo5, &Combo5, &Combo5};
 			auto combo = std::make_shared<ComboBox>(10, 170, L"ComboBox", bools, combovalues);
 			tab->Push(combo);
 			auto keybind = std::make_shared<KeyBind>(10, 215, L"KeyBind", &Key);
@@ -68,7 +70,7 @@ void CreateGUI()
 			auto textbox = std::make_shared<TextBox>(10, 255, L"Textbox", &TextBoxText);
 			tab->Push(textbox);
 		}
-		auto tab1 = std::make_shared<Tab>(L"Tab2", 65, 55, 50, 20, &SelectedTab);
+		auto tab1 = std::make_shared<Tab>(L"Tab2", 65, 55, &SelectedTab, 50, 20);
 		{
 			auto tablist = std::make_shared<TabListBoxController>(10, 40, 160, 160);
 			auto listtab1 = std::make_shared<TabListBox>(L"List Tab 1");
@@ -109,27 +111,30 @@ void CreateGUI()
 			tablist->PushBack(listtab6);
 			tab1->Push(tablist);
 		}
-		auto tab2 = std::make_shared<Tab>(L"Tab3", 125, 55, 50, 20, &SelectedTab);
+		auto tab2 = std::make_shared<Tab>(L"Tab3", 125, 55, &SelectedTab, 50, 20);
 		{
 		}
-tabcontroller->Push(tab);
-tabcontroller->Push(tab1);
-tabcontroller->Push(tab2);
+		tabcontroller->Push(tab);
+		tabcontroller->Push(tab1);
+		tabcontroller->Push(tab2);
 	}
 
 	MenuEntity->Push(form);
 	MenuEntity->Draw();
 	MenuEntity->Update();
 }
+
 void SetFormPriority()
 {
 	// This sorts the host container (containerptr) which contains forms, as long as a form isn't parented to another form then this will allow it to draw over when clicked.
 	// I swear to god if i need to make this work for forms inside forms for some odd reason in the future then i am going to throw a monitor out the window.
 	std::sort(MenuEntity->GetContainer().begin(), MenuEntity->GetContainer().end(),
-		[](child a, child b) {return b->GetLastClick() < a->GetLastClick(); }
+	          [](child a, child b) { return b->GetLastClick() < a->GetLastClick(); }
 	);
 }
+
 float LastOpen = 0;
+
 void Render()
 {
 	if (IsKeyClicked(VK_INSERT) && LastOpen < clock() * 0.00001f)

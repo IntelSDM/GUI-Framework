@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "TabController.h"
+
 TabController::TabController()
 {
 	TabController::SetVisible(true);

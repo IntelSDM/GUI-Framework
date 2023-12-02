@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "TabListBox.h"
+
 class TabListBoxController : public Container
 {
 protected:
@@ -24,6 +25,7 @@ protected:
 	int CachedHeight;
 
 	bool FirstItem = false;
+
 public:
 	TabListBoxController(float x, float y, float width, float height);
 	void Update();

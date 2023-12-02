@@ -4,9 +4,10 @@
 
 Label::Label(std::wstring text, float posx, float posy)
 {
-	Label::Pos = { posx,posy };
+	Label::Pos = {posx, posy};
 	Label::Name = text;
 }
+
 void Label::Update()
 {
 	if (!Label::Parent)
@@ -15,6 +16,7 @@ void Label::Update()
 		return;
 	Label::ParentPos = Label::Parent->GetParentPos();
 }
+
 void Label::Draw()
 {
 	if (!Label::Parent)

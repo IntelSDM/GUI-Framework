@@ -3,15 +3,17 @@
 #include "Drawing.h"
 #include "Input.h"
 #include "GUI.h"
+
 KeyBind::KeyBind(float x, float y, std::wstring text, int* key)
 {
-	KeyBind::Pos = { x,y };
+	KeyBind::Pos = {x, y};
 	KeyBind::Name = text;
 	KeyBind::Key = key;
-	KeyBind::Size = { 80,20 };
+	KeyBind::Size = {80, 20};
 	KeyBind::ConvertKeyToName();
-	KeyBind::ContextSize = { 80.0f,20.0f * (int)KeyBind::ContextNames.size() };
+	KeyBind::ContextSize = {80.0f, 20.0f * (int)KeyBind::ContextNames.size()};
 }
+
 void KeyBind::ConvertKeyToName()
 {
 	if (KeyBind::Active)
@@ -19,6 +21,7 @@ void KeyBind::ConvertKeyToName()
 		KeyBind::KeyName = L"[Click A Key]";
 		return;
 	}
+
 	if (*KeyBind::Key == NULL && !KeyBind::Active)
 	{
 		KeyBind::KeyName = L"[Unbound]";
@@ -27,12 +30,13 @@ void KeyBind::ConvertKeyToName()
 
 	int keycode = *KeyBind::Key;
 	int scancode = MapVirtualKey(keycode, MAPVK_VK_TO_VSC);
-	WCHAR keyname[256] = { 0 };
+	WCHAR keyname[256] = {0};
 	if (SymbolKeys[keycode] != L"")
 	{
 		KeyBind::KeyName = SymbolKeys[keycode];
 		return;
 	}
+
 	if (GetKeyNameTextW((scancode << 16), keyname, sizeof(keyname) / sizeof(keyname[0])) == 0 && KeyBind::Key != NULL)
 	{
 		KeyBind::KeyName = L"[Unknown Key]";
@@ -41,8 +45,8 @@ void KeyBind::ConvertKeyToName()
 	{
 		KeyBind::KeyName = keyname;
 	}
-
 }
+
 void KeyBind::Update()
 {
 	if (!KeyBind::Parent)
@@ -70,8 +74,8 @@ void KeyBind::Update()
 		KeyBind::CollectInput();
 		KeyBind::ConvertKeyToName();
 	}
-
 }
+
 void KeyBind::ContextMenu()
 {
 	if (IsMouseInRectangle(KeyBind::Pos + KeyBind::ParentPos, KeyBind::Size) && IsKeyClicked(VK_RBUTTON) && !KeyBind::Blocked && !KeyBind::Active)
@@ -81,14 +85,17 @@ void KeyBind::ContextMenu()
 		KeyBind::ContextPos = MousePos;
 		SetBlockedSiblings(true);
 	}
+
 	if (!IsMouseInRectangle(KeyBind::ContextPos, KeyBind::ContextSize) && IsKeyClicked(VK_LBUTTON))
 	{
 		if (KeyBind::ContextActive)
 			SetBlockedSiblings(false);
 		KeyBind::ContextActive = false;
 	}
+
 	if (!KeyBind::ContextActive)
 		return;
+
 	int i = 0;
 	for (auto& pair : KeyBind::ContextNames)
 	{
@@ -100,16 +107,19 @@ void KeyBind::ContextMenu()
 		i++;
 	}
 }
+
 void KeyBind::Copy()
 {
 	KeyBindClipBoard = *KeyBind::Key;
 }
+
 void KeyBind::Paste()
 {
 	*KeyBind::Key = KeyBindClipBoard;
 	KeyBind::ConvertKeyToName();
 	KeyBind::ValueChangeEvent();
 }
+
 void KeyBind::CollectInput()
 {
 	for (int i = 0; i <= 255; i++)
@@ -126,10 +136,10 @@ void KeyBind::CollectInput()
 			KeyBind::LastClick = (clock() * 0.00001f) + 0.002f;
 			KeyBind::ValueChangeEvent();
 			return;
-
 		}
 	}
 }
+
 void KeyBind::Draw()
 {
 	if (!KeyBind::Parent)

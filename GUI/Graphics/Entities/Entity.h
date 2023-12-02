@@ -1,12 +1,11 @@
 #pragma once
 class Entity;
-using condition = std::function< bool() >;
+using condition = std::function<bool()>;
 using child = std::shared_ptr<Entity>;
-using childcontainer = std::vector< child >;
+using childcontainer = std::vector<child>;
 
 class Entity : public std::enable_shared_from_this<Entity>
 {
-
 protected:
 	bool Visible;
 	bool Blocked = false;
@@ -31,13 +30,25 @@ protected:
 	float LastClick = 0;
 
 	// event handlers.
-	std::function< void()> ValueChangeEvent = []() {}; // blank event
+	std::function<void()> ValueChangeEvent = []()
+	{
+	}; // blank event
 public:
 	// This can be overriden by the parent.
-	virtual void Draw() {};
-	virtual void Update() {};
+	virtual void Draw()
+	{
+	};
 
-	virtual childcontainer& GetContainer() { static childcontainer bad{}; return bad; }
+	virtual void Update()
+	{
+	};
+
+	virtual childcontainer& GetContainer()
+	{
+		static childcontainer bad { };
+		return bad;
+	}
+
 	virtual size_t Children() { return 0; }
 
 	virtual Vector2 GetPos() { return Pos; }
@@ -47,12 +58,9 @@ public:
 	virtual Vector2 GetParentSize() { return ParentSize; }
 	virtual std::wstring GetName() { return Name; }
 
-
 	child GetChildRelativeParent();
 	child GetParent();
 	Entity* GetInstance();
-
-
 
 	bool IsVisible();
 
@@ -67,33 +75,32 @@ public:
 	void SetRelativeParent(child parent);
 
 	// event handlers
-	void SetValueChangedEvent(std::function< void()> evnt);
-	std::function< void()> GetValueChangedEvent();
-
+	void SetValueChangedEvent(std::function<void()> evnt);
+	std::function<void()> GetValueChangedEvent();
 
 	friend class Container;
 	friend class Tab;
 	friend class ListBoxTab;
 	friend class GroupBox;
 };
+
 class Container : public Entity
 {
 protected:
 	childcontainer ContainerInstance;
+
 public:
 	virtual child Push(child child)
 	{
-
 		child.get()->Parent = shared_from_this();
 		ContainerInstance.emplace_back(child);
 		return child;
-
 	}
+
 	void Draw();
 	void Update();
 	virtual childcontainer& GetContainer() override { return ContainerInstance; }
 	virtual size_t Children() override { return ContainerInstance.size(); }
-
-
 };
-using EntityVector = std::shared_ptr< Container >;
+
+using EntityVector = std::shared_ptr<Container>;
