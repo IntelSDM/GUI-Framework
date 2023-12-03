@@ -22,6 +22,8 @@ protected:
 	int VisiblePointerEnd;
 	void SetStartIndex();
 
+	bool hide_text = false;
+
 	std::wstring* MainString;
 	std::wstring VisibleString;
 
@@ -49,7 +51,6 @@ protected:
 	void ArrowKeyNavition();
 	void InputText();
 	void DeleteText();
-	void ClearText();
 	void SetSelectionPoint();
 	void SelectionDragging();
 	void CopyText();
@@ -58,7 +59,7 @@ protected:
 	void SetSelection();
 
 public:
-	TextBox(float x, float y, std::wstring text, std::wstring* data);
+	TextBox(float x, float y, std::wstring text, std::wstring* data, bool hide = false);
 	void Update();
 	void Draw();
 	bool IsTabbed;

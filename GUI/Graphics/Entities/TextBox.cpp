@@ -6,7 +6,7 @@
 #include "Graphics.h"
 #include "Animation.h"
 
-TextBox::TextBox(float x, float y, std::wstring text, std::wstring* data = nullptr)
+TextBox::TextBox(float x, float y, std::wstring text, std::wstring* data = nullptr, bool hide)
 {
 	TextBox::Pos = {x, y};
 	TextBox::Size = {160, 20};
@@ -19,6 +19,8 @@ TextBox::TextBox(float x, float y, std::wstring text, std::wstring* data = nullp
 	TextBox::SelectedPoint = VisiblePointerEnd - TextBox::VisiblePointerStart;
 	TextBox::SelectedPosition = GetTextSize(TextBox::MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectedPoint), "Verdana").x;
 	TextBox::ContextSize = {80.0f, 20.0f * (int)TextBox::ContextNames.size()};
+	TextBox::hide_text = hide;
+	TextBox::SetVisible(true);
 }
 
 void TextBox::SetStartIndex()
@@ -154,6 +156,7 @@ void TextBox::InputText()
 			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
 		}
 	}
+	Char = NULL;
 }
 
 void TextBox::DeleteText()
@@ -230,10 +233,10 @@ void TextBox::DeleteText()
 	}
 }
 
-void TextBox::ClearText()
+/*void TextBox::ClearText()
 {
 	Char = NULL;
-}
+}*/
 
 void TextBox::SetSelection()
 {
@@ -622,7 +625,7 @@ void TextBox::Update()
 	TextBox::ArrowKeyNavition();
 	TextBox::InputText();
 	TextBox::DeleteText();
-	TextBox::ClearText();
+	//TextBox::ClearText();
 	TextBox::SetSelectionPoint();
 	TextBox::SetSelection();
 	TextBox::SelectionDragging();
@@ -643,9 +646,20 @@ void TextBox::Update()
 		{
 			TextBox::SelectedPoint = TextBox::VisiblePointerEnd;
 		}
-		TextBox::SelectedPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectedPoint - TextBox::VisiblePointerStart), "Verdana", 11).x;
-		TextBox::SelectingStartPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectionStart - TextBox::VisiblePointerStart), "Verdana", 11).x;
-		TextBox::SelectingEndPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectionEnd - TextBox::VisiblePointerStart), "Verdana", 11).x;
+
+		if (TextBox::hide_text)
+		{
+			std::fill(TextBox::VisibleString.begin(), TextBox::VisibleString.end(), L'*');
+			TextBox::SelectedPosition = GetTextSize(TextBox::VisibleString.substr(TextBox::VisiblePointerStart, TextBox::SelectedPoint - TextBox::VisiblePointerStart), "Verdana", 11).x;
+			TextBox::SelectingStartPosition = GetTextSize(TextBox::VisibleString.substr(TextBox::VisiblePointerStart, TextBox::SelectionStart - TextBox::VisiblePointerStart), "Verdana", 11).x;
+			TextBox::SelectingEndPosition = GetTextSize(TextBox::VisibleString.substr(TextBox::VisiblePointerStart, TextBox::SelectionEnd - TextBox::VisiblePointerStart), "Verdana", 11).x;
+		}
+		else
+		{
+			TextBox::SelectedPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectedPoint - TextBox::VisiblePointerStart), "Verdana", 11).x;
+			TextBox::SelectingStartPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectionStart - TextBox::VisiblePointerStart), "Verdana", 11).x;
+			TextBox::SelectingEndPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectionEnd - TextBox::VisiblePointerStart), "Verdana", 11).x;
+		}
 	}
 }
 
@@ -667,6 +681,8 @@ void TextBox::Draw()
 	FilledRoundedRectangle(TextBox::Pos.x + TextBox::ParentPos.x - 1, TextBox::Pos.y + +TextBox::ParentPos.y - 1, TextBox::Size.x + 2, TextBox::Size.y + 2, 4, rectOutlineColour);
 	FilledRoundedRectangle(TextBox::Pos.x + TextBox::ParentPos.x, TextBox::Pos.y + +TextBox::ParentPos.y, TextBox::Size.x, TextBox::Size.y, 4, rectColour);
 	DrawText(TextBox::ParentPos.x + TextBox::Pos.x, TextBox::ParentPos.y + TextBox::Pos.y - (TextBox::Size.y / 1.5) - 1, TextBox::Name + L":", "Verdana", 11, textColour, None); // Title
+	if (TextBox::hide_text)
+		std::fill(TextBox::VisibleString.begin(), TextBox::VisibleString.end(), L'*');
 	DrawText(TextBox::ParentPos.x + TextBox::Pos.x + 3, (TextBox::ParentPos.y + TextBox::Pos.y) + (TextBox::Size.y / 6), TextBox::VisibleString, "Verdana", 11, textColour, None);
 
 	std::chrono::duration<float> elapsed = std::chrono::high_resolution_clock::now() - TextBox::AnimationStart;
