@@ -643,9 +643,9 @@ void TextBox::Update()
 		{
 			TextBox::SelectedPoint = TextBox::VisiblePointerEnd;
 		}
-		TextBox::SelectedPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectedPoint - TextBox::VisiblePointerStart), "Verdana", 11).x + 5;
-		TextBox::SelectingStartPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectionStart - TextBox::VisiblePointerStart), "Verdana", 11).x;
-		TextBox::SelectingEndPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectionEnd - TextBox::VisiblePointerStart), "Verdana", 11).x;
+		TextBox::SelectedPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectedPoint - TextBox::VisiblePointerStart), "Verdana", 11).x+2;
+		TextBox::SelectingStartPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectionStart - TextBox::VisiblePointerStart), "Verdana", 11).x+3;
+		TextBox::SelectingEndPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectionEnd - TextBox::VisiblePointerStart), "Verdana", 11).x+3;
 	}
 }
 
