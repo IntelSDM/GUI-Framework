@@ -143,7 +143,7 @@ void TextBox::InputText()
 		return;
 	if (TextBox::IsKeyAcceptable())
 	{
-		//	(*TextBox::MainString) += Char;
+		Selecting = false;
 		TextBox::VisiblePointerEnd++;
 		TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x;
 		MainString->insert(TextBox::SelectedPoint, 1, Char);
