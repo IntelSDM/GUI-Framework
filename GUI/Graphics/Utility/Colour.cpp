@@ -164,48 +164,41 @@ D2D1::ColorF HsvToRgb(float hue, int saturation, int value, int alpha)
 	D2D1::ColorF col = Colour(0, 0, 0, 0);
 	if (hue >= 0 && hue < 60)
 	{
-		col.r = static_cast<int>((c + m) * 255);
-		col.g = static_cast<int>((x + m) * 255);
-		col.b = static_cast<int>(m * 255);
+		col.r = c + m;
+		col.g = x + m;
+		col.b = m;
 	}
 	else if (hue >= 60 && hue < 120)
 	{
-		col.r = static_cast<int>((x + m) * 255);
-		col.g = static_cast<int>((c + m) * 255);
-		col.b = static_cast<int>(m * 255);
+		col.r = x + m;
+		col.g = c + m;
+		col.b = m;
 	}
 	else if (hue >= 120 && hue < 180)
 	{
-		col.r = static_cast<int>(m * 255);
-		col.g = static_cast<int>((c + m) * 255);
-		col.b = static_cast<int>((x + m) * 255);
+		col.r = m;
+		col.g = c + m;
+		col.b = x + m;
 	}
 	else if (hue >= 180 && hue < 240)
 	{
-		col.r = static_cast<int>(m * 255);
-		col.g = static_cast<int>((x + m) * 255);
-		col.b = static_cast<int>((c + m) * 255);
+		col.r = m;
+		col.g = x + m;
+		col.b = c + m;
 	}
 	else if (hue >= 240 && hue < 300)
 	{
-		col.r = static_cast<int>((x + m) * 255);
-		col.g = static_cast<int>(m * 255);
-		col.b = static_cast<int>((c + m) * 255);
+		col.r = x + m;
+		col.g = m;
+		col.b = c + m;
 	}
 	else if (hue >= 300 && hue < 360)
 	{
-		col.r = static_cast<int>((c + m) * 255);
-		col.g = static_cast<int>(m * 255);
-		col.b = static_cast<int>((x + m) * 255);
+		col.r = c + m;
+		col.g = m;
+		col.b = x + m;
 	}
-	else
-	{
-		col.r = static_cast<int>(m * 255);
-		col.g = static_cast<int>(m * 255);
-		col.b = static_cast<int>(m * 255);
-	}
-
-	col.a = alpha;
+	col.a = static_cast<float>(alpha) / 255;
 	return col;
 }
 
@@ -233,15 +226,16 @@ HsvColour RgbToHsv(int r, int g, int b)
 			hue = 60.0f * (((rnorm - gnorm) / delta) + 4.0f);
 
 		if (maxcolor != 0.0f)
-			saturation = delta / maxcolor;
+			saturation = std::clamp(delta / maxcolor, 0.0f, 1.0f);
 	}
 
+	// Handle negative hue
 	if (hue < 0.0f)
 		hue += 360.0f;
 
 	HsvColour hsv;
 	hsv.H = hue;
-	hsv.S = static_cast<int>(saturation * 255.0f + 0.5f);
+	hsv.S = static_cast<int>(saturation + 0.5f);
 	hsv.V = value;
 	return hsv;
 }

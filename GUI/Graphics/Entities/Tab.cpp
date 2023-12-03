@@ -9,7 +9,7 @@ Tab::Tab(std::wstring name, float x, float y, int* selectedtab, float width, flo
 	//Calc Size based off the name size
 	Vector2 txtSize = GetTextSize(name, "Verdana", 12);
 	if (width == 0 && height == 0)
-		Tab::Size = txtSize + 10.f;
+		Tab::Size = txtSize;
 	else
 	{
 		//Let's make it impossible to make it smaller than the actual font size.. otherwise it looks so weird lol
