@@ -35,6 +35,7 @@ bool Combo4 = true;
 bool Combo5 = false;
 int Key = 0;
 std::wstring TextBoxText = L"Text Box";
+std::wstring PasswordText = L"Password";
 
 void CreateGUI()
 {
@@ -69,6 +70,8 @@ void CreateGUI()
 			tab->Push(keybind);
 			auto textbox = std::make_shared<TextBox>(10, 255, L"Textbox", &TextBoxText);
 			tab->Push(textbox);
+			auto passwordbox = std::make_shared<TextBox>(250, 255, L"Password", &PasswordText, true);
+			tab->Push(passwordbox);
 		}
 		auto tab1 = std::make_shared<Tab>(L"Tab2", 65, 55, &SelectedTab, 50, 20);
 		{
