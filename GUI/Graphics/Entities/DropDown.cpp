@@ -204,8 +204,16 @@ void DropDown::Draw()
 	if (!DropDown::IsVisible())
 		return;
 
-	OutlineRectangle(DropDown::ParentPos.x + DropDown::Pos.x, DropDown::ParentPos.y + DropDown::Pos.y, DropDown::Size.x + 1, DropDown::Size.y + 1, 1, Colour(130, 130, 130, 255));
-	FilledRectangle(DropDown::ParentPos.x + DropDown::Pos.x, DropDown::ParentPos.y + DropDown::Pos.y, DropDown::Size.x, DropDown::Size.y, Colour(80, 80, 80, 255));
+	MyColour rectColour = MenuColours["DropDown"];
+	MyColour rectOutlineColour = MenuColours["DropDownOutline"];
+	MyColour textColour = MenuColours["Text"];
+	MyColour selectedTextColour = MenuColours["DropDownSelectedText"];
+	MyColour arrowColour = MenuColours["DropDownArrow"];
+	MyColour activeArrowColour = MenuColours["DropDownActiveArrow"];
+	MyColour sliderColour = MenuColours["DropDownSlider"];
+
+	OutlineRectangle(DropDown::ParentPos.x + DropDown::Pos.x, DropDown::ParentPos.y + DropDown::Pos.y, DropDown::Size.x + 1, DropDown::Size.y + 1, 1, rectOutlineColour);
+	FilledRectangle(DropDown::ParentPos.x + DropDown::Pos.x, DropDown::ParentPos.y + DropDown::Pos.y, DropDown::Size.x, DropDown::Size.y, rectColour);
 	float trianglex1 = DropDown::ParentPos.x + DropDown::Pos.x + DropDown::Size.x - 12;
 	float triangley1 = DropDown::ParentPos.y + DropDown::Pos.y + 3;
 	float trianglex2 = DropDown::ParentPos.x + DropDown::Pos.x + DropDown::Size.x - 3;
@@ -213,9 +221,9 @@ void DropDown::Draw()
 	float trianglex3 = DropDown::ParentPos.x + DropDown::Pos.x + DropDown::Size.x - 7;
 	float triangley3 = DropDown::ParentPos.y + DropDown::Pos.y + DropDown::Size.y - 3;
 	if (!DropDown::Active)
-		FilledTriangle(trianglex1, triangley1, trianglex2, triangley2, trianglex3, triangley3, Colour(255, 0, 0, 255));
+		FilledTriangle(trianglex1, triangley1, trianglex2, triangley2, trianglex3, triangley3, arrowColour);
 
-	DrawText(DropDown::ParentPos.x + DropDown::Pos.x + 5, DropDown::ParentPos.y + DropDown::Pos.y + (DropDown::Size.y / 8), DropDown::SelectedName, "Verdana", 11, Colour(240, 240, 240, 255), None);
+	DrawText(DropDown::ParentPos.x + DropDown::Pos.x + 5, DropDown::ParentPos.y + DropDown::Pos.y + (DropDown::Size.y / 8), DropDown::SelectedName, "Verdana", 11, textColour, None);
 
 	if (DropDown::DropWidth < DropDown::Size.x)
 	{
@@ -225,8 +233,8 @@ void DropDown::Draw()
 
 	if (DropDown::Active)
 	{
-		OutlineRectangle(DropDown::ParentPos.x + DropDown::Pos.x - (DropDown::SizeDifference / 2), DropDown::ParentPos.y + DropDown::Pos.y + DropDown::Size.y + 5, DropDown::DropWidth + 1, (DropDown::PointerEnd - DropDown::PointerStart) * DropDown::Size.y + 1, 1, Colour(130, 130, 130, 255));
-		FilledRectangle(DropDown::ParentPos.x + DropDown::Pos.x - (DropDown::SizeDifference / 2), DropDown::ParentPos.y + DropDown::Pos.y + DropDown::Size.y + 5, DropDown::DropWidth, (DropDown::PointerEnd - DropDown::PointerStart) * DropDown::Size.y, Colour(80, 80, 80, 255));
+		OutlineRectangle(DropDown::ParentPos.x + DropDown::Pos.x - (DropDown::SizeDifference / 2), DropDown::ParentPos.y + DropDown::Pos.y + DropDown::Size.y + 5, DropDown::DropWidth + 1, (DropDown::PointerEnd - DropDown::PointerStart) * DropDown::Size.y + 1, 1, rectOutlineColour);
+		FilledRectangle(DropDown::ParentPos.x + DropDown::Pos.x - (DropDown::SizeDifference / 2), DropDown::ParentPos.y + DropDown::Pos.y + DropDown::Size.y + 5, DropDown::DropWidth, (DropDown::PointerEnd - DropDown::PointerStart) * DropDown::Size.y, rectColour);
 
 		int i = 0;
 		for (const std::wstring& name : DropDown::Names)
@@ -244,21 +252,21 @@ void DropDown::Draw()
 			float itemposy = DropDown::ParentPos.y + DropDown::Pos.y + DropDown::Size.y + 5 + ((i - DropDown::PointerStart) * DropDown::Size.y);
 			if (IsMouseInRectangle(DropDown::ParentPos.x + DropDown::Pos.x - (DropDown::SizeDifference / 2), itemposy, DropDown::DropWidth, DropDown::Size.y))
 			{
-				FilledRectangle(DropDown::ParentPos.x + DropDown::Pos.x - (DropDown::SizeDifference / 2), itemposy, DropDown::DropWidth, DropDown::Size.y, Colour(150, 150, 150, 120));
+				FilledRectangle(DropDown::ParentPos.x + DropDown::Pos.x - (DropDown::SizeDifference / 2), itemposy, DropDown::DropWidth, DropDown::Size.y, activeArrowColour);
 			}
 			if (i == *DropDown::Index)
-				DrawText(DropDown::ParentPos.x + DropDown::Pos.x + 5 - (DropDown::SizeDifference / 2), itemposy + (DropDown::Size.y / 8), name, "Verdana", 11, Colour(255, 0, 0, 255), None);
+				DrawText(DropDown::ParentPos.x + DropDown::Pos.x + 5 - (DropDown::SizeDifference / 2), itemposy + (DropDown::Size.y / 8), name, "Verdana", 11, selectedTextColour, None);
 			else
-				DrawText(DropDown::ParentPos.x + DropDown::Pos.x + 5 - (DropDown::SizeDifference / 2), itemposy + (DropDown::Size.y / 8), name, "Verdana", 11, Colour(240, 240, 240, 255), None);
+				DrawText(DropDown::ParentPos.x + DropDown::Pos.x + 5 - (DropDown::SizeDifference / 2), itemposy + (DropDown::Size.y / 8), name, "Verdana", 11, textColour, None);
 			i++;
 		}
-		OutlineRectangle(DropDown::ParentPos.x + DropDown::Pos.x + DropDown::Size.x + (DropDown::SizeDifference / 2), DropDown::ParentPos.y + DropDown::Pos.y + DropDown::Size.y + 5, 6, (DropDown::PointerEnd - DropDown::PointerStart) * DropDown::Size.y + 1, 1, Colour(130, 130, 130, 255));
+		OutlineRectangle(DropDown::ParentPos.x + DropDown::Pos.x + DropDown::Size.x + (DropDown::SizeDifference / 2), DropDown::ParentPos.y + DropDown::Pos.y + DropDown::Size.y + 5, 6, (DropDown::PointerEnd - DropDown::PointerStart) * DropDown::Size.y + 1, 1, rectOutlineColour);
 		int unselectedelements = Names.size() - MaxVisibleItems;
 		float unselectedclamp = std::clamp(unselectedelements, 1, (int)Names.size());
 		float scrollheight = ((DropDown::PointerEnd - DropDown::PointerStart) * DropDown::Size.y) / (unselectedclamp);
 		float scrolly = DropDown::ParentPos.y + DropDown::Pos.y + DropDown::Size.y + 5 + (((PointerEnd - MaxVisibleItems) * Size.y));
 		float scrollyclamp = std::clamp(scrolly, DropDown::ParentPos.y + DropDown::Pos.y + DropDown::Size.y + 5, DropDown::ParentPos.y + DropDown::Pos.y + DropDown::Size.y + 5 + ((DropDown::PointerEnd - DropDown::PointerStart) * DropDown::Size.y) - scrollheight);
 
-		FilledRectangle(DropDown::ParentPos.x + DropDown::Pos.x + DropDown::Size.x + (DropDown::SizeDifference / 2), scrollyclamp, 5, scrollheight, Colour(255, 0, 0, 255));
+		FilledRectangle(DropDown::ParentPos.x + DropDown::Pos.x + DropDown::Size.x + (DropDown::SizeDifference / 2), scrollyclamp, 5, scrollheight, sliderColour);
 	}
 }

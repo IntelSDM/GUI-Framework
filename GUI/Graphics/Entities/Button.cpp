@@ -44,10 +44,21 @@ void Button::Draw()
 	if (!Button::IsVisible())
 		return;
 
-	//Calc Text size
+	MyColour rectColour = MenuColours["Button"];
+	MyColour rectOutlineColour = MenuColours["ButtonOutline"];
+	MyColour textColour = MenuColours["Text"];
 
-	OutlineRectangle(ParentPos.x + Pos.x, ParentPos.y + Pos.y, Size.x + 1, Size.y + 1, 1, Colour(80, 80, 80, 255));
-	FilledRectangle(ParentPos.x + Button::Pos.x, ParentPos.y + Button::Pos.y, Button::Size.x, Button::Size.y, Colour(130, 130, 130, 255));
+	//if is hovering color
+	if (IsMouseInRectangle(Button::Pos + ParentPos, Button::Size))
+	{
+		rectColour = MenuColours["ButtonHover"];
+		if (IsKeyDown(VK_LBUTTON))
+		{
+			rectColour = MenuColours["ButtonActive"];
+		}
+	}
 
-	DrawText(ParentPos.x + Button::Pos.x + (Button::Size.x / 2), ParentPos.y + Button::Pos.y + (Button::Size.y / 2), Button::Name, "Verdana", 12, Colour(240, 240, 240, 255), CentreCentre);
+	OutlineRectangle(ParentPos.x + Pos.x, ParentPos.y + Pos.y, Size.x + 1, Size.y + 1, 1, rectColour);
+	FilledRectangle(ParentPos.x + Button::Pos.x, ParentPos.y + Button::Pos.y, Button::Size.x, Button::Size.y, rectOutlineColour);
+	DrawText(ParentPos.x + Button::Pos.x + (Button::Size.x / 2), ParentPos.y + Button::Pos.y + (Button::Size.y / 2), Button::Name, "Verdana", 12, textColour, CentreCentre);
 }

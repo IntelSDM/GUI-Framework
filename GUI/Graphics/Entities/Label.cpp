@@ -23,5 +23,8 @@ void Label::Draw()
 		Label::SetVisible(false);
 	if (!Label::IsVisible())
 		return;
-	DrawText(Label::ParentPos.x + Label::Pos.x, Label::ParentPos.y + Label::Pos.y, Label::Name, "Verdana", 12, Colour(255, 255, 255, 255), None);
+
+	MyColour textColour = MenuColours["Text"];
+
+	DrawText(Label::ParentPos.x + Label::Pos.x, Label::ParentPos.y + Label::Pos.y, Label::Name, "Verdana", 12, textColour, None);
 }

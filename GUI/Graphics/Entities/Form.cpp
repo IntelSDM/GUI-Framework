@@ -112,6 +112,12 @@ void Form::Draw()
 		return;
 	if (!MenuOpen)
 		return;
+
+	MyColour textColour = MenuColours["Text"];
+	MyColour rectColour = MenuColours["Background"];
+	MyColour rectOutlineColour = MenuColours["Outline"];
+	MyColour rectHeaderColour = MenuColours["Header"];
+
 	// when someone clicks into a form it will prioritize the drawing of the form.
 	if (IsMouseInRectangle(Form::Pos, Form::Size) && IsKeyClicked(VK_LBUTTON))
 	{
@@ -122,10 +128,10 @@ void Form::Draw()
 	if (IsMouseInTriangle(StretchPoint1, StretchPoint2, StretchPoint3) && Form::CanStretch)
 		SetCurrentCursor("Corner Drag");
 
-	OutlineRectangle((Form::Pos.x - Form::Border.x / 2) + 1, (Form::Pos.y - Form::Border.x / 2) + 1, Form::Size.x + Form::Border.x - 1, Form::Size.y + Form::Border.x - 1, 1, Colour(140, 140, 140, 255)); // Draw Border
-	FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Size.y, Colour(40, 40, 40, 255));
-	FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Border.y, Colour(30, 30, 30, 255)); // header
-	DrawText(Form::Pos.x + 5, Form::Pos.y + 5, Form::Name, "Verdana", 12, Colour(255, 255, 255, 255), None);
+	OutlineRectangle((Form::Pos.x - Form::Border.x / 2) + 1, (Form::Pos.y - Form::Border.x / 2) + 1, Form::Size.x + Form::Border.x - 1, Form::Size.y + Form::Border.x - 1, 1, rectOutlineColour); // Draw Border
+	FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Size.y, rectColour);
+	FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Border.y, rectHeaderColour); // header
+	DrawText(Form::Pos.x + 5, Form::Pos.y + 5, Form::Name, "Verdana", 12, textColour, None);
 
 	Container::Draw();
 }

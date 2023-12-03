@@ -147,23 +147,28 @@ void KeyBind::Draw()
 	if (!KeyBind::IsVisible())
 		return;
 
-	OutlineRectangle(ParentPos.x + Pos.x, ParentPos.y + Pos.y, Size.x + 1, Size.y + 1, 1, Colour(130, 130, 130, 255));
-	FilledRectangle(ParentPos.x + KeyBind::Pos.x, ParentPos.y + KeyBind::Pos.y, KeyBind::Size.x, KeyBind::Size.y, Colour(80, 80, 80, 255));
-	DrawText(ParentPos.x + KeyBind::Pos.x, ParentPos.y + KeyBind::Pos.y - KeyBind::Size.y, KeyBind::Name, "Verdana", 12, Colour(240, 240, 240, 255), None);
-	DrawText(ParentPos.x + KeyBind::Pos.x + (KeyBind::Size.x / 2), ParentPos.y + KeyBind::Pos.y + (KeyBind::Size.y / 2), KeyName, "Verdana", 10, Colour(240, 240, 240, 255), CentreCentre);
+	MyColour rectColour = MenuColours["Keybind"];
+	MyColour rectHoverColour = MenuColours["KeybindHover"];
+	MyColour rectOutlineColour = MenuColours["KeybindOutline"];
+	MyColour textColour = MenuColours["Text"];
+
+	OutlineRectangle(ParentPos.x + Pos.x, ParentPos.y + Pos.y, Size.x + 1, Size.y + 1, 1, rectOutlineColour);
+	FilledRectangle(ParentPos.x + KeyBind::Pos.x, ParentPos.y + KeyBind::Pos.y, KeyBind::Size.x, KeyBind::Size.y, rectColour);
+	DrawText(ParentPos.x + KeyBind::Pos.x, ParentPos.y + KeyBind::Pos.y - KeyBind::Size.y, KeyBind::Name, "Verdana", 12, textColour, None);
+	DrawText(ParentPos.x + KeyBind::Pos.x + (KeyBind::Size.x / 2), ParentPos.y + KeyBind::Pos.y + (KeyBind::Size.y / 2), KeyName, "Verdana", 10, textColour, CentreCentre);
 	if (KeyBind::ContextActive)
 	{
-		OutlineRectangle(KeyBind::ContextPos.x, KeyBind::ContextPos.y, KeyBind::ContextSize.x, KeyBind::ContextSize.y, 1, Colour(255, 255, 255, 255));
-		FilledRectangle(KeyBind::ContextPos.x, KeyBind::ContextPos.y, KeyBind::ContextSize.x, KeyBind::ContextSize.y, Colour(80, 80, 80, 255));
+		OutlineRectangle(KeyBind::ContextPos.x, KeyBind::ContextPos.y, KeyBind::ContextSize.x, KeyBind::ContextSize.y, 1, textColour);
+		FilledRectangle(KeyBind::ContextPos.x, KeyBind::ContextPos.y, KeyBind::ContextSize.x, KeyBind::ContextSize.y, rectColour);
 		int i = 0;
 		for (auto pair : KeyBind::ContextNames)
 		{
 			if (i != 0)
-				FilledLine(KeyBind::ContextPos.x, KeyBind::ContextPos.y + i * 20, KeyBind::ContextPos.x + KeyBind::ContextSize.x, KeyBind::ContextPos.y + i * 20, 1.0f, Colour(255, 255, 255, 255));
+				FilledLine(KeyBind::ContextPos.x, KeyBind::ContextPos.y + i * 20, KeyBind::ContextPos.x + KeyBind::ContextSize.x, KeyBind::ContextPos.y + i * 20, 1.0f, textColour);
 
 			if (IsMouseInRectangle(KeyBind::ContextPos.x, KeyBind::ContextPos.y + (i * 20), KeyBind::ContextSize.x, 20))
-				FilledRectangle(KeyBind::ContextPos.x, KeyBind::ContextPos.y + (i * 20), KeyBind::ContextSize.x, 20, Colour(120, 120, 120, 255));
-			DrawText(KeyBind::ContextPos.x + (KeyBind::ContextSize.x / 2), KeyBind::ContextPos.y + (i * 20) + 10, pair.first, "Verdana", 11, Colour(255, 255, 255, 255), CentreCentre);
+				FilledRectangle(KeyBind::ContextPos.x, KeyBind::ContextPos.y + (i * 20), KeyBind::ContextSize.x, 20, rectHoverColour);
+			DrawText(KeyBind::ContextPos.x + (KeyBind::ContextSize.x / 2), KeyBind::ContextPos.y + (i * 20) + 10, pair.first, "Verdana", 11, textColour, CentreCentre);
 
 			i++;
 		}

@@ -1,6 +1,61 @@
 #include "pch.h"
 #include "Colour.h"
 
+std::map<std::string, MyColour> MenuColours =
+{
+	/*Main Form colors*/
+	{"Background", MyColour(40, 40, 40, 255)},
+	{"Outline", MyColour(140, 140, 140, 255)},
+	{"Header", MyColour(30, 30, 30, 255)},
+	{"Text", MyColour(240, 240, 240, 255)},
+
+	{"Button", MyColour(80, 80, 80, 255)},
+	{"ButtonHover", MyColour(100, 100, 100, 255)},
+	{"ButtonActive", MyColour(120, 120, 120, 255)},
+	{"ButtonOutline", MyColour(130, 130, 130, 255)},
+
+	{"ComboBox", MyColour(80, 80, 80, 255)},
+	{"ComboBoxHover", MyColour(150, 150, 150, 120)},
+	{"ComboBoxOutline", MyColour(130, 130, 130, 255)},
+	{"ComboBoxSelectedText", MyColour(255, 0, 0, 255)},
+	{"ComboBoxDropDown", MyColour(150, 150, 150, 120)},
+	{"ComboBoxSlider", MyColour(255, 0, 0, 255)},
+
+	{"DropDown", MyColour(80, 80, 80, 255)},
+	{"DropDownOutline", MyColour(130, 130, 130, 255)},
+	{"DropDownSelectedText", MyColour(255, 0, 0, 255)},
+	{"DropDownArrow", MyColour(255, 0, 0, 255)},
+	{"DropDownActiveArrow", MyColour(150, 150, 150, 120)},
+	{"DropDownSlider", MyColour(255, 0, 0, 255)},
+
+	{"Keybind", MyColour(80, 80, 80, 255)},
+	{"KeybindHover", MyColour(120, 120, 120, 255)},
+	{"KeybindOutline", MyColour(130, 130, 130, 255)},
+
+	{"Slider", MyColour(80, 80, 80, 255)},
+	//{"SliderHover", MyColour(100, 100, 100, 255)},
+	//{"SliderActive", MyColour(120, 120, 120, 255)},
+	{"SliderInside", MyColour(255, 0, 0, 255)},
+
+	{"Tab", MyColour(80, 80, 80, 255)},
+	{"TabHover", MyColour(100, 100, 100, 255)},
+	{"TabActive", MyColour(120, 120, 120, 255)},
+
+	{"TextBox", MyColour(80, 80, 80, 255)},
+	{"TextBoxOutline", MyColour(200, 200, 200, 255)},
+	{"TextBoxHighlight", MyColour(0, 150, 255, 100)},
+	{"TextBoxCurrent", MyColour(255, 255, 255, 255)}, // The current location of your cursor in the input box.
+	{"TextBoxContextOutline", MyColour(120, 120, 120, 255)},
+	{"TextBoxContextFirstLine", MyColour(255, 255, 255, 255)}, // First line that happens of the context menu
+
+	{"Toggle", MyColour(80, 80, 80, 255)},
+	{"ToggleOutline", MyColour(130, 130, 130, 255)},
+	{"ToggleInside", MyColour(255, 0, 0, 255)},
+	//{"CheckboxHover", MyColour(100, 100, 100, 255)},
+	//{"CheckboxActive", MyColour(120, 120, 120, 255)},
+
+};
+
 D2D1::ColorF Colour(UINT8 R, UINT8 G, UINT8 B, UINT8 A)
 {
 	return D2D1::ColorF(static_cast<float>(R) / 255.0f, static_cast<float>(G) / 255.0f, static_cast<float>(B) / 255.0f, static_cast<float>(A) / 255.0f);
@@ -189,4 +244,9 @@ HsvColour RgbToHsv(int r, int g, int b)
 	hsv.S = static_cast<int>(saturation * 255.0f + 0.5f);
 	hsv.V = value;
 	return hsv;
+}
+
+void SetColour(std::string name, D2D1::ColorF col)
+{
+	MenuColours[name] = MyColour(col);
 }

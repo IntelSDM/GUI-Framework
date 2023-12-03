@@ -21,9 +21,19 @@ Vector2 Vector2::operator*(Vector2 a)
 	return Vector2(x * a.x, y * a.y);
 }
 
+Vector2 Vector2::operator*(float f)
+{
+	return Vector2(x * f, y * f);
+}
+
 Vector2 Vector2::operator/(Vector2 a)
 {
 	return Vector2(x / a.x, y / a.y);
+}
+
+Vector2 Vector2::operator/(float f)
+{
+	return Vector2(x / f, y / f);
 }
 
 Vector2 Vector2::operator+(Vector2 a)
@@ -31,9 +41,19 @@ Vector2 Vector2::operator+(Vector2 a)
 	return Vector2(x + a.x, y + a.y);
 }
 
+Vector2 Vector2::operator+(float f)
+{
+	return Vector2(x + f, y + f);
+}
+
 Vector2 Vector2::operator-(Vector2 a)
 {
 	return Vector2(x - a.x, y - a.y);
+}
+
+Vector2 Vector2::operator-(float f)
+{
+	return Vector2(x - f, y - f);
 }
 
 bool Vector2::operator==(Vector2 a)

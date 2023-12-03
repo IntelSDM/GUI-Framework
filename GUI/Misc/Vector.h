@@ -9,9 +9,13 @@ public:
 	float x, y;
 
 	Vector2 operator *(Vector2 a);
+	Vector2 operator *(float f);
 	Vector2 operator /(Vector2 a);
+	Vector2 operator /(float f);
 	Vector2 operator +(Vector2 a);
+	Vector2 operator +(float f);
 	Vector2 operator -(Vector2 a);
+	Vector2 operator -(float f);
 	bool operator ==(Vector2 a);
 	bool operator !=(Vector2 a);
 

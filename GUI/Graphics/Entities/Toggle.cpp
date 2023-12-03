@@ -48,10 +48,15 @@ void Toggle::Draw()
 	if (!Toggle::IsVisible())
 		return;
 
-	OutlineRectangle(ParentPos.x + Pos.x, ParentPos.y + Pos.y, Size.x + 1, Size.y + 1, 1, Colour(130, 130, 130, 255));
-	FilledRectangle(ParentPos.x + Pos.x, ParentPos.y + Pos.y, Size.x, Size.y, Colour(80, 80, 80, 255));
-	if (*Toggle::Data == true)
-		FilledRectangle(ParentPos.x + Pos.x + 1, ParentPos.y + Pos.y + 1, Size.x - 2, Size.y - 2, Colour(255, 0, 0, 255));
+	MyColour rectColour = MenuColours["Toggle"];
+	MyColour rectOutlineColour = MenuColours["ToggleOutline"];
+	MyColour activeColour = MenuColours["ToggleInside"];
+	MyColour textColour = MenuColours["Text"];
 
-	DrawText(Toggle::ParentPos.x + Toggle::Pos.x + (Toggle::Size.x) + 3, Toggle::ParentPos.y + Toggle::Pos.y - (Toggle::Size.y / 8), Toggle::Name, "Verdana", 12, Colour(255, 255, 255, 255), None);
+	OutlineRectangle(ParentPos.x + Pos.x, ParentPos.y + Pos.y, Size.x + 1, Size.y + 1, 1, rectOutlineColour);
+	FilledRectangle(ParentPos.x + Pos.x, ParentPos.y + Pos.y, Size.x, Size.y, rectColour);
+	if (*Toggle::Data == true)
+		FilledRectangle(ParentPos.x + Pos.x + 1, ParentPos.y + Pos.y + 1, Size.x - 2, Size.y - 2, activeColour);
+
+	DrawText(Toggle::ParentPos.x + Toggle::Pos.x + (Toggle::Size.x) + 3, Toggle::ParentPos.y + Toggle::Pos.y - (Toggle::Size.y / 8), Toggle::Name, "Verdana", 12, textColour, None);
 }

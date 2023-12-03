@@ -21,7 +21,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	HWND hWnd;
 	WNDCLASSEX wc;
-
+	AllocConsole();
+	FILE* fDummy;
+	freopen_s(&fDummy, "CONIN$", "r", stdin);
+	freopen_s(&fDummy, "CONOUT$", "w", stderr);
+	freopen_s(&fDummy, "CONOUT$", "w", stdout);
+	printf("Debugging Window:\n");
 	ZeroMemory(&wc, sizeof(WNDCLASSEX));
 
 	wc.cbSize = sizeof(WNDCLASSEX);
@@ -38,6 +43,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);
 	hWnd = CreateWindowEx(WS_EX_LAYERED, wc.lpszClassName, L"GUI Framework", WS_OVERLAPPEDWINDOW, 0, 0, wr.right - wr.left, wr.bottom - wr.top, NULL, NULL, hInstance, NULL);
 	SetLayeredWindowAttributes(hWnd, RGB(0, 0, 0), 255, LWA_ALPHA);
+
 	Hwnd = hWnd;
 	ShowWindow(hWnd, nCmdShow);
 

@@ -243,8 +243,16 @@ void ComboBox::Draw()
 	if (!ComboBox::IsVisible())
 		return;
 
-	OutlineRectangle(ComboBox::ParentPos.x + ComboBox::Pos.x, ComboBox::ParentPos.y + ComboBox::Pos.y, ComboBox::Size.x + 1, ComboBox::Size.y + 1, 1, Colour(130, 130, 130, 255));
-	FilledRectangle(ComboBox::ParentPos.x + ComboBox::Pos.x, ComboBox::ParentPos.y + ComboBox::Pos.y, ComboBox::Size.x, ComboBox::Size.y, Colour(80, 80, 80, 255));
+	MyColour rectColour = MenuColours["ComboBox"];
+	MyColour rectHoverColour = MenuColours["ComboBoxHover"];
+	MyColour rectOutlineColour = MenuColours["ComboBoxOutline"];
+	MyColour textColour = MenuColours["Text"];
+	MyColour selectedTextColour = MenuColours["ComboBoxSelectedText"];
+	MyColour dropdownColour = MenuColours["ComboBoxDropDown"];
+	MyColour sliderColour = MenuColours["ComboBoxSlider"];
+
+	OutlineRectangle(ComboBox::ParentPos.x + ComboBox::Pos.x, ComboBox::ParentPos.y + ComboBox::Pos.y, ComboBox::Size.x + 1, ComboBox::Size.y + 1, 1, rectOutlineColour);
+	FilledRectangle(ComboBox::ParentPos.x + ComboBox::Pos.x, ComboBox::ParentPos.y + ComboBox::Pos.y, ComboBox::Size.x, ComboBox::Size.y, rectColour);
 	float trianglex1 = ComboBox::ParentPos.x + ComboBox::Pos.x + ComboBox::Size.x - 12;
 	float triangley1 = ComboBox::ParentPos.y + ComboBox::Pos.y + 3;
 	float trianglex2 = ComboBox::ParentPos.x + ComboBox::Pos.x + ComboBox::Size.x - 3;
@@ -253,9 +261,9 @@ void ComboBox::Draw()
 	float triangley3 = ComboBox::ParentPos.y + ComboBox::Pos.y + ComboBox::Size.y - 3;
 
 	if (!ComboBox::Active)
-		FilledTriangle(trianglex1, triangley1, trianglex2, triangley2, trianglex3, triangley3, Colour(255, 0, 0, 255));
+		FilledTriangle(trianglex1, triangley1, trianglex2, triangley2, trianglex3, triangley3, dropdownColour);
 
-	DrawText(ComboBox::ParentPos.x + ComboBox::Pos.x + 5, ComboBox::ParentPos.y + ComboBox::Pos.y + (ComboBox::Size.y / 8), ComboBox::SelectedName, "Verdana", 11, Colour(240, 240, 240, 255), None);
+	DrawText(ComboBox::ParentPos.x + ComboBox::Pos.x + 5, ComboBox::ParentPos.y + ComboBox::Pos.y + (ComboBox::Size.y / 8), ComboBox::SelectedName, "Verdana", 11, textColour, None);
 
 	if (ComboBox::DropWidth < ComboBox::Size.x)
 	{
@@ -265,8 +273,8 @@ void ComboBox::Draw()
 
 	if (ComboBox::Active)
 	{
-		OutlineRectangle(ComboBox::ParentPos.x + ComboBox::Pos.x - (ComboBox::SizeDifference / 2), ComboBox::ParentPos.y + ComboBox::Pos.y + ComboBox::Size.y + 5, ComboBox::DropWidth + 1, (ComboBox::PointerEnd - ComboBox::PointerStart) * ComboBox::Size.y + 1, 1, Colour(130, 130, 130, 255));
-		FilledRectangle(ComboBox::ParentPos.x + ComboBox::Pos.x - (ComboBox::SizeDifference / 2), ComboBox::ParentPos.y + ComboBox::Pos.y + ComboBox::Size.y + 5, ComboBox::DropWidth, (ComboBox::PointerEnd - ComboBox::PointerStart) * ComboBox::Size.y, Colour(80, 80, 80, 255));
+		OutlineRectangle(ComboBox::ParentPos.x + ComboBox::Pos.x - (ComboBox::SizeDifference / 2), ComboBox::ParentPos.y + ComboBox::Pos.y + ComboBox::Size.y + 5, ComboBox::DropWidth + 1, (ComboBox::PointerEnd - ComboBox::PointerStart) * ComboBox::Size.y + 1, 1, rectOutlineColour);
+		FilledRectangle(ComboBox::ParentPos.x + ComboBox::Pos.x - (ComboBox::SizeDifference / 2), ComboBox::ParentPos.y + ComboBox::Pos.y + ComboBox::Size.y + 5, ComboBox::DropWidth, (ComboBox::PointerEnd - ComboBox::PointerStart) * ComboBox::Size.y, rectColour);
 
 		int i = 0;
 		for (const std::wstring& name : ComboBox::Names)
@@ -284,25 +292,25 @@ void ComboBox::Draw()
 			float itemposy = ComboBox::ParentPos.y + ComboBox::Pos.y + ComboBox::Size.y + 5 + ((i - ComboBox::PointerStart) * ComboBox::Size.y);
 			if (IsMouseInRectangle(ComboBox::ParentPos.x + ComboBox::Pos.x - (ComboBox::SizeDifference / 2), itemposy, ComboBox::DropWidth, ComboBox::Size.y))
 			{
-				FilledRectangle(ComboBox::ParentPos.x + ComboBox::Pos.x - (ComboBox::SizeDifference / 2), itemposy, ComboBox::DropWidth, ComboBox::Size.y, Colour(150, 150, 150, 120));
+				FilledRectangle(ComboBox::ParentPos.x + ComboBox::Pos.x - (ComboBox::SizeDifference / 2), itemposy, ComboBox::DropWidth, ComboBox::Size.y, rectHoverColour);
 			}
 
 			auto it = ComboBox::Items.begin();
 			std::advance(it, i);
 
 			if (**it == true)
-				DrawText(ComboBox::ParentPos.x + ComboBox::Pos.x + 5 - (ComboBox::SizeDifference / 2), itemposy + (ComboBox::Size.y / 8), name, "Verdana", 11, Colour(255, 0, 0, 255), None);
+				DrawText(ComboBox::ParentPos.x + ComboBox::Pos.x + 5 - (ComboBox::SizeDifference / 2), itemposy + (ComboBox::Size.y / 8), name, "Verdana", 11, selectedTextColour, None);
 			else
-				DrawText(ComboBox::ParentPos.x + ComboBox::Pos.x + 5 - (ComboBox::SizeDifference / 2), itemposy + (ComboBox::Size.y / 8), name, "Verdana", 11, Colour(240, 240, 240, 255), None);
+				DrawText(ComboBox::ParentPos.x + ComboBox::Pos.x + 5 - (ComboBox::SizeDifference / 2), itemposy + (ComboBox::Size.y / 8), name, "Verdana", 11, textColour, None);
 			i++;
 		}
-		OutlineRectangle(ComboBox::ParentPos.x + ComboBox::Pos.x + ComboBox::Size.x + (ComboBox::SizeDifference / 2), ComboBox::ParentPos.y + ComboBox::Pos.y + ComboBox::Size.y + 5, 6, (ComboBox::PointerEnd - ComboBox::PointerStart) * ComboBox::Size.y + 1, 1, Colour(130, 130, 130, 255));
+		OutlineRectangle(ComboBox::ParentPos.x + ComboBox::Pos.x + ComboBox::Size.x + (ComboBox::SizeDifference / 2), ComboBox::ParentPos.y + ComboBox::Pos.y + ComboBox::Size.y + 5, 6, (ComboBox::PointerEnd - ComboBox::PointerStart) * ComboBox::Size.y + 1, 1, rectOutlineColour);
 		int unselectedelements = Names.size() - MaxVisibleItems;
 		float unselectedclamp = std::clamp(unselectedelements, 1, (int)Names.size());
 		float scrollheight = ((ComboBox::PointerEnd - ComboBox::PointerStart) * ComboBox::Size.y) / (unselectedclamp);
 		float scrolly = ComboBox::ParentPos.y + ComboBox::Pos.y + ComboBox::Size.y + 5 + (((PointerEnd - MaxVisibleItems) * Size.y));
 		float scrollyclamp = std::clamp(scrolly, ComboBox::ParentPos.y + ComboBox::Pos.y + ComboBox::Size.y + 5, ComboBox::ParentPos.y + ComboBox::Pos.y + ComboBox::Size.y + 5 + ((ComboBox::PointerEnd - ComboBox::PointerStart) * ComboBox::Size.y) - scrollheight);
-
-		FilledRectangle(ComboBox::ParentPos.x + ComboBox::Pos.x + ComboBox::Size.x + (ComboBox::SizeDifference / 2), scrollyclamp, 5, scrollheight, Colour(255, 0, 0, 255));
+		//Slider (:
+		FilledRectangle(ComboBox::ParentPos.x + ComboBox::Pos.x + ComboBox::Size.x + (ComboBox::SizeDifference / 2), scrollyclamp, 5, scrollheight, sliderColour);
 	}
 }

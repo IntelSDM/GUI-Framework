@@ -17,12 +17,7 @@ void InitD2D(HWND hWnd)
 	if (!SUCCEEDED(result))
 		return;
 
-	result = DWriteCreateFactory(
-		DWRITE_FACTORY_TYPE_ISOLATED,
-		__uuidof(IDWriteFactory),
-		reinterpret_cast<IUnknown**>(&FontFactory)
-	);
-
+	result = DWriteCreateFactory(DWRITE_FACTORY_TYPE_ISOLATED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&FontFactory));
 	if (!SUCCEEDED(result))
 		return;
 

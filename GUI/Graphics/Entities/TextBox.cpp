@@ -656,10 +656,18 @@ void TextBox::Draw()
 	if (!TextBox::IsVisible())
 		return;
 
-	FilledRoundedRectangle(TextBox::Pos.x + TextBox::ParentPos.x - 1, TextBox::Pos.y + +TextBox::ParentPos.y - 1, TextBox::Size.x + 2, TextBox::Size.y + 2, 4, Colour(200, 200, 200, 255));
-	FilledRoundedRectangle(TextBox::Pos.x + TextBox::ParentPos.x, TextBox::Pos.y + +TextBox::ParentPos.y, TextBox::Size.x, TextBox::Size.y, 4, Colour(80, 80, 80, 255));
-	DrawText(TextBox::ParentPos.x + TextBox::Pos.x, TextBox::ParentPos.y + TextBox::Pos.y - (TextBox::Size.y / 1.5) - 1, TextBox::Name + L":", "Verdana", 11, Colour(255, 255, 255, 255), None); // Title
-	DrawText(TextBox::ParentPos.x + TextBox::Pos.x + 3, (TextBox::ParentPos.y + TextBox::Pos.y) + (TextBox::Size.y / 6), TextBox::VisibleString, "Verdana", 11, Colour(255, 255, 255, 255), None);
+	MyColour rectColour = MenuColours["TextBox"];
+	MyColour rectOutlineColour = MenuColours["TextBoxOutline"];
+	MyColour textColour = MenuColours["Text"];
+	MyColour highlightColour = MenuColours["TextBoxHighlight"];
+	MyColour currentLocColour = MenuColours["TextBoxCurrent"];
+	MyColour contextOutlineColour = MenuColours["TextBoxContextOutline"];
+	MyColour contextLineColour = MenuColours["TextBoxContextFirstLine"];
+
+	FilledRoundedRectangle(TextBox::Pos.x + TextBox::ParentPos.x - 1, TextBox::Pos.y + +TextBox::ParentPos.y - 1, TextBox::Size.x + 2, TextBox::Size.y + 2, 4, rectOutlineColour);
+	FilledRoundedRectangle(TextBox::Pos.x + TextBox::ParentPos.x, TextBox::Pos.y + +TextBox::ParentPos.y, TextBox::Size.x, TextBox::Size.y, 4, rectColour);
+	DrawText(TextBox::ParentPos.x + TextBox::Pos.x, TextBox::ParentPos.y + TextBox::Pos.y - (TextBox::Size.y / 1.5) - 1, TextBox::Name + L":", "Verdana", 11, textColour, None); // Title
+	DrawText(TextBox::ParentPos.x + TextBox::Pos.x + 3, (TextBox::ParentPos.y + TextBox::Pos.y) + (TextBox::Size.y / 6), TextBox::VisibleString, "Verdana", 11, textColour, None);
 
 	std::chrono::duration<float> elapsed = std::chrono::high_resolution_clock::now() - TextBox::AnimationStart;
 	float time = std::fmodf(elapsed.count(), TextBox::AnimationInterval) / TextBox::AnimationInterval;
@@ -667,26 +675,27 @@ void TextBox::Draw()
 	if (TextBox::Active && std::fmod(elapsed.count(), TextBox::AnimationInterval) < TextBox::AnimationInterval / 2)
 	{
 		float alpha = 255.0f * (1.0f - easedtime * 2.0f);
-		FilledLine(TextBox::Pos.x + TextBox::ParentPos.x + TextBox::SelectedPosition, TextBox::Pos.y + TextBox::ParentPos.y + TextBox::Size.y - 3, TextBox::Pos.x + TextBox::ParentPos.x + TextBox::SelectedPosition, TextBox::Pos.y + TextBox::ParentPos.y + 3, 1, Colour(255, 255, 255, static_cast<unsigned int>(alpha)));
+		FilledLine(TextBox::Pos.x + TextBox::ParentPos.x + TextBox::SelectedPosition, TextBox::Pos.y + TextBox::ParentPos.y + TextBox::Size.y - 3, TextBox::Pos.x + TextBox::ParentPos.x + TextBox::SelectedPosition, TextBox::Pos.y + TextBox::ParentPos.y + 3, 1,
+		           currentLocColour.Modify(currentLocColour.r, currentLocColour.g, currentLocColour.b, static_cast<float>(alpha) / 255.0f));
 	}
 	if (TextBox::SelectingStartPosition >= 0 || TextBox::SelectingEndPosition >= 0)
 	{
 		float selectionwidth = std::abs(TextBox::SelectingEndPosition - TextBox::SelectingStartPosition); // bandage fix for negative value
-		FilledRectangle(TextBox::Pos.x + TextBox::ParentPos.x + SelectingStartPosition, TextBox::Pos.y + TextBox::ParentPos.y, selectionwidth, TextBox::Size.y, Colour(0, 150, 255, 100));
+		FilledRectangle(TextBox::Pos.x + TextBox::ParentPos.x + SelectingStartPosition, TextBox::Pos.y + TextBox::ParentPos.y, selectionwidth, TextBox::Size.y, highlightColour);
 	}
 	if (TextBox::ContextActive)
 	{
-		OutlineRectangle(TextBox::ContextPos.x, TextBox::ContextPos.y, TextBox::ContextSize.x, TextBox::ContextSize.y, 1, Colour(255, 255, 255, 255));
-		FilledRectangle(TextBox::ContextPos.x, TextBox::ContextPos.y, TextBox::ContextSize.x, TextBox::ContextSize.y, Colour(80, 80, 80, 255));
+		OutlineRectangle(TextBox::ContextPos.x, TextBox::ContextPos.y, TextBox::ContextSize.x, TextBox::ContextSize.y, 1, textColour);
+		FilledRectangle(TextBox::ContextPos.x, TextBox::ContextPos.y, TextBox::ContextSize.x, TextBox::ContextSize.y, rectColour);
 		int i = 0;
 		for (auto pair : TextBox::ContextNames)
 		{
 			if (i != 0)
-				FilledLine(TextBox::ContextPos.x, TextBox::ContextPos.y + i * 20, TextBox::ContextPos.x + TextBox::ContextSize.x, TextBox::ContextPos.y + i * 20, 1.0f, Colour(255, 255, 255, 255));
+				FilledLine(TextBox::ContextPos.x, TextBox::ContextPos.y + i * 20, TextBox::ContextPos.x + TextBox::ContextSize.x, TextBox::ContextPos.y + i * 20, 1.0f, contextLineColour);
 
 			if (IsMouseInRectangle(TextBox::ContextPos.x, TextBox::ContextPos.y + (i * 20), TextBox::ContextSize.x, 20))
-				FilledRectangle(TextBox::ContextPos.x, TextBox::ContextPos.y + (i * 20), TextBox::ContextSize.x, 20, Colour(120, 120, 120, 255));
-			DrawText(TextBox::ContextPos.x + (TextBox::ContextSize.x / 2), TextBox::ContextPos.y + (i * 20) + 10, pair.first, "Verdana", 11, Colour(255, 255, 255, 255), CentreCentre);
+				FilledRectangle(TextBox::ContextPos.x, TextBox::ContextPos.y + (i * 20), TextBox::ContextSize.x, 20, contextOutlineColour);
+			DrawText(TextBox::ContextPos.x + (TextBox::ContextSize.x / 2), TextBox::ContextPos.y + (i * 20) + 10, pair.first, "Verdana", 11, textColour, CentreCentre);
 
 			i++;
 		}
