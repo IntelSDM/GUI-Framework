@@ -44,7 +44,7 @@ void CreateGUI()
 		auto tabcontroller = std::make_shared<TabController>();
 		form->Push(tabcontroller);
 
-		auto tab = std::make_shared<Tab>(L"Tab1", 5, 55, &SelectedTab, 50, 20);
+		auto tab = std::make_shared<Tab>(L"Tab1", 5, 55, &SelectedTab);
 		{
 			auto toggle = std::make_shared<Toggle>(10, 10, L"Toggle", &ToggleTest);
 			tab->Push(toggle);
