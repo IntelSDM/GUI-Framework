@@ -6,16 +6,18 @@
 #include "Font.h"
 #include "Graphics.h"
 #include "TabListBox.h"
+
 TabListBoxController::TabListBoxController(float x, float y, float width, float height)
 {
-	TabListBoxController::Pos = { x,y };
-	TabListBoxController::Size = { width,height };
+	TabListBoxController::Pos = {x, y};
+	TabListBoxController::Size = {width, height};
 	TabListBoxController::Selected = 0;
 	TabListBoxController::PointerEnd = TabListBoxController::Size.y / 20;
 	TabListBoxController::PointerStart = 0;
 	TabListBoxController::SetActiveIndex();
 	TabListBoxController::CachedHeight = height;
 }
+
 void TabListBoxController::SetActiveIndex()
 {
 	int i = 0;
@@ -29,17 +31,17 @@ void TabListBoxController::SetActiveIndex()
 		i++;
 	}
 }
+
 void TabListBoxController::UpdateCulledNames()
 {
 	CulledNames.clear();
 	for (std::wstring str : TabListBoxController::Names)
 	{
 		std::wstring culledname = L"";
-		float width = GetTextWidth(str, 11, "Verdana");
+		float width = GetTextSize(str, "Verdana", 11).x;
 		if (width < TabListBoxController::Size.x - TabListBoxController::ScrollWidth + 2)
 		{
 			CulledNames.push_back(str);
-
 		}
 		else
 		{
@@ -47,19 +49,17 @@ void TabListBoxController::UpdateCulledNames()
 			for (int i = culledname.length(); i > 0; i--)
 			{
 				culledname.erase(std::prev((culledname).end()));
-				float width = GetTextWidth(culledname + L"..", 11, "Verdana");
+				float width = GetTextSize(culledname + L"..", "Verdana", 11).x;
 				if (width < TabListBoxController::Size.x - TabListBoxController::ScrollWidth + 2)
 				{
 					CulledNames.push_back(culledname + L"..");
 					break;
 				}
 			}
-
 		}
 	}
-
-
 }
+
 void TabListBoxController::ArrowKeyNavigation()
 {
 	if (TabListBoxController::Tabs.size() < TabListBoxController::Size.y / 20)
@@ -87,14 +87,15 @@ void TabListBoxController::ArrowKeyNavigation()
 		}
 	}
 }
+
 void TabListBoxController::SetActive()
 {
 	if (IsMouseInRectangle(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x, TabListBoxController::ParentPos.y + TabListBoxController::Pos.y, TabListBoxController::Size.x, TabListBoxController::Size.y))
 		Active = true;
 	else
 		Active = false;
-
 }
+
 void TabListBoxController::Update()
 {
 	if (!TabListBoxController::Parent)
@@ -130,6 +131,7 @@ void TabListBoxController::Update()
 		i++;
 	}
 }
+
 void TabListBoxController::ScrollBarAction()
 {
 	if (TabListBoxController::Tabs.size() < TabListBoxController::Size.y / 20)
@@ -145,14 +147,15 @@ void TabListBoxController::ScrollBarAction()
 		float ratio = (MousePos.y - (float)(TabListBoxController::ParentPos.y + TabListBoxController::Pos.y)) / (float)((TabListBoxController::MaxVisibleItems - 1) * 20);
 		ratio = std::clamp(ratio, 0.0f, 1.0f);
 		TabListBoxController::PointerEnd = (int)(TabListBoxController::MaxVisibleItems + (TabListBoxController::Names.size() - TabListBoxController::MaxVisibleItems) * ratio);
-
 	}
 	TabListBoxController::PointerStart = TabListBoxController::PointerEnd - TabListBoxController::MaxVisibleItems;
 }
+
 int TabListBoxController::GetActiveIndex()
 {
 	return TabListBoxController::ActiveIndex;
 }
+
 void TabListBoxController::Draw()
 {
 	if (!TabListBoxController::IsVisible())
@@ -214,24 +217,22 @@ void TabListBoxController::Draw()
 		float itemposy = TabListBoxController::ParentPos.y + TabListBoxController::Pos.y + ((i - TabListBoxController::PointerStart) * 20);
 		if (IsMouseInRectangle(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2, (itemposy), TabListBoxController::Size.x - (TabListBoxController::ScrollWidth + 2), 20))
 		{
-			int width = GetTextWidth(name, 11, "Verdana");
+			int width = GetTextSize(name, "Verdana", 11).x;
 			if (width + TabListBoxController::ScrollWidth + 2 + 5 < TabListBoxController::Size.x)
 			{
 				FilledRectangle(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x, (itemposy), TabListBoxController::Size.x, 20, Colour(120, 120, 120, 255));
 				if (i == TabListBoxController::ActiveIndex)
-					DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy)+5, name, "Verdana", 11, Colour(255, 0, 0, 255), None);
+					DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy) + 5, name, "Verdana", 11, Colour(255, 0, 0, 255), None);
 				else
 					DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy), name, "Verdana", 11, Colour(255, 255, 255, 255), None);
-
 			}
 			else
 			{
 				FilledRectangle(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy), width, 20, Colour(120, 120, 120, 255));
 				if (i == TabListBoxController::ActiveIndex)
-					DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy)+5, name, "Verdana", 11, Colour(255, 0, 0, 255), None);
+					DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy) + 5, name, "Verdana", 11, Colour(255, 0, 0, 255), None);
 				else
-					DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy)+5, name, "Verdana", 11, Colour(255, 255, 255, 255), None);
-
+					DrawText(TabListBoxController::ParentPos.x + TabListBoxController::Pos.x + TabListBoxController::ScrollWidth + 2 + 5, (itemposy) + 5, name, "Verdana", 11, Colour(255, 255, 255, 255), None);
 			}
 		}
 
@@ -251,6 +252,7 @@ void TabListBoxController::Draw()
 	else
 		TabListBoxController::ScrollWidth = 5; // no scroll bar, no scrollwidth
 }
+
 void TabListBoxController::PushBack(std::shared_ptr<TabListBox> tab)
 {
 	TabListBoxController::Tabs.push_back(tab);
@@ -272,6 +274,4 @@ void TabListBoxController::PushBack(std::shared_ptr<TabListBox> tab)
 
 	if (((TabListBoxController::Names.size()) * 20) < TabListBoxController::CachedHeight)
 		TabListBoxController::Size.y = ((TabListBoxController::Names.size()) * 20);
-
-
 }

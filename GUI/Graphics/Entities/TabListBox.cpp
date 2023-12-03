@@ -19,6 +19,7 @@ void TabListBox::Update()
 	TabListBox::Pos = TabListBox::Parent->GetParentPos();
 	Container::Update();
 }
+
 void TabListBox::Draw()
 {
 	Container::Draw();

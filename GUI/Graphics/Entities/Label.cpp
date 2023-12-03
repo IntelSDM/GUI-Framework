@@ -4,9 +4,10 @@
 
 Label::Label(std::wstring text, float posx, float posy)
 {
-	Label::Pos = { posx,posy };
+	Label::Pos = {posx, posy};
 	Label::Name = text;
 }
+
 void Label::Update()
 {
 	if (!Label::Parent)
@@ -15,11 +16,15 @@ void Label::Update()
 		return;
 	Label::ParentPos = Label::Parent->GetParentPos();
 }
+
 void Label::Draw()
 {
 	if (!Label::Parent)
 		Label::SetVisible(false);
 	if (!Label::IsVisible())
 		return;
-	DrawText(Label::ParentPos.x + Label::Pos.x, Label::ParentPos.y + Label::Pos.y, Label::Name, "Verdana", 12, Colour(255, 255, 255, 255), None);
+
+	MyColour textColour = MenuColours["Text"];
+
+	DrawText(Label::ParentPos.x + Label::Pos.x, Label::ParentPos.y + Label::Pos.y, Label::Name, "Verdana", 12, textColour, None);
 }
