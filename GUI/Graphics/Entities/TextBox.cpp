@@ -643,9 +643,9 @@ void TextBox::Update()
 		{
 			TextBox::SelectedPoint = TextBox::VisiblePointerEnd;
 		}
-		TextBox::SelectedPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectedPoint - TextBox::VisiblePointerStart), "Verdana", 11).x+2;
-		TextBox::SelectingStartPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectionStart - TextBox::VisiblePointerStart), "Verdana", 11).x+3;
-		TextBox::SelectingEndPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectionEnd - TextBox::VisiblePointerStart), "Verdana", 11).x+3;
+		TextBox::SelectedPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectedPoint - TextBox::VisiblePointerStart), "Verdana", 11).x;
+		TextBox::SelectingStartPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectionStart - TextBox::VisiblePointerStart), "Verdana", 11).x;
+		TextBox::SelectingEndPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectionEnd - TextBox::VisiblePointerStart), "Verdana", 11).x;
 	}
 }
 
@@ -675,13 +675,19 @@ void TextBox::Draw()
 	if (TextBox::Active && std::fmod(elapsed.count(), TextBox::AnimationInterval) < TextBox::AnimationInterval / 2)
 	{
 		float alpha = 255.0f * (1.0f - easedtime * 2.0f);
-		FilledLine(TextBox::Pos.x + TextBox::ParentPos.x + TextBox::SelectedPosition, TextBox::Pos.y + TextBox::ParentPos.y + TextBox::Size.y - 3, TextBox::Pos.x + TextBox::ParentPos.x + TextBox::SelectedPosition, TextBox::Pos.y + TextBox::ParentPos.y + 3, 1,
+		FilledLine(TextBox::Pos.x + TextBox::ParentPos.x + TextBox::SelectedPosition + 5.f, TextBox::Pos.y + TextBox::ParentPos.y + TextBox::Size.y - 3, TextBox::Pos.x + TextBox::ParentPos.x + TextBox::SelectedPosition + 5.f, TextBox::Pos.y + TextBox::ParentPos.y + 3, 1,
 		           currentLocColour.Modify(currentLocColour.r, currentLocColour.g, currentLocColour.b, static_cast<float>(alpha) / 255.0f));
 	}
 	if (TextBox::SelectingStartPosition >= 0 || TextBox::SelectingEndPosition >= 0)
 	{
-		float selectionwidth = std::abs(TextBox::SelectingEndPosition - TextBox::SelectingStartPosition); // bandage fix for negative value
-		FilledRectangle(TextBox::Pos.x + TextBox::ParentPos.x + SelectingStartPosition, TextBox::Pos.y + TextBox::ParentPos.y, selectionwidth, TextBox::Size.y, highlightColour);
+		float selectionWidth = std::abs(TextBox::SelectingEndPosition - TextBox::SelectingStartPosition);
+		float startX = TextBox::Pos.x + TextBox::ParentPos.x + TextBox::SelectingStartPosition;
+		// Check the direction of selection
+		if (TextBox::SelectingEndPosition > TextBox::SelectingStartPosition)
+			startX += 5.f;
+		else
+			startX -= 5.f;
+		FilledRectangle(startX, TextBox::Pos.y + TextBox::ParentPos.y, selectionWidth, TextBox::Size.y, highlightColour);
 	}
 	if (TextBox::ContextActive)
 	{
