@@ -51,6 +51,13 @@ void CleanD2D()
 		if (layout)
 			layout->Release();
 	}
+
+	for (std::pair dict : TextCache)
+	{
+		IDWriteTextLayout* layout = dict.second;
+		if (layout)
+			layout->Release();
+	}
 }
 
 int FrameRate()
