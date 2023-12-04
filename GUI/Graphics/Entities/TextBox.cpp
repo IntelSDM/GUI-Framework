@@ -155,8 +155,8 @@ void TextBox::InputText()
 			TextBox::VisiblePointerStart++; // update position
 			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
 		}
+		Char = NULL;
 	}
-	Char = NULL;
 }
 
 void TextBox::DeleteText()
@@ -230,6 +230,7 @@ void TextBox::DeleteText()
 			TextBox::Held = false;
 			TextBox::Selecting = false;
 		}
+		Char = NULL;
 	}
 }
 
