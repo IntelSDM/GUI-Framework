@@ -121,6 +121,7 @@ void TextBox::ArrowKeyNavition()
 		TextBox::Held = false;
 		if (TextBox::SelectedPoint < TextBox::VisiblePointerEnd)
 			TextBox::SelectedPoint++;
+		Char = NULL;
 		else if (TextBox::VisiblePointerEnd != TextBox::MainString->length() && TextBox::SelectedPoint == TextBox::VisiblePointerEnd)
 		{
 			TextBox::SelectedPoint++;
@@ -143,7 +144,7 @@ void TextBox::InputText()
 		return;
 	if (!TextBox::Active)
 		return;
-	if (TextBox::IsKeyAcceptable())
+	if (TextBox::IsKeyAcceptable() && std::isprint(Char))
 	{
 		Selecting = false;
 		TextBox::VisiblePointerEnd++;
@@ -155,8 +156,8 @@ void TextBox::InputText()
 			TextBox::VisiblePointerStart++; // update position
 			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
 		}
+		Char = NULL;
 	}
-	Char = NULL;
 }
 
 void TextBox::DeleteText()
@@ -230,6 +231,7 @@ void TextBox::DeleteText()
 			TextBox::Held = false;
 			TextBox::Selecting = false;
 		}
+		Char = NULL;
 	}
 }
 
