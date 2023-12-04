@@ -121,6 +121,7 @@ void TextBox::ArrowKeyNavition()
 		TextBox::Held = false;
 		if (TextBox::SelectedPoint < TextBox::VisiblePointerEnd)
 			TextBox::SelectedPoint++;
+		Char = NULL;
 		else if (TextBox::VisiblePointerEnd != TextBox::MainString->length() && TextBox::SelectedPoint == TextBox::VisiblePointerEnd)
 		{
 			TextBox::SelectedPoint++;
@@ -143,7 +144,7 @@ void TextBox::InputText()
 		return;
 	if (!TextBox::Active)
 		return;
-	if (TextBox::IsKeyAcceptable())
+	if (TextBox::IsKeyAcceptable() && std::isprint(Char))
 	{
 		Selecting = false;
 		TextBox::VisiblePointerEnd++;
