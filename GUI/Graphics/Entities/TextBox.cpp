@@ -121,7 +121,7 @@ void TextBox::ArrowKeyNavition()
 		TextBox::Held = false;
 		if (TextBox::SelectedPoint < TextBox::VisiblePointerEnd)
 			TextBox::SelectedPoint++;
-		Char = NULL;
+
 		else if (TextBox::VisiblePointerEnd != TextBox::MainString->length() && TextBox::SelectedPoint == TextBox::VisiblePointerEnd)
 		{
 			TextBox::SelectedPoint++;
@@ -134,6 +134,7 @@ void TextBox::ArrowKeyNavition()
 				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
 			}
 		}
+		Char = NULL;
 		TextBox::LastClick = (clock() * 0.00001f) + 0.002f;
 	}
 }

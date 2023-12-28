@@ -45,7 +45,7 @@ void CreateGUI()
 		auto tabcontroller = std::make_shared<TabController>();
 		form->Push(tabcontroller);
 
-		auto tab = std::make_shared<Tab>(L"Tab1", 5, 55, &SelectedTab);
+		auto tab = std::make_shared<Tab>(L"Tab1", 5, 55, &SelectedTab,50,20);
 		{
 			auto toggle = std::make_shared<Toggle>(10, 10, L"Toggle", &ToggleTest);
 			tab->Push(toggle);
@@ -73,7 +73,7 @@ void CreateGUI()
 			auto passwordbox = std::make_shared<TextBox>(250, 255, L"Password", &PasswordText, true);
 			tab->Push(passwordbox);
 		}
-		auto tab1 = std::make_shared<Tab>(L"Tab2", 65, 55, &SelectedTab, 50, 20);
+		auto tab1 = std::make_shared<Tab>(L"Tab2", 65, 55, &SelectedTab,50,20);
 		{
 			auto tablist = std::make_shared<TabListBoxController>(10, 40, 160, 160);
 			auto listtab1 = std::make_shared<TabListBox>(L"List Tab 1");

@@ -87,5 +87,6 @@ public:
 		Size = {100, 7};
 		OutputValue = *Value;
 		ConvertValueToString();
+		SetVisible(true);
 	}
 };

@@ -16,6 +16,7 @@ TabListBoxController::TabListBoxController(float x, float y, float width, float 
 	TabListBoxController::PointerStart = 0;
 	TabListBoxController::SetActiveIndex();
 	TabListBoxController::CachedHeight = height;
+	SetVisible(true);
 }
 
 void TabListBoxController::SetActiveIndex()

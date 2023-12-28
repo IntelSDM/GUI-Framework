@@ -12,6 +12,7 @@ Button::Button(float x, float y, std::wstring text, std::function<void()> click)
 	Button::Size = {70, 20};
 	Button::Action = click;
 	Button::SetWidth();
+	SetVisible(true);
 }
 
 void Button::SetWidth()

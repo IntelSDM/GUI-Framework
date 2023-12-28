@@ -26,6 +26,7 @@ Tab::Tab(std::wstring name, float x, float y, int* selectedtab, float width, flo
 	Tab::Selected = selectedtab;
 	Tab::Name = name;
 	TabCount++;
+	SetVisible(true);
 }
 
 void Tab::Update()

@@ -11,6 +11,7 @@ Toggle::Toggle(float x, float y, std::wstring text, bool* data = nullptr)
 	Toggle::Name = text;
 	Toggle::TextSize = GetTextSize(text, "Verdana", 12);
 	Data = data;
+	SetVisible(true);
 }
 
 void Toggle::Update()
