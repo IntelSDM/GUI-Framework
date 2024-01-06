@@ -169,10 +169,10 @@ void ColourPicker::Update()
 
 		const float xratio = xclamp / 150.0f;
 		const float yratio = (150.0f - yclamp) / 150.0f;
-		ColourPicker::Saturation = yratio * 255.f;
-		ColourPicker::Brightness = xratio * 255.f;
+		ColourPicker::Saturation = yratio;
+		ColourPicker::Brightness = xratio;
 		ColourPicker::Saturation = std::min(ColourPicker::Saturation, 255.0f);
-		ColourPicker::Brightness = std::min(ColourPicker::Brightness, 255.0f);
+		ColourPicker::Brightness = std::min(ColourPicker::Brightness,255.0f);
 	}
 }
 

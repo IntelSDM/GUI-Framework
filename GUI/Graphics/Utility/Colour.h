@@ -39,7 +39,7 @@ struct HsvColour
 extern std::map<std::string, MyColour> MenuColours;
 
 D2D1::ColorF HueToRGB(float hue);
-float RGBToHue(int r, int g, int b);
-D2D1::ColorF HsvToRgb(float hue, int saturation, int value, int alpha);
-HsvColour RgbToHsv(int r, int g, int b);
+float RGBToHue(float r, float g, float b);
+D2D1::ColorF HsvToRgb(float hue, float saturation, float value, float alpha);
+HsvColour RgbToHsv(float r, float g, float b);
 void SetColour(std::string name, D2D1::ColorF col);
