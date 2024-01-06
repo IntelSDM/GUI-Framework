@@ -206,12 +206,12 @@ void SaturationSlider(int x, int y, int width, int height, MyColour colour)
 	}
 }
 
-void AlphaSlider(int x, int y, int width, int height, D2D1::ColorF col)
+void AlphaSlider(int x, int y, int width, int height, MyColour col)
 {
 	D2D1_GRADIENT_STOP stops[] =
 	{
-		{0.0f, Colour(col.r, col.g, col.b, 255)},
-		{1.0f, Colour(col.r, col.g, col.b, 0)},
+		{0.0f, D2D1::ColorF(col.r, col.g, col.b, 255)},
+		{1.0f, D2D1::ColorF(col.r, col.g, col.b, 0)},
 	};
 	RenderTarget->CreateGradientStopCollection(
 		stops,

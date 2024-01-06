@@ -194,7 +194,7 @@ void ColourPicker::Draw()
 
 		// alpha
 		OutlineRectangle(ClickedPos.x + 155, ClickedPos.y, 20, 165, 1, Colour(180, 180, 180, 255));
-		AlphaSlider(ClickedPos.x + 155, ClickedPos.y, 20, 165, HsvToRgb(ColourPicker::Hue, ColourPicker::Brightness, ColourPicker::Saturation, alpha));
+		AlphaSlider(ClickedPos.x + 155, ClickedPos.y, 20, 165, *MainColour);
 		float alphavalue = ColourPicker::Alpha;
 		FilledRectangle(ClickedPos.x + 155, ClickedPos.y + ((int)165 * (1.0f - alphavalue)), 20, 2, Colour(255, 255, 255, 255));
 

@@ -11,6 +11,6 @@ void FilledLineAliased(int xstart, int ystart, int xend, int yend, int width, My
 void DrawBitmap(ID2D1Bitmap* bmp, int x, int y, int width, int height);
 void DrawBitmap(ID2D1Bitmap* bmp, int x, int y);
 void SaturationSlider(int x, int y, int width, int height, MyColour colour);
-void AlphaSlider(int x, int y, int width, int height, D2D1::ColorF col);
+void AlphaSlider(int x, int y, int width, int height, MyColour col);
 void HueSlider(int x, int y, int width, int height);
 void FilledTriangle(int x1, int y1, int x2, int y2, int x3, int y3, MyColour colour);
