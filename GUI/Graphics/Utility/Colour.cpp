@@ -152,57 +152,58 @@ float RGBToHue(float r, float g, float b)
 
 D2D1::ColorF HsvToRgb(float hue, float saturation, float value, float alpha)
 {
-    hue = fmod(hue, 360.0f);
-    if (hue < 0)
+    // Ensure hue is in the range [0, 360)
+    hue = fmodf(hue, 360.0f);
+    if (hue < 0.0f)
         hue += 360.0f;
 
-    float s = saturation;
-    float v = value;
+    // Normalize saturation and value to [0, 1]
+    saturation = std::clamp(saturation, 0.0f, 1.0f);
+    value = std::clamp(value, 0.0f, 1.0f);
 
-    float c = v * s;
-    float x = c * (1 - std::abs(fmod(hue / 60.0f, 2.0f) - 1));
-    float m = v - c;
+    // Algorithm to convert HSV to RGB
+    float chroma = value * saturation;
+    float hueprime = hue / 60.0f;
+    float x = chroma * (1.0f - fabsf(fmodf(hueprime, 2.0f) - 1.0f));
 
-    D2D1::ColorF col = D2D1::ColorF(0.0f, 0.0f, 0.0f, 0.0f);
+    float r, g, b;
+    if (0.0f <= hueprime && hueprime < 1.0f) {
+        r = chroma;
+        g = x;
+        b = 0.0f;
+    }
+    else if (1.0f <= hueprime && hueprime < 2.0f) {
+        r = x;
+        g = chroma;
+        b = 0.0f;
+    }
+    else if (2.0f <= hueprime && hueprime < 3.0f) {
+        r = 0.0f;
+        g = chroma;
+        b = x;
+    }
+    else if (3.0f <= hueprime && hueprime < 4.0f) {
+        r = 0.0f;
+        g = x;
+        b = chroma;
+    }
+    else if (4.0f <= hueprime && hueprime < 5.0f) {
+        r = x;
+        g = 0.0f;
+        b = chroma;
+    }
+    else {
+        r = chroma;
+        g = 0.0f;
+        b = x;
+    }
 
-    if (hue >= 0 && hue < 60)
-    {
-        col.r = c + m;
-        col.g = x + m;
-        col.b = m;
-    }
-    else if (hue >= 60 && hue < 120)
-    {
-        col.r = x + m;
-        col.g = c + m;
-        col.b = m;
-    }
-    else if (hue >= 120 && hue < 180)
-    {
-        col.r = m;
-        col.g = c + m;
-        col.b = x + m;
-    }
-    else if (hue >= 180 && hue < 240)
-    {
-        col.r = m;
-        col.g = x + m;
-        col.b = c + m;
-    }
-    else if (hue >= 240 && hue < 300)
-    {
-        col.r = x + m;
-        col.g = m;
-        col.b = c + m;
-    }
-    else if (hue >= 300 && hue < 360)
-    {
-        col.r = c + m;
-        col.g = m;
-        col.b = x + m;
-    }
-    col.a = alpha;
-    return col;
+    float m = value - chroma;
+    r += m;
+    g += m;
+    b += m;
+
+    return D2D1::ColorF(r, g, b, alpha);
 }
 
 HsvColour RgbToHsv(float r, float g, float b)

@@ -206,7 +206,7 @@ void SaturationSlider(int x, int y, int width, int height, MyColour colour)
 	}
 }
 
-void AlphaSlider(int x, int y, int width, int height, MyColour col)
+void AlphaSlider(int x, int y, int width, int height, D2D1::ColorF col)
 {
 	D2D1_GRADIENT_STOP stops[] =
 	{
