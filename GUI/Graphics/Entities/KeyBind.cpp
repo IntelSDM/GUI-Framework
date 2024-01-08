@@ -68,7 +68,7 @@ void KeyBind::Update()
 			KeyBind::Blocked = false;
 		}
 	}
-	if (Active)
+	if (Active && !ContextActive)
 	{
 		*KeyBind::Key = 0;
 		KeyBind::KeyName = L"[Click A Key]";
@@ -79,7 +79,7 @@ void KeyBind::Update()
 
 void KeyBind::ContextMenu()
 {
-	if (IsMouseInRectangle(KeyBind::Pos + KeyBind::ParentPos, KeyBind::Size) && IsKeyClicked(VK_RBUTTON) && !KeyBind::Blocked && !KeyBind::Active)
+	if (IsMouseInRectangle(KeyBind::Pos + KeyBind::ParentPos, KeyBind::Size) && IsKeyClicked(VK_RBUTTON) && !KeyBind::Blocked && !KeyBind::Active && KeyBind::LastClick < (clock() * 0.00001f))
 	{
 		KeyBind::ContextActive = true;
 		KeyBind::Active = false;
