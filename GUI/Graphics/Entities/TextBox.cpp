@@ -37,10 +37,12 @@ void TextBox::SetStartIndex()
 
 void TextBox::SetState()
 {
+	WPARAM character = Char;
 	if (IsMouseInRectangle(TextBox::Pos + TextBox::ParentPos, TextBox::Size) && IsKeyClicked(VK_LBUTTON) && !TextBox::Blocked && ((TextBox::ContextActive && !IsMouseInRectangle(TextBox::ContextPos, TextBox::ContextSize)) || !TextBox::ContextActive))
 	{
 		TextBox::Active = true;
 		TextBox::ContextActive = false;
+		Char = NULL;
 	}
 	else if (IsKeyClicked(VK_LBUTTON) && !IsMouseInRectangle(TextBox::Pos + TextBox::ParentPos, TextBox::Size) && TextBox::Active)
 	{
@@ -49,12 +51,14 @@ void TextBox::SetState()
 		TextBox::Active = false; // prevent 2 being active at the same time unless they are somehow fucking merged
 		TextBox::ValueChangeEvent();
 	}
-	WPARAM character = Char;
-	if (character == VK_RETURN || character == VK_ESCAPE && TextBox::Active)
+	else if ((character == VK_RETURN || character == VK_ESCAPE) && TextBox::Active)
 	{
 		TextBox::Active = false;
 		TextBox::ValueChangeEvent();
+		TextBox::Selecting = false;
+		Char = NULL;
 	}
+
 	if (!IsKeyDown(VK_LBUTTON))
 		TextBox::Held = false;
 	if (TextBox::SelectedPoint == TextBox::SelectionStart && TextBox::SelectedPoint == TextBox::SelectionEnd)
@@ -69,7 +73,10 @@ bool TextBox::IsKeyAcceptable()
 	if (character == NULL)
 		return false;
 	if (character == VK_BACK)
+	{
+		DeleteText();
 		return false;
+	}
 	if (character == VK_RETURN)
 		return false;
 	if (IsKeyDown(VK_CONTROL))
@@ -113,6 +120,7 @@ void TextBox::ArrowKeyNavition()
 				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
 			}
 		}
+		Char = NULL;
 		TextBox::LastClick = (clock() * 0.00001f) + 0.002f;
 	}
 	if (IsKeyClicked(VK_RIGHT) && TextBox::LastClick < (clock() * 0.00001f))
@@ -157,8 +165,9 @@ void TextBox::InputText()
 			TextBox::VisiblePointerStart++; // update position
 			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
 		}
-		Char = NULL;
+		
 	}
+	Char = NULL;
 }
 
 void TextBox::DeleteText()
@@ -627,7 +636,7 @@ void TextBox::Update()
 	TextBox::SetState();
 	TextBox::ArrowKeyNavition();
 	TextBox::InputText();
-	TextBox::DeleteText();
+//	TextBox::DeleteText();
 	//TextBox::ClearText();
 	TextBox::SetSelectionPoint();
 	TextBox::SetSelection();
