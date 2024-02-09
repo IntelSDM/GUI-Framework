@@ -12,8 +12,8 @@ ColourPicker::ColourPicker(float x, float y, D2D1::ColorF* colour)
 	ColourPicker::Open = false;
 	ColourPicker::Hue = RGBToHue(ColourPicker::MainColour->r, ColourPicker::MainColour->g, ColourPicker::MainColour->b);
 	ColourPicker::Alpha = MainColour->a;
-	ColourPicker::Saturation = RgbToHsv(ColourPicker::MainColour->r, ColourPicker::MainColour->g, ColourPicker::MainColour->b).S;
-	ColourPicker::Brightness = RgbToHsv(ColourPicker::MainColour->r, ColourPicker::MainColour->g, ColourPicker::MainColour->b).V;
+	ColourPicker::Saturation = RgbToHsv(ColourPicker::MainColour->r, ColourPicker::MainColour->g, ColourPicker::MainColour->b).V;
+	ColourPicker::Brightness = RgbToHsv(ColourPicker::MainColour->r, ColourPicker::MainColour->g, ColourPicker::MainColour->b).S;
 	ColourPicker::ContextSize = {80.0f, 20.0f * (int)ColourPicker::ContextNames.size()};
 	SetVisible(true);
 }
