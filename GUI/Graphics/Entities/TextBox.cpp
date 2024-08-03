@@ -155,6 +155,42 @@ void TextBox::InputText()
 		return;
 	if (TextBox::IsKeyAcceptable() && std::isprint(Char))
 	{
+		if (TextBox::Selecting) // delete selected text
+		{
+		
+			if (TextBox::SelectionStart != TextBox::SelectedPoint || TextBox::SelectionEnd != TextBox::SelectedPoint)
+			{
+				if (TextBox::SelectedPoint == TextBox::SelectionEnd)
+				{
+					TextBox::MainString->erase(TextBox::SelectionStart, TextBox::SelectionEnd - TextBox::SelectionStart);
+					TextBox::VisiblePointerEnd -= TextBox::SelectionEnd - TextBox::SelectionStart;
+					TextBox::SelectedPoint -= TextBox::SelectionEnd - TextBox::SelectionStart;
+				}
+				else
+				{
+					TextBox::MainString->erase(TextBox::SelectionStart, TextBox::SelectionEnd - TextBox::SelectionStart);
+					TextBox::VisiblePointerEnd -= TextBox::SelectionEnd - TextBox::SelectionStart;
+				}
+			}
+
+			while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::VisiblePointerStart > 0)
+			{
+				TextBox::VisiblePointerStart--; 
+				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x;
+			}
+
+			while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::VisiblePointerEnd < TextBox::MainString->length())
+			{
+				TextBox::VisiblePointerEnd++; 
+				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x;
+			}
+
+			TextBox::SelectionStart = TextBox::SelectedPoint;
+			TextBox::SelectionEnd = TextBox::SelectedPoint;
+			TextBox::Held = false;
+			TextBox::Selecting = false;
+		}
+
 		Selecting = false;
 		TextBox::VisiblePointerEnd++;
 		TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x;
