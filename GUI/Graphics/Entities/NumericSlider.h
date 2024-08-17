@@ -60,18 +60,22 @@ protected:
 			*Value = 0;
 			return;
 		}
-		if (typeid(*Value) == typeid(int))
+		try
 		{
-			*Value = std::stoi(OutputString);
+			if (typeid(*Value) == typeid(int))
+			{
+				*Value = std::stoi(OutputString);
+			}
+			else if (typeid(*Value) == typeid(float))
+			{
+				*Value = std::stof(OutputString);
+			}
+			else if (typeid(*Value) == typeid(double))
+			{
+				*Value = std::stod(OutputString);
+			}
 		}
-		else if (typeid(*Value) == typeid(float))
-		{
-			*Value = std::stof(OutputString);
-		}
-		else if (typeid(*Value) == typeid(double))
-		{
-			*Value = std::stod(OutputString);
-		}
+		catch (std::exception ex) {}
 	}
 	bool IsKeyValid(WPARAM c)
 	{
@@ -131,13 +135,16 @@ protected:
 			 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana").x; // update width so we can exit
 		}
 	}
-	void  SetState()
+	void SetState()
 	{
 		WPARAM character = Char;
-		if (IsMouseInRectangle( Pos +  ParentPos,  Size) && IsKeyClicked(VK_LBUTTON) && ! Blocked)
+		if (IsMouseInRectangle( Pos +  ParentPos,  Size) && IsKeyClicked(VK_LBUTTON) && ! Blocked && !Active)
 		{
 			 Active = true;
 			Char = NULL;
+			OutputString = L"";
+			VisiblePointerStart = 0;
+			VisiblePointerEnd = 0;
 		}
 		else if (IsKeyClicked(VK_LBUTTON) && !IsMouseInRectangle( Pos +  ParentPos,  Size) &&  Active)
 		{
@@ -226,7 +233,7 @@ protected:
 			return;
 		if (! Active)
 			return;
-		if ( IsKeyValid(Char) && std::isprint(Char))
+		if ( IsKeyValid(Char) && std::isprint(Char) && std::to_wstring(MaxValue).length() > OutputString.length())
 		{
 			if ( Selecting) // delete selected text
 			{
