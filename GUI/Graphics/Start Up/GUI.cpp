@@ -49,8 +49,10 @@ void CreateGUI()
 		{
 			auto toggle = std::make_shared<Toggle>(10, 10, L"Toggle", &ToggleTest);
 			tab->Push(toggle);
+			toggle->SetToolTip(L"Toggle Tooltip");
 			auto button = std::make_shared<Button>(10, 30, L"Buttons", []() { Beep(100, 10); });
 			tab->Push(button);
+			button->SetToolTip(L"Button Tooltip");
 			auto colourpicker = std::make_shared<ColourPicker>(75, 10, &ColourPick);
 			tab->Push(colourpicker);
 			auto label = std::make_shared<Label>(L"Label", 10, 55);
@@ -72,6 +74,7 @@ void CreateGUI()
 			tab->Push(textbox);
 			auto passwordbox = std::make_shared<TextBox>(250, 255, L"Password", &PasswordText, true);
 			tab->Push(passwordbox);
+		
 		}
 		auto tab1 = std::make_shared<Tab>(L"Tab2", 65, 55, &SelectedTab,50,20);
 		{

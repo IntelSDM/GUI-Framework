@@ -174,4 +174,7 @@ void KeyBind::Draw()
 			i++;
 		}
 	}
+	if (!KeyBind::Active && !KeyBind::Blocked && !KeyBind::ContextActive)
+		DrawTooltip();
+
 }

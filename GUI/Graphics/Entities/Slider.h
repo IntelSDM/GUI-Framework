@@ -78,6 +78,8 @@ public:
 		FilledRectangle(ParentPos.x + Pos.x, ParentPos.y + (Pos.y + 15), Size.x, Size.y, rectColour);
 		float ratio = (float)(*Value - (float)MinValue) / float(MaxValue - MinValue);
 		FilledRectangle(ParentPos.x + Pos.x, ParentPos.y + (Pos.y + 15), (int)Size.x * ratio, Size.y, insideColour);
+		DrawTooltip();
+		DrawTooltip(Vector2(Pos.x - 1, (Pos.y + 15)),Vector2(Size.x + 2, Size.y + 2));
 	}
 
 	Slider(int x, int y, std::wstring name, std::wstring measurement, T minvalue, T maxvalue, T* value) : Measurement(measurement), MaxValue(maxvalue), MinValue(minvalue), Value(value)

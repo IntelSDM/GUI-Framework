@@ -770,4 +770,6 @@ void TextBox::Draw()
 			i++;
 		}
 	}
+	if (!TextBox::ContextActive && !TextBox::Active)
+		DrawTooltip();
 }

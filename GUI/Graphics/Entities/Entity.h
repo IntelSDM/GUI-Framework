@@ -24,6 +24,7 @@ protected:
 	Vector2 ParentSize;
 
 	std::wstring Name;
+	std::wstring ToolTip;
 
 	Entity* Instance = this;
 
@@ -42,7 +43,8 @@ public:
 	virtual void Update()
 	{
 	};
-
+	void DrawTooltip();
+	void DrawTooltip(Vector2 start, Vector2 Size);
 	virtual childcontainer& GetContainer()
 	{
 		static childcontainer bad { };
@@ -57,6 +59,8 @@ public:
 	virtual Vector2 GetParentPos() { return ParentPos; }
 	virtual Vector2 GetParentSize() { return ParentSize; }
 	virtual std::wstring GetName() { return Name; }
+	virtual std::wstring GetToolTip() { return ToolTip; }
+	
 
 	child GetChildRelativeParent();
 	child GetParent();
@@ -73,6 +77,7 @@ public:
 	void SetBlockedSiblings(bool block);
 	void SetParent(child parent);
 	void SetRelativeParent(child parent);
+	void SetToolTip(std::wstring tip);
 
 	// event handlers
 	void SetValueChangedEvent(std::function<void()> evnt);

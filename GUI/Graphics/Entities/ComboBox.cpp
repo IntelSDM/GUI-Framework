@@ -219,6 +219,8 @@ void ComboBox::Update()
 			i++;
 		}
 	}
+	if(!ComboBox::Active && !ComboBox::Blocked)
+		DrawTooltip();
 }
 
 void ComboBox::UpdateScrollBar()

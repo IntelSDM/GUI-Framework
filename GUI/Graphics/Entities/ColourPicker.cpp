@@ -221,4 +221,6 @@ void ColourPicker::Draw()
 			i++;
 		}
 	}
+	if(!ColourPicker::ContextActive && !ColourPicker::Open)
+		DrawTooltip();
 }

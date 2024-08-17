@@ -93,4 +93,5 @@ void Tab::Draw()
 		Container::Draw();
 		Container::Update();
 	}
+	DrawTooltip();
 }

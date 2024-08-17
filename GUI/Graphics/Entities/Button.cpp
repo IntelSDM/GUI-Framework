@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "Input.h"
 #include "Drawing.h"
 #include "Button.h"
@@ -44,7 +44,7 @@ void Button::Draw()
 		Button::SetVisible(false);
 	if (!Button::IsVisible())
 		return;
-
+	
 	MyColour rectColour = MenuColours["Button"];
 	MyColour rectOutlineColour = MenuColours["ButtonOutline"];
 	MyColour textColour = MenuColours["Text"];
@@ -62,4 +62,5 @@ void Button::Draw()
 	OutlineRectangle(ParentPos.x + Pos.x, ParentPos.y + Pos.y, Size.x + 1, Size.y + 1, 1, rectColour);
 	FilledRectangle(ParentPos.x + Button::Pos.x, ParentPos.y + Button::Pos.y, Button::Size.x, Button::Size.y, rectOutlineColour);
 	DrawText(ParentPos.x + Button::Pos.x + (Button::Size.x / 2), ParentPos.y + Button::Pos.y + (Button::Size.y / 2), Button::Name, "Verdana", 12, textColour, CentreCentre);
+	DrawTooltip();
 }

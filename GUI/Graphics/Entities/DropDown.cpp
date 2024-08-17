@@ -270,4 +270,6 @@ void DropDown::Draw()
 
 		FilledRectangle(DropDown::ParentPos.x + DropDown::Pos.x + DropDown::Size.x + (DropDown::SizeDifference / 2), scrollyclamp, 5, scrollheight, sliderColour);
 	}
+	if (!DropDown::Active && !DropDown::Blocked)
+		DrawTooltip();
 }
