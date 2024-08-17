@@ -15,6 +15,7 @@
 #include "TabListBox.h"
 #include "TabListBoxController.h"
 #include "TextBox.h"
+#include "NumericSlider.h"
 
 int SelectedTab = 1;
 int SelectedSubTab = 0;
@@ -74,6 +75,8 @@ void CreateGUI()
 			tab->Push(textbox);
 			auto passwordbox = std::make_shared<TextBox>(250, 255, L"Password", &PasswordText, true);
 			tab->Push(passwordbox);
+			auto numericslider = std::make_shared<NumericSlider<int>>(250, 10, L"Numeric Slider", L"M", 30, 100, &SliderInt);
+			tab->Push(numericslider);
 		
 		}
 		auto tab1 = std::make_shared<Tab>(L"Tab2", 65, 55, &SelectedTab,50,20);

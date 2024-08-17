@@ -53,6 +53,10 @@ std::map<std::string, MyColour> MenuColours =
 	{"ToggleInside", MyColour(255, 0, 0, 255)},
 	//{"CheckboxHover", MyColour(100, 100, 100, 255)},
 	//{"CheckboxActive", MyColour(120, 120, 120, 255)},
+    {"NumericText", MyColour(255, 255, 255, 255)},
+       {"NumericTextActive", MyColour(255, 0, 0, 255)},
+    {"NumericOutline", MyColour(100, 100, 100, 255)},
+    {"NumericFill", MyColour(30, 30, 30, 255)},
 
 };
 
