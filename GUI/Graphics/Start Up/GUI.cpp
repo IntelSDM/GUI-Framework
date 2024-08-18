@@ -75,7 +75,7 @@ void CreateGUI()
 			tab->Push(textbox);
 			auto passwordbox = std::make_shared<TextBox>(250, 255, L"Password", &PasswordText, true);
 			tab->Push(passwordbox);
-			auto numericslider = std::make_shared<NumericSlider<int>>(250, 10, L"Numeric Slider", L"M", 30, 100, &SliderInt);
+			auto numericslider = std::make_shared<NumericSlider<float>>(250, 10, L"Numeric Slider", L"M", 30.0f, 10000.0f, &SliderFloat);
 			tab->Push(numericslider);
 		
 		}

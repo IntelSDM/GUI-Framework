@@ -57,6 +57,7 @@ std::map<std::string, MyColour> MenuColours =
        {"NumericTextActive", MyColour(255, 0, 0, 255)},
     {"NumericOutline", MyColour(100, 100, 100, 255)},
     {"NumericFill", MyColour(30, 30, 30, 255)},
+    {"NumericBorder", MyColour(130, 130, 130, 255)},
 
 };
 

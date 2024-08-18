@@ -129,7 +129,7 @@ protected:
 		// Sets the value to be the right most character at the end.
 		 VisiblePointerStart = 0;
 		 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana").x;
-		while ( TextWidth >  Size.x - 6)
+		while ( TextWidth > Size.x - (MeasurementSize.x + 6))
 		{
 			 VisiblePointerStart++; // update position
 			 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana").x; // update width so we can exit
@@ -188,12 +188,12 @@ protected:
 				 VisiblePointerStart--;
 				 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana", 11).x;
 				// if the value exceeds the textbox bounds decrement the ending
-				while ( TextWidth >  Size.x - 6 &&  VisiblePointerStart != 0)
+				while ( TextWidth > Size.x - (MeasurementSize.x + 6) &&  VisiblePointerStart != 0)
 				{
 					 VisiblePointerEnd--;
 					 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
 				}
-				while ( TextWidth <  Size.x - 6 &&  OutputString.length() >  VisiblePointerEnd &&  VisiblePointerStart == 0)
+				while ( TextWidth <  Size.x - (MeasurementSize.x + 6) &&  OutputString.length() >  VisiblePointerEnd &&  VisiblePointerStart == 0)
 				{
 					 VisiblePointerEnd++; // update position
 					 SelectedPoint++;
@@ -216,7 +216,7 @@ protected:
 				 VisiblePointerEnd++;
 				 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana", 11).x;
 				// decrement start
-				while ( TextWidth >  Size.x - 6)
+				while ( TextWidth > Size.x - (MeasurementSize.x + 6))
 				{
 					 VisiblePointerStart++; // update position
 					 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
@@ -253,13 +253,13 @@ protected:
 					}
 				}
 
-				while ( TextWidth <  Size.x - 6 &&  VisiblePointerStart > 0)
+				while ( TextWidth < Size.x - (MeasurementSize.x + 6) &&  VisiblePointerStart > 0)
 				{
 					 VisiblePointerStart--;
 					 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana", 11).x;
 				}
 
-				while ( TextWidth <  Size.x - 6 &&  VisiblePointerEnd <  OutputString.length())
+				while ( TextWidth < Size.x - (MeasurementSize.x + 6) &&  VisiblePointerEnd <  OutputString.length())
 				{
 					 VisiblePointerEnd++;
 					 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana", 11).x;
@@ -278,7 +278,7 @@ protected:
 			SetValue();
 
 			 SelectedPoint++;
-			while ( TextWidth >  Size.x - 6)
+			while ( TextWidth > Size.x - (MeasurementSize.x + 6))
 			{
 				 VisiblePointerStart++; // update position
 				 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
@@ -431,12 +431,12 @@ protected:
 					SetValue();
 				}
 
-				if (VisiblePointerStart != 0 && GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), "Verdana", 11).x < Size.x - 6)
+				if (VisiblePointerStart != 0 && GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), "Verdana", 11).x < Size.x - (MeasurementSize.x + 6))
 				{
 					VisiblePointerStart--;
 				}
 				// detect if there is any other text that we might need to add so our string doesn't randomly get cut off
-				while (TextWidth < Size.x - 6 && OutputString.length() > VisiblePointerEnd)
+				while (TextWidth < Size.x - (MeasurementSize.x + 6) && OutputString.length() > VisiblePointerEnd)
 				{
 					VisiblePointerEnd++; // update position
 					SelectedPoint++;
@@ -461,14 +461,14 @@ protected:
 					VisiblePointerEnd -= SelectionEnd - SelectionStart;
 					SetValue();
 				}
-				while (TextWidth < Size.x - 6 && VisiblePointerStart > 0)
+				while (TextWidth < Size.x - (MeasurementSize.x + 6) && VisiblePointerStart > 0)
 				{
 					VisiblePointerStart--; // Move the starting point up
 					TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), "Verdana", 11).x;
 				}
 
 				// If the text still doesn't fill the TextBox, try to extend from the end
-				while (TextWidth < Size.x - 6 && VisiblePointerEnd < OutputString.length())
+				while (TextWidth < Size.x - (MeasurementSize.x + 6) && VisiblePointerEnd < OutputString.length())
 				{
 					VisiblePointerEnd++; // Extend the ending point
 					TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), "Verdana", 11).x;
@@ -560,7 +560,7 @@ protected:
 				OutputString.insert(SelectedPoint, clipboard);
 				SelectedPoint += clipboard.length();
 				TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), "Verdana", 11).x;
-				while (TextWidth > Size.x - 6)
+				while (TextWidth > Size.x - (MeasurementSize.x + 6))
 				{
 					VisiblePointerStart++; // update position
 					TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
@@ -587,14 +587,14 @@ protected:
 				SetValue();
 				SelectedPoint += clipboard.length();
 				TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), "Verdana", 11).x;
-				while (TextWidth < Size.x - 6 && VisiblePointerStart > 0)
+				while (TextWidth < Size.x - (MeasurementSize.x + 6) && VisiblePointerStart > 0)
 				{
 					VisiblePointerStart--; // Move the starting point up
 					TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), "Verdana", 11).x;
 				}
 
 				// If the text still doesn't fill the TextBox, try to extend from the end
-				while (TextWidth < Size.x - 6 && VisiblePointerEnd < OutputString.length())
+				while (TextWidth < Size.x - (MeasurementSize.x + 6) && VisiblePointerEnd < OutputString.length())
 				{
 					VisiblePointerEnd++; // Extend the ending point
 					TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), "Verdana", 11).x;
@@ -679,6 +679,8 @@ public:
 		MyColour textactive = MenuColours["NumericTextActive"];
 		MyColour currentLocColour = MenuColours["TextBoxCurrent"];
 		MyColour highlightColour = MenuColours["TextBoxHighlight"];
+		MyColour bordercolour = MenuColours["NumericBorder"];
+		OutlineRectangle(ParentPos.x + Pos.x, ParentPos.y + Pos.y, Size.x + 1, Size.y + 1, 1, bordercolour);
 		FilledRectangle(ParentPos.x + Pos.x, ParentPos.y + Pos.y, Size.x, Size.y, outline);
 		FilledRectangle(ParentPos.x + Pos.x + 2, ParentPos.y + Pos.y + 2, Size.x - (MeasurementSize.x + 4), Size.y - 4, fill);
 
