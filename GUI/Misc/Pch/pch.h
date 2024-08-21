@@ -39,7 +39,8 @@
 #include <windowsx.h>
 #include <intrin.h> 
 #include <fstream>
-
+#include <clocale>
+#include <cwctype>
 #include <iostream>
 #include <fstream>
 #include <ppltasks.h>

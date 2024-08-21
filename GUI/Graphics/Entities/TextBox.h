@@ -44,6 +44,7 @@ protected:
 	bool Active = false;
 	bool Selecting = false;
 	bool Held = false;
+	bool UnicodeSupport = false;
 
 	bool IsKeyAcceptable();
 
@@ -59,7 +60,7 @@ protected:
 	void SetSelection();
 
 public:
-	TextBox(float x, float y, std::wstring text, std::wstring* data, bool hide = false);
+	TextBox(float x, float y, std::wstring text, std::wstring* data, bool hide = false, bool unicode = true);
 	void Update();
 	void Draw();
 	bool IsTabbed;

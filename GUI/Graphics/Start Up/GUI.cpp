@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "GUI.h"
 #include "entity.h"
 #include "Form.h"
@@ -71,7 +71,7 @@ void CreateGUI()
 			tab->Push(combo);
 			auto keybind = std::make_shared<KeyBind>(10, 215, L"KeyBind", &Key);
 			tab->Push(keybind);
-			auto textbox = std::make_shared<TextBox>(10, 255, L"Textbox", &TextBoxText);
+			auto textbox = std::make_shared<TextBox>(10, 255, L"Textbox", &TextBoxText,false,false);
 			tab->Push(textbox);
 			auto passwordbox = std::make_shared<TextBox>(250, 255, L"Password", &PasswordText, true);
 			tab->Push(passwordbox);

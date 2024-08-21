@@ -6,7 +6,7 @@
 #include "Graphics.h"
 #include "Animation.h"
 
-TextBox::TextBox(float x, float y, std::wstring text, std::wstring* data = nullptr, bool hide)
+TextBox::TextBox(float x, float y, std::wstring text, std::wstring* data = nullptr, bool hide, bool unicode)
 {
 	TextBox::Pos = {x, y};
 	TextBox::Size = {160, 20};
@@ -20,6 +20,7 @@ TextBox::TextBox(float x, float y, std::wstring text, std::wstring* data = nullp
 	TextBox::SelectedPosition = GetTextSize(TextBox::MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectedPoint), "Verdana").x;
 	TextBox::ContextSize = {80.0f, 20.0f * (int)TextBox::ContextNames.size()};
 	TextBox::hide_text = hide;
+	TextBox::UnicodeSupport = unicode;
 	TextBox::SetVisible(true);
 }
 
@@ -68,8 +69,11 @@ void TextBox::SetState()
 bool TextBox::IsKeyAcceptable()
 {
 	WPARAM character = Char;
-	if (character > 255)
-		return false;
+	if (!TextBox::UnicodeSupport)
+	{
+		if (character > 255)
+			return false;
+	}
 	if (character == NULL)
 		return false;
 	if (character == VK_BACK)
@@ -153,7 +157,7 @@ void TextBox::InputText()
 		return;
 	if (!TextBox::Active)
 		return;
-	if (TextBox::IsKeyAcceptable() && std::isprint(Char))
+	if (TextBox::IsKeyAcceptable() && std::iswprint(Char))
 	{
 		if (TextBox::Selecting) // delete selected text
 		{
