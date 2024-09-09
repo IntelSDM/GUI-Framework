@@ -16,12 +16,12 @@ Toggle::Toggle(float x, float y, std::wstring text, bool* data = nullptr)
 
 void Toggle::Update()
 {
+
 	if (!Toggle::Parent)
 		Toggle::SetVisible(false);
+	Toggle::ParentPos = Toggle::Parent->GetParentPos();
 	if (!Toggle::IsVisible())
 		return;
-
-	Toggle::ParentPos = Toggle::Parent->GetParentPos();
 	if (!Toggle::Blocked)
 	{
 		// square click check

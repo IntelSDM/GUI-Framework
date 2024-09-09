@@ -33,10 +33,10 @@ void Tab::Update()
 {
 	if (!Tab::Parent)
 		Tab::SetVisible(false);
-
+	Tab::ParentPos = Tab::GetParent()->GetParentPos();
 	if (!Tab::IsVisible())
 		return;
-	Tab::ParentPos = Tab::GetParent()->GetParentPos();
+	
 	Tab::ParentSize = Tab::GetParent()->GetSize();
 
 	size_t ignorecount = 0;

@@ -13,9 +13,10 @@ void Label::Update()
 {
 	if (!Label::Parent)
 		Label::SetVisible(false);
+	Label::ParentPos = Label::Parent->GetParentPos();
 	if (!Label::IsVisible())
 		return;
-	Label::ParentPos = Label::Parent->GetParentPos();
+	
 }
 
 void Label::Draw()

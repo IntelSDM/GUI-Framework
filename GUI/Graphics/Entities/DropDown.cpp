@@ -102,11 +102,12 @@ void DropDown::Update()
 {
 	if (!DropDown::Parent)
 		DropDown::SetVisible(false);
+	DropDown::ParentPos = DropDown::Parent->GetParentPos();
 	if (!DropDown::IsVisible())
 		return;
 
 	DropDown::ArrowNavigation();
-	DropDown::ParentPos = DropDown::Parent->GetParentPos();
+
 	DropDown::CalculateBuffer();
 	DropDown::UpdateScrollBar();
 	if (!DropDown::Blocked)

@@ -36,10 +36,11 @@ public:
 	{
 		if (!Parent)
 			SetVisible(false);
+		ParentPos = Parent->GetParentPos();
 		if (!IsVisible())
 			return;
 
-		ParentPos = Parent->GetParentPos();
+	
 
 		if (!IsKeyDown(VK_LBUTTON))
 		{

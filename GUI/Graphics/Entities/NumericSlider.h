@@ -613,10 +613,11 @@ public:
 	{
 		if (!Parent)
 			SetVisible(false);
+		ParentPos = Parent->GetParentPos();
 		if (!IsVisible())
 			return;
 		TextWidth = GetTextSize(VisibleString, "Verdana", 11).x;
-		ParentPos = Parent->GetParentPos();
+	
 		VisibleString = OutputString.substr(VisiblePointerStart, VisiblePointerEnd);
 		SetState();
 		ArrowKeyNavition();

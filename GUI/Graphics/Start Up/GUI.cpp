@@ -16,6 +16,7 @@
 #include "TabListBoxController.h"
 #include "TextBox.h"
 #include "NumericSlider.h"
+#include "LoadingBar.h"
 #include "AssetManager.h"
 
 int SelectedTab = 1;
@@ -123,6 +124,8 @@ void CreateGUI()
 		}
 		auto tab2 = std::make_shared<Tab>(L"Tab3", 125, 55, &SelectedTab, 50, 20);
 		{
+						auto loadingbar = std::make_shared<LoadingBar>(50, 50, 100, 100,L"Test",&SliderInt, GetFormIconPath());
+			tab2->Push(loadingbar);
 		}
 		tabcontroller->Push(tab);
 		tabcontroller->Push(tab1);

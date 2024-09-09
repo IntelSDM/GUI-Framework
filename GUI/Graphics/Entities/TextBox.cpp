@@ -667,11 +667,12 @@ void TextBox::Update()
 {
 	if (!TextBox::Parent)
 		TextBox::SetVisible(false);
+	TextBox::ParentPos = TextBox::Parent->GetParentPos();
 	if (!TextBox::IsVisible())
 		return;
 
 	TextBox::TextWidth = GetTextSize(VisibleString, "Verdana", 11).x;
-	TextBox::ParentPos = TextBox::Parent->GetParentPos();
+	
 	TextBox::VisibleString = MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd);
 	TextBox::SetState();
 	TextBox::ArrowKeyNavition();

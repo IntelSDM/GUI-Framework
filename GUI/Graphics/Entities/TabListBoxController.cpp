@@ -101,10 +101,11 @@ void TabListBoxController::Update()
 {
 	if (!TabListBoxController::Parent)
 		TabListBoxController::SetVisible(false);
+	TabListBoxController::ParentPos = TabListBoxController::Parent->GetParentPos();
 	if (!TabListBoxController::IsVisible())
 		return;
 
-	TabListBoxController::ParentPos = TabListBoxController::Parent->GetParentPos();
+	
 	TabListBoxController::ArrowKeyNavigation();
 	TabListBoxController::ScrollBarAction();
 	TabListBoxController::SetActive();
