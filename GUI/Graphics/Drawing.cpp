@@ -305,3 +305,25 @@ void FilledTriangle(int x1, int y1, int x2, int y2, int x3, int y3, MyColour col
 	pathgeometry->Release();
 	sink->Release();
 }
+
+void CreateBitmap1(const std::wstring& filename, ID2D1Bitmap** bmp)
+{
+	IWICImagingFactory* wicFactory = NULL;
+	HRESULT hr = CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, IID_IWICImagingFactory, (LPVOID*)&wicFactory);
+
+
+	IWICBitmapDecoder* wicDecoder = NULL;
+	hr = wicFactory->CreateDecoderFromFilename(filename.c_str(), NULL, GENERIC_READ, WICDecodeMetadataCacheOnLoad, &wicDecoder);
+	IWICBitmapFrameDecode* WicFrame = NULL;
+	hr = wicDecoder->GetFrame(0, &WicFrame);
+	IWICFormatConverter* WicConverter = NULL;
+	hr = wicFactory->CreateFormatConverter(&WicConverter);
+	hr = WicConverter->Initialize(WicFrame, GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone, NULL, 0.0, WICBitmapPaletteTypeCustom);
+	//  ID2D1Bitmap* bmp2;
+	RenderTarget->CreateBitmapFromWicBitmap(WicConverter, NULL, bmp);
+
+	wicFactory->Release();
+	wicDecoder->Release();
+	WicConverter->Release();
+	WicFrame->Release();
+}

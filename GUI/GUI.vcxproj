@@ -185,6 +185,7 @@
     <ClCompile Include="Graphics\Start Up\GUI.cpp" />
     <ClCompile Include="Graphics\Start Up\Init.cpp" />
     <ClCompile Include="Graphics\Utility\Animation.cpp" />
+    <ClCompile Include="Graphics\Utility\AssetManager.cpp" />
     <ClCompile Include="Graphics\Utility\Colour.cpp" />
     <ClCompile Include="Graphics\Utility\Font.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -218,6 +219,8 @@
     <ClInclude Include="Graphics\Start Up\GUI.h" />
     <ClInclude Include="Graphics\Start Up\Init.h" />
     <ClInclude Include="Graphics\Utility\Animation.h" />
+    <ClInclude Include="Graphics\Utility\AssetManager.h" />
+    <ClInclude Include="Graphics\Utility\Assets\FormIcon.h" />
     <ClInclude Include="Graphics\Utility\Colour.h" />
     <ClInclude Include="Graphics\Utility\Font.h" />
     <ClInclude Include="Graphics\Graphics.h" />

@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "init.h"
 
+#pragma warning(disable: 4996)
+#define _CRT_SECURE_NO_WARNINGS
+
 HWND Hwnd;
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

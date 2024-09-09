@@ -25,8 +25,11 @@ protected:
 	void DragAction();
 	void StretchAction();
 
+	ID2D1Bitmap* Bitmap = nullptr;
+	std::wstring IconPath;
+
 public:
-	Form(float x, float y, float w, float h, float borderwidth, float borderheight, std::wstring text, bool drag);
+	Form(float x, float y, float w, float h, float borderwidth, float borderheight, std::wstring text, bool drag, const std::wstring& iconpath = L"");
 	void Draw();
 	void Update();
 };

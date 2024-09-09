@@ -16,6 +16,7 @@
 #include "TabListBoxController.h"
 #include "TextBox.h"
 #include "NumericSlider.h"
+#include "AssetManager.h"
 
 int SelectedTab = 1;
 int SelectedSubTab = 0;
@@ -41,7 +42,7 @@ std::wstring PasswordText = L"Password";
 void CreateGUI()
 {
 	MenuEntity = std::make_shared<Container>();
-	auto form = std::make_shared<Form>(100, 100.0f, 533, 350, 2, 30, L"FORM", false);
+	auto form = std::make_shared<Form>(100, 100.0f, 533, 350, 2, 30, L"FORM", false, GetFormIconPath());
 	{
 		auto tabcontroller = std::make_shared<TabController>();
 		form->Push(tabcontroller);

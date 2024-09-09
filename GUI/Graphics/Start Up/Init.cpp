@@ -2,6 +2,7 @@
 #include "Init.h"
 #include "drawing.h"
 #include "GUI.h"
+#include "AssetManager.h"
 
 ID2D1Factory* Factory;
 IDWriteFactory* FontFactory;
@@ -25,7 +26,9 @@ void InitD2D(HWND hWnd)
 	CreateFonts("VerdanaBold", L"Verdana", 10, DWRITE_FONT_WEIGHT_SEMI_BOLD);
 	RenderTarget->CreateSolidColorBrush(D2D1::ColorF(0, 0, 0, 0), &Brush); // create global brush
 	RenderTarget->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE); // set aa mode
+	SetUpAssets();
 	CreateGUI();
+
 }
 
 void CleanD2D()

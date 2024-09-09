@@ -36,6 +36,8 @@
 #undef min
 #endif
 
+
+
 #include <windowsx.h>
 #include <intrin.h> 
 #include <fstream>
@@ -57,6 +59,10 @@
 #include <cmath>
 #include <vector>
 #include <d2d1_1.h>
+#ifdef CreateBitmap
+#undef CreateBitmap
+#endif
+#include <wincodec.h>
 #include <dwrite.h>
 // only add headers here that wont frequently be updated. such as frameworks
 #include "Colour.h"

@@ -6,8 +6,9 @@
 #include "input.h"
 #include "Entity.h"
 #include "GUI.h"
+#include "filesystem"
 
-Form::Form(float x, float y, float w, float h, float borderwidth, float borderheight, std::wstring text, bool stretch)
+Form::Form(float x, float y, float w, float h, float borderwidth, float borderheight, std::wstring text, bool stretch, const std::wstring& iconpath)
 {
 	Form::Name = text;
 	Form::Pos = {x, y};
@@ -24,6 +25,9 @@ Form::Form(float x, float y, float w, float h, float borderwidth, float borderhe
 	Form::CanStretch = stretch;
 	Form::CanClose = true;
 	Form::CanMinimize = true;
+	Form::IconPath = iconpath;
+	if(std::filesystem::exists(IconPath))
+	CreateBitmap1(IconPath, &Bitmap);
 	SetVisible(true);
 }
 
@@ -128,11 +132,20 @@ void Form::Draw()
 		SetCurrentCursor("Default");
 	if (IsMouseInTriangle(StretchPoint1, StretchPoint2, StretchPoint3) && Form::CanStretch)
 		SetCurrentCursor("Corner Drag");
-
-	OutlineRectangle((Form::Pos.x - Form::Border.x / 2) + 1, (Form::Pos.y - Form::Border.x / 2) + 1, Form::Size.x + Form::Border.x - 1, Form::Size.y + Form::Border.x - 1, 1, rectOutlineColour); // Draw Border
-	FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Size.y, rectColour);
-	FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Border.y, rectHeaderColour); // header
-	DrawText(Form::Pos.x + 5, Form::Pos.y + 5, Form::Name, "Verdana", 12, textColour, None);
-
+	if (IconPath.size() == 0 || !Bitmap)
+	{
+		OutlineRectangle((Form::Pos.x - Form::Border.x / 2) + 1, (Form::Pos.y - Form::Border.x / 2) + 1, Form::Size.x + Form::Border.x - 1, Form::Size.y + Form::Border.x - 1, 1, rectOutlineColour); // Draw Border
+		FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Size.y, rectColour);
+		FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Border.y, rectHeaderColour); // header
+		DrawText(Form::Pos.x + 5, Form::Pos.y + (Form::Border.y / 4), Form::Name, "Verdana", 12, textColour, None);
+	}
+	else
+	{
+		OutlineRectangle((Form::Pos.x - Form::Border.x / 2) + 1, (Form::Pos.y - Form::Border.x / 2) + 1, Form::Size.x + Form::Border.x - 1, Form::Size.y + Form::Border.x - 1, 1, rectOutlineColour); // Draw Border
+		FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Size.y, rectColour);
+		FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Border.y, rectHeaderColour); // header
+		DrawBitmap(Form::Bitmap,Form::Pos.x + 5, Form::Pos.y + 5, Form::Border.y - 10, Form::Border.y - 10);
+		DrawText(Form::Pos.x + (Form::Border.y - 10) + 7, Form::Pos.y + (Form::Border.y/4), Form::Name, "Verdana", 12, textColour, None);
+	}
 	Container::Draw();
 }
