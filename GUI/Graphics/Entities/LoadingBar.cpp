@@ -65,11 +65,11 @@ void LoadingBar::Draw()
 
 	if (IconPath.size() == 0 || !Bitmap)
 	{
-		DrawText(LoadingBar::ParentPos.x + LoadingBar::Pos.x + (LoadingBar::Size.x / 2), LoadingBar::ParentPos.y + LoadingBar::Pos.y + 10 + (LoadingBar::Size.y), wprogress + LoadingBar::Name, "Verdana", 12, textColour, Centre);
+		DrawText(LoadingBar::ParentPos.x + LoadingBar::Pos.x + (LoadingBar::Size.x / 2), LoadingBar::ParentPos.y + LoadingBar::Pos.y + 20 + (LoadingBar::Size.y), wprogress + LoadingBar::Name, "Verdana", 12, textColour, Centre);
 	}
 	else
 	{
 		DrawBitmap(LoadingBar::Bitmap, LoadingBar::ParentPos.x + LoadingBar::Pos.x, LoadingBar::ParentPos.y + LoadingBar::Pos.y, LoadingBar::Size.x, LoadingBar::Size.y, LoadingBar::Rotation);
-		DrawText(LoadingBar::ParentPos.x + LoadingBar::Pos.x + (LoadingBar::Size.x / 2), LoadingBar::ParentPos.y + LoadingBar::Pos.y + 10 + (LoadingBar::Size.y), wprogress + LoadingBar::Name, "Verdana", 12, textColour, Centre);
+		DrawText(LoadingBar::ParentPos.x + LoadingBar::Pos.x + (LoadingBar::Size.x / 2), LoadingBar::ParentPos.y + LoadingBar::Pos.y + 20 + (LoadingBar::Size.y), wprogress + LoadingBar::Name, "Verdana", 12, textColour, Centre);
 	}
 }
