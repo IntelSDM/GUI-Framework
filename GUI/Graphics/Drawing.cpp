@@ -283,6 +283,14 @@ void DrawBitmap(ID2D1Bitmap* bmp, int x, int y, int width, int height)
 	RenderTarget->DrawBitmap(bmp, D2D1::RectF(static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y)), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, D2D1::RectF(0.0f, 0.0f, bmp->GetSize().width, bmp->GetSize().height));
 }
 
+void DrawBitmap(ID2D1Bitmap* bmp, int x, int y, int width, int height,float rotation)
+{
+	D2D1_POINT_2F center = D2D1::Point2F(x + (width / 2), y + (height / 2));
+	RenderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(rotation, center));
+	RenderTarget->DrawBitmap(bmp, D2D1::RectF(static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y)), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, D2D1::RectF(0.0f, 0.0f, bmp->GetSize().width, bmp->GetSize().height));
+	RenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+}
+
 void FilledTriangle(int x1, int y1, int x2, int y2, int x3, int y3, MyColour colour)
 {
 	// Define the points of the triangle
@@ -306,7 +314,7 @@ void FilledTriangle(int x1, int y1, int x2, int y2, int x3, int y3, MyColour col
 	sink->Release();
 }
 
-void CreateBitmap1(const std::wstring& filename, ID2D1Bitmap** bmp)
+void CreateDirectXBitmap(const std::wstring& filename, ID2D1Bitmap** bmp)
 {
 	IWICImagingFactory* wicFactory = NULL;
 	HRESULT hr = CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, IID_IWICImagingFactory, (LPVOID*)&wicFactory);

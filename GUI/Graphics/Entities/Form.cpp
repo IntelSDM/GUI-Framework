@@ -27,7 +27,7 @@ Form::Form(float x, float y, float w, float h, float borderwidth, float borderhe
 	Form::CanMinimize = true;
 	Form::IconPath = iconpath;
 	if(std::filesystem::exists(IconPath))
-	CreateBitmap1(IconPath, &Bitmap);
+		CreateDirectXBitmap(IconPath, &Bitmap);
 	SetVisible(true);
 }
 
