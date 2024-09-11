@@ -18,7 +18,7 @@
 #include "NumericSlider.h"
 #include "LoadingBar.h"
 #include "AssetManager.h"
-
+#include "DropDownTextBox.h"
 int SelectedTab = 1;
 int SelectedSubTab = 0;
 int TabCount = 0;
@@ -88,6 +88,10 @@ void CreateGUI()
 			{
 				auto label = std::make_shared<Label>(L"List Instance 1", 180, 10);
 				listtab1->Push(label);
+				std::list<std::wstring> downvalues = { L"Value 12345678910", L"Value 2", L"Value 3", L"Value 4", L"Value 5", L"Value 6", L"Value 7", L"Value 8", L"Value 9", L"Value 9" };
+				auto textbox1 = std::make_shared<DropDownTextBox>(180, 100, L"TextDropDown", &DropDownValue, downvalues);
+				listtab1->Push(textbox1);
+
 			}
 			auto listtab2 = std::make_shared<TabListBox>(L"List Tab 2");
 			{

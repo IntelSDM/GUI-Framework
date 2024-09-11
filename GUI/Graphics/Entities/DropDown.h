@@ -3,11 +3,12 @@
 class DropDown : public Entity
 {
 protected:
-    float DropWidth;
+   
     std::list<std::wstring>Names;
     int* Index;
     bool Active = false;
     std::wstring SelectedName;
+    float DropWidth;
     float TextWidth = 0;
     float CutOffBuffer = 0;
     float SizeDifference;
