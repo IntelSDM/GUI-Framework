@@ -25,7 +25,8 @@ protected:
 	void UpdateScrollBar();
 
 	bool ScrollBarHeld = false;
-
+	int TextSize = 11;
+	std::string Font = "Verdana";
 public:
 	ComboBox(float x, float y, std::wstring text, std::list<bool*> items, std::list<std::wstring> names);
 	void Update();

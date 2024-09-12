@@ -19,7 +19,7 @@ DropDownTextBox::DropDownTextBox(float x, float y, std::wstring text, int* items
 	DropDownTextBox::SetStartIndex(); // this sets start value
 	DropDownTextBox::VisibleString = MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd);
 	DropDownTextBox::SelectedPoint = VisiblePointerEnd - DropDownTextBox::VisiblePointerStart;
-	DropDownTextBox::SelectedPosition = GetTextSize(DropDownTextBox::MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::SelectedPoint), "Verdana").x;
+	DropDownTextBox::SelectedPosition = GetTextSize(DropDownTextBox::MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::SelectedPoint), Font,TextSize).x;
 	DropDownTextBox::ContextSize = { 80.0f, 20.0f * (int)DropDownTextBox::ContextNames.size() };
 	DropDownTextBox::SetVisible(true);
 
@@ -36,7 +36,7 @@ void DropDownTextBox::ConvertSelectedName()
 {
 	auto it = DropDownTextBox::Names.begin();
 	std::advance(it, *Index);
-	float originalwidth = GetTextSize(*it, "Verdana", 11).x;
+	float originalwidth = GetTextSize(*it, Font, TextSize).x;
 
 	if (originalwidth < DropDownTextBox::Size.x - DropDownTextBox::CutOffBuffer)
 	{
@@ -52,7 +52,7 @@ void DropDownTextBox::ConvertSelectedName()
 		for (int i = str.length(); i > 0; i--)
 		{
 			str.erase(std::prev((str).end()));
-			float width = GetTextSize(str + L"..", "Verdana", 11).x;
+			float width = GetTextSize(str + L"..", Font, TextSize).x;
 			if (width < DropDownTextBox::Size.x - DropDownTextBox::CutOffBuffer)
 			{
 				DropDownTextBox::MainString = str + L"..";
@@ -61,7 +61,7 @@ void DropDownTextBox::ConvertSelectedName()
 			}
 		}
 		DropDownTextBox::MainString = str + L"..";
-		TextWidth = GetTextSize(str + L"..", "Verdana", 11).x;
+		TextWidth = GetTextSize(str + L"..", Font, TextSize).x;
 		DropDownTextBox::VisiblePointerStart = 0;
 		DropDownTextBox::VisiblePointerEnd = MainString.length();
 
@@ -72,7 +72,7 @@ void DropDownTextBox::SetDropDownWidth()
 	float width = 0;
 	for (std::wstring str : DropDownTextBox::Names)
 	{
-		float wdth = GetTextSize(str, "Verdana", 11).x;
+		float wdth = GetTextSize(str, Font, TextSize).x;
 		if (wdth > width)
 			width = wdth;
 	}
@@ -82,11 +82,11 @@ void DropDownTextBox::SetStartIndex()
 {
 	// Sets the value to be the right most character at the end.
 	DropDownTextBox::VisiblePointerStart = 0;
-	DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana").x;
+	DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font).x;
 	while (DropDownTextBox::TextWidth > DropDownTextBox::Size.x - 6)
 	{
 		DropDownTextBox::VisiblePointerStart++; // update position
-		DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana").x; // update width so we can exit
+		DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font).x; // update width so we can exit
 	}
 }
 
@@ -159,18 +159,18 @@ void DropDownTextBox::ArrowKeyNavition()
 		{
 			DropDownTextBox::SelectedPoint--;
 			DropDownTextBox::VisiblePointerStart--;
-			DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x;
+			DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x;
 			// if the value exceeds the textbox bounds decrement the ending
 			while (DropDownTextBox::TextWidth > DropDownTextBox::Size.x - 6 && DropDownTextBox::VisiblePointerStart != 0)
 			{
 				DropDownTextBox::VisiblePointerEnd--;
-				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
+				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 			}
 			while (DropDownTextBox::TextWidth < DropDownTextBox::Size.x - 6 && DropDownTextBox::MainString.length() > DropDownTextBox::VisiblePointerEnd && DropDownTextBox::VisiblePointerStart == 0)
 			{
 				DropDownTextBox::VisiblePointerEnd++; // update position
 				DropDownTextBox::SelectedPoint++;
-				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
+				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 			}
 		}
 		Char = NULL;
@@ -187,12 +187,12 @@ void DropDownTextBox::ArrowKeyNavition()
 		{
 			DropDownTextBox::SelectedPoint++;
 			DropDownTextBox::VisiblePointerEnd++;
-			DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x;
+			DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x;
 			// decrement start
 			while (DropDownTextBox::TextWidth > DropDownTextBox::Size.x - 6)
 			{
 				DropDownTextBox::VisiblePointerStart++; // update position
-				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
+				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 			}
 		}
 		Char = NULL;
@@ -229,13 +229,13 @@ void DropDownTextBox::InputText()
 			while (DropDownTextBox::TextWidth < DropDownTextBox::Size.x - 6 && DropDownTextBox::VisiblePointerStart > 0)
 			{
 				DropDownTextBox::VisiblePointerStart--;
-				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x;
+				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x;
 			}
 
 			while (DropDownTextBox::TextWidth < DropDownTextBox::Size.x - 6 && DropDownTextBox::VisiblePointerEnd < DropDownTextBox::MainString.length())
 			{
 				DropDownTextBox::VisiblePointerEnd++;
-				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x;
+				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x;
 			}
 
 			DropDownTextBox::SelectionStart = DropDownTextBox::SelectedPoint;
@@ -246,13 +246,13 @@ void DropDownTextBox::InputText()
 
 		Selecting = false;
 		DropDownTextBox::VisiblePointerEnd++;
-		DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x;
+		DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x;
 		MainString.insert(DropDownTextBox::SelectedPoint, 1, Char);
 		DropDownTextBox::SelectedPoint++;
 		while (DropDownTextBox::TextWidth > DropDownTextBox::Size.x - 6)
 		{
 			DropDownTextBox::VisiblePointerStart++; // update position
-			DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
+			DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 		}
 
 	}
@@ -284,7 +284,7 @@ void DropDownTextBox::DeleteText()
 				DropDownTextBox::VisiblePointerEnd--;
 			}
 
-			if (DropDownTextBox::VisiblePointerStart != 0 && GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x < DropDownTextBox::Size.x - 6)
+			if (DropDownTextBox::VisiblePointerStart != 0 && GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x < DropDownTextBox::Size.x - 6)
 			{
 				DropDownTextBox::VisiblePointerStart--;
 			}
@@ -293,7 +293,7 @@ void DropDownTextBox::DeleteText()
 			{
 				DropDownTextBox::VisiblePointerEnd++; // update position
 				DropDownTextBox::SelectedPoint++;
-				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart + 1, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
+				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart + 1, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 			}
 		}
 		else
@@ -314,14 +314,14 @@ void DropDownTextBox::DeleteText()
 			while (DropDownTextBox::TextWidth < DropDownTextBox::Size.x - 6 && DropDownTextBox::VisiblePointerStart > 0)
 			{
 				DropDownTextBox::VisiblePointerStart--; // Move the starting point up
-				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x;
+				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x;
 			}
 
 			// If the text still doesn't fill the TextBox, try to extend from the end
 			while (DropDownTextBox::TextWidth < DropDownTextBox::Size.x - 6 && DropDownTextBox::VisiblePointerEnd < DropDownTextBox::MainString.length())
 			{
 				DropDownTextBox::VisiblePointerEnd++; // Extend the ending point
-				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x;
+				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x;
 			}
 
 			//reset selected points
@@ -353,7 +353,7 @@ void DropDownTextBox::SetSelection()
 		int instance = 0;
 		for (int i = DropDownTextBox::VisiblePointerStart; i <= DropDownTextBox::VisiblePointerEnd; i++)
 		{
-			float width = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, i - DropDownTextBox::VisiblePointerStart), "Verdana", 11).x;
+			float width = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, i - DropDownTextBox::VisiblePointerStart), Font, TextSize).x;
 			float distance = std::abs(relativemousepos.x - width);
 			if (distance > lastdistance)
 			{
@@ -443,11 +443,11 @@ void DropDownTextBox::ContextPasteText()
 		DropDownTextBox::VisiblePointerEnd += clipboard.length();
 		MainString.insert(DropDownTextBox::SelectedPoint, clipboard);
 		DropDownTextBox::SelectedPoint += clipboard.length();
-		DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x;
+		DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x;
 		while (DropDownTextBox::TextWidth > DropDownTextBox::Size.x - 6)
 		{
 			DropDownTextBox::VisiblePointerStart++; // update position
-			DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
+			DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 		}
 	}
 	else
@@ -466,18 +466,18 @@ void DropDownTextBox::ContextPasteText()
 		DropDownTextBox::VisiblePointerEnd += clipboard.length();
 		MainString.insert(DropDownTextBox::SelectedPoint, clipboard);
 		DropDownTextBox::SelectedPoint += clipboard.length();
-		DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x;
+		DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x;
 		while (DropDownTextBox::TextWidth < DropDownTextBox::Size.x - 6 && DropDownTextBox::VisiblePointerStart > 0)
 		{
 			DropDownTextBox::VisiblePointerStart--; // Move the starting point up
-			DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x;
+			DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x;
 		}
 
 		// If the text still doesn't fill the TextBox, try to extend from the end
 		while (DropDownTextBox::TextWidth < DropDownTextBox::Size.x - 6 && DropDownTextBox::VisiblePointerEnd < DropDownTextBox::MainString.length())
 		{
 			DropDownTextBox::VisiblePointerEnd++; // Extend the ending point
-			DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x;
+			DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x;
 		}
 
 		//reset selected points
@@ -504,7 +504,7 @@ void DropDownTextBox::SetSelectionPoint()
 		int instance = 0;
 		for (int i = DropDownTextBox::VisiblePointerStart; i <= DropDownTextBox::VisiblePointerEnd; i++)
 		{
-			float width = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, i - DropDownTextBox::VisiblePointerStart), "Verdana", 11).x;
+			float width = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, i - DropDownTextBox::VisiblePointerStart), Font, TextSize).x;
 			float distance = std::abs(relativemousepos.x - width);
 			if (distance > lastdistance)
 			{
@@ -626,11 +626,11 @@ void DropDownTextBox::PasteText()
 			DropDownTextBox::VisiblePointerEnd += clipboard.length();
 			MainString.insert(DropDownTextBox::SelectedPoint, clipboard);
 			DropDownTextBox::SelectedPoint += clipboard.length();
-			DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x;
+			DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x;
 			while (DropDownTextBox::TextWidth > DropDownTextBox::Size.x - 6)
 			{
 				DropDownTextBox::VisiblePointerStart++; // update position
-				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
+				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 			}
 		}
 		else
@@ -649,18 +649,18 @@ void DropDownTextBox::PasteText()
 			DropDownTextBox::VisiblePointerEnd += clipboard.length();
 			MainString.insert(DropDownTextBox::SelectedPoint, clipboard);
 			DropDownTextBox::SelectedPoint += clipboard.length();
-			DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x;
+			DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x;
 			while (DropDownTextBox::TextWidth < DropDownTextBox::Size.x - 6 && DropDownTextBox::VisiblePointerStart > 0)
 			{
 				DropDownTextBox::VisiblePointerStart--; // Move the starting point up
-				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x;
+				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x;
 			}
 
 			// If the text still doesn't fill the TextBox, try to extend from the end
 			while (DropDownTextBox::TextWidth < DropDownTextBox::Size.x - 6 && DropDownTextBox::VisiblePointerEnd < DropDownTextBox::MainString.length())
 			{
 				DropDownTextBox::VisiblePointerEnd++; // Extend the ending point
-				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), "Verdana", 11).x;
+				DropDownTextBox::TextWidth = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd), Font, TextSize).x;
 			}
 
 			//reset selected points
@@ -720,7 +720,7 @@ void DropDownTextBox::Update()
 	if (!DropDownTextBox::IsVisible())
 		return;
 
-	DropDownTextBox::TextWidth = GetTextSize(VisibleString, "Verdana", 11).x;
+	DropDownTextBox::TextWidth = GetTextSize(VisibleString, Font, TextSize).x;
 	DropDownTextBox::CalculateBuffer();
 	DropDownTextBox::VisibleString = MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd);
 	DropDownTextBox::SetState();
@@ -756,9 +756,9 @@ void DropDownTextBox::Update()
 			DropDownTextBox::SelectedPoint = DropDownTextBox::VisiblePointerEnd;
 		}
 
-		DropDownTextBox::SelectedPosition = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::SelectedPoint - DropDownTextBox::VisiblePointerStart), "Verdana", 11).x;
-		DropDownTextBox::SelectingStartPosition = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::SelectionStart - DropDownTextBox::VisiblePointerStart), "Verdana", 11).x;
-		DropDownTextBox::SelectingEndPosition = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::SelectionEnd - DropDownTextBox::VisiblePointerStart), "Verdana", 11).x;
+		DropDownTextBox::SelectedPosition = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::SelectedPoint - DropDownTextBox::VisiblePointerStart), Font, TextSize).x;
+		DropDownTextBox::SelectingStartPosition = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::SelectionStart - DropDownTextBox::VisiblePointerStart), Font, TextSize).x;
+		DropDownTextBox::SelectingEndPosition = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::SelectionEnd - DropDownTextBox::VisiblePointerStart), Font, TextSize).x;
 
 	}
 		
@@ -798,8 +798,8 @@ void DropDownTextBox::Draw()
 		FilledTriangle(trianglex1, triangley1, trianglex2, triangley2, trianglex3, triangley3, arrowColour);
 
 
-	DrawText(DropDownTextBox::ParentPos.x + DropDownTextBox::Pos.x, DropDownTextBox::ParentPos.y + DropDownTextBox::Pos.y - (DropDownTextBox::Size.y / 1.5) - 1, DropDownTextBox::Name + L":", "Verdana", 11, textColour, None); // Title
-	DrawText(DropDownTextBox::ParentPos.x + DropDownTextBox::Pos.x + 3, (DropDownTextBox::ParentPos.y + DropDownTextBox::Pos.y) + (DropDownTextBox::Size.y / 6), DropDownTextBox::VisibleString, "Verdana", 11, textColour, None);
+	DrawText(DropDownTextBox::ParentPos.x + DropDownTextBox::Pos.x, DropDownTextBox::ParentPos.y + DropDownTextBox::Pos.y - (DropDownTextBox::Size.y / 1.5) - 1, DropDownTextBox::Name + L":", Font, TextSize, textColour, None); // Title
+	DrawText(DropDownTextBox::ParentPos.x + DropDownTextBox::Pos.x + 3, (DropDownTextBox::ParentPos.y + DropDownTextBox::Pos.y) + (DropDownTextBox::Size.y / 6), DropDownTextBox::VisibleString, Font, TextSize, textColour, None);
 
 	std::chrono::duration<float> elapsed = std::chrono::high_resolution_clock::now() - DropDownTextBox::AnimationStart;
 	float time = std::fmodf(elapsed.count(), DropDownTextBox::AnimationInterval) / DropDownTextBox::AnimationInterval;
@@ -833,7 +833,7 @@ void DropDownTextBox::Draw()
 
 			if (IsMouseInRectangle(DropDownTextBox::ContextPos.x, DropDownTextBox::ContextPos.y + (i * 20), DropDownTextBox::ContextSize.x, 20))
 				FilledRectangle(DropDownTextBox::ContextPos.x, DropDownTextBox::ContextPos.y + (i * 20), DropDownTextBox::ContextSize.x, 20, contextOutlineColour);
-			DrawText(DropDownTextBox::ContextPos.x + (DropDownTextBox::ContextSize.x / 2), DropDownTextBox::ContextPos.y + (i * 20) + 10, pair.first, "Verdana", 11, textColour, CentreCentre);
+			DrawText(DropDownTextBox::ContextPos.x + (DropDownTextBox::ContextSize.x / 2), DropDownTextBox::ContextPos.y + (i * 20) + 10, pair.first, Font, TextSize, textColour, CentreCentre);
 
 			i++;
 		}

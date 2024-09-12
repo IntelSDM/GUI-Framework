@@ -7,7 +7,7 @@
 Tab::Tab(std::wstring name, float x, float y, int* selectedtab, float width, float height)
 {
 	//Calc Size based off the name size
-	Vector2 txtSize = GetTextSize(name, "Verdana", 12);
+	Vector2 txtSize = GetTextSize(name, Font, TextSize);
 	if (width == 0 && height == 0)
 		Tab::Size = txtSize;
 	else
@@ -86,7 +86,7 @@ void Tab::Draw()
 		rectColour = MenuColours["TabActive"];
 
 	FilledRectangle(Tab::ParentPos.x + Tab::Pos.x, (Tab::ParentPos.y + Tab::ParentSize.y) - Tab::Pos.y, Tab::Size.x, Tab::Size.y, rectColour);
-	DrawText(Tab::ParentPos.x + Tab::Pos.x + (Tab::Size.x / 2), ((Tab::ParentPos.y + Tab::ParentSize.y) - Tab::Pos.y) + (Tab::Size.y / 2), Tab::Name, "Verdana", 12, textColour, CentreCentre);
+	DrawText(Tab::ParentPos.x + Tab::Pos.x + (Tab::Size.x / 2), ((Tab::ParentPos.y + Tab::ParentSize.y) - Tab::Pos.y) + (Tab::Size.y / 2), Tab::Name, Font, TextSize, textColour, CentreCentre);
 
 	if (selected)
 	{

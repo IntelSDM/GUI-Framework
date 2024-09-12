@@ -58,6 +58,8 @@ protected:
 	void SetSelection();
 
 
+	int TextSize = 11;
+	std::string Font = "Verdana";
 
 	std::list<std::wstring>Names;
 	int* Index;

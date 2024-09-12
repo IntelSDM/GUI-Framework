@@ -35,7 +35,7 @@ void DropDown::SetDropDownWidth()
 	float width = 0;
 	for (std::wstring str : DropDown::Names)
 	{
-		float wdth = GetTextSize(str, "Verdana", 11).x;
+		float wdth = GetTextSize(str, Font, TextSize).x;
 		if (wdth > width)
 			width = wdth;
 	}
@@ -46,7 +46,7 @@ void DropDown::ConvertSelectedName()
 {
 	auto it = DropDown::Names.begin();
 	std::advance(it, *Index);
-	float originalwidth = GetTextSize(*it, "Verdana", 11).x;
+	float originalwidth = GetTextSize(*it, Font, TextSize).x;
 
 	if (originalwidth < DropDown::Size.x - DropDown::CutOffBuffer)
 	{
@@ -60,7 +60,7 @@ void DropDown::ConvertSelectedName()
 		for (int i = str.length(); i > 0; i--)
 		{
 			str.erase(std::prev((str).end()));
-			float width = GetTextSize(str + L"..", "Verdana", 11).x;
+			float width = GetTextSize(str + L"..", Font, TextSize).x;
 			if (width < DropDown::Size.x - DropDown::CutOffBuffer)
 			{
 				DropDown::SelectedName = str + L"..";
@@ -69,7 +69,7 @@ void DropDown::ConvertSelectedName()
 			}
 		}
 		DropDown::SelectedName = str + L"..";
-		TextWidth = GetTextSize(str + L"..", "Verdana", 11).x;
+		TextWidth = GetTextSize(str + L"..", Font, TextSize).x;
 	}
 }
 
@@ -225,7 +225,7 @@ void DropDown::Draw()
 	if (!DropDown::Active)
 		FilledTriangle(trianglex1, triangley1, trianglex2, triangley2, trianglex3, triangley3, arrowColour);
 
-	DrawText(DropDown::ParentPos.x + DropDown::Pos.x + 5, DropDown::ParentPos.y + DropDown::Pos.y + (DropDown::Size.y / 8), DropDown::SelectedName, "Verdana", 11, textColour, None);
+	DrawText(DropDown::ParentPos.x + DropDown::Pos.x + 5, DropDown::ParentPos.y + DropDown::Pos.y + (DropDown::Size.y / 8), DropDown::SelectedName, Font, TextSize, textColour, None);
 
 	if (DropDown::DropWidth < DropDown::Size.x)
 	{
@@ -257,9 +257,9 @@ void DropDown::Draw()
 				FilledRectangle(DropDown::ParentPos.x + DropDown::Pos.x - (DropDown::SizeDifference / 2), itemposy, DropDown::DropWidth, DropDown::Size.y, activeArrowColour);
 			}
 			if (i == *DropDown::Index)
-				DrawText(DropDown::ParentPos.x + DropDown::Pos.x + 5 - (DropDown::SizeDifference / 2), itemposy + (DropDown::Size.y / 8), name, "Verdana", 11, selectedTextColour, None);
+				DrawText(DropDown::ParentPos.x + DropDown::Pos.x + 5 - (DropDown::SizeDifference / 2), itemposy + (DropDown::Size.y / 8), name, Font, TextSize, selectedTextColour, None);
 			else
-				DrawText(DropDown::ParentPos.x + DropDown::Pos.x + 5 - (DropDown::SizeDifference / 2), itemposy + (DropDown::Size.y / 8), name, "Verdana", 11, textColour, None);
+				DrawText(DropDown::ParentPos.x + DropDown::Pos.x + 5 - (DropDown::SizeDifference / 2), itemposy + (DropDown::Size.y / 8), name, Font, TextSize, textColour, None);
 			i++;
 		}
 		OutlineRectangle(DropDown::ParentPos.x + DropDown::Pos.x + DropDown::Size.x + (DropDown::SizeDifference / 2), DropDown::ParentPos.y + DropDown::Pos.y + DropDown::Size.y + 5, 6, (DropDown::PointerEnd - DropDown::PointerStart) * DropDown::Size.y + 1, 1, rectOutlineColour);

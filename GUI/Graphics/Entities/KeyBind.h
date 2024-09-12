@@ -24,6 +24,10 @@ protected:
     ,{VK_RWIN,L"Win"} ,{VK_DELETE,L"Delete"} ,{VK_INSERT,L"Insert"},{VK_END,L"End"},{VK_HOME,L"Home"},{VK_NEXT,L"Pg Up"},{VK_DOWN,L"Pg Down"}
     ,{VK_NUMLOCK,L"Num Lock"} ,{VK_DIVIDE,L"Num /"},{VK_LBUTTON,L"Mouse 1"},{VK_RBUTTON,L"Mouse 2"},{VK_MBUTTON,L"Mid Mouse"},{VK_XBUTTON1,L"Mouse 4"},{VK_XBUTTON2,L"Mouse5"}
     ,{VK_MENU,L"Alt"},{VK_RMENU,L"Right Alt"} ,{VK_LMENU,L"Left Alt"} };
+
+    int TextSize = 11;
+    std::string Font = "Verdana";
+
 public:
     KeyBind(float x, float y, std::wstring text, int* key);
     void Update();

@@ -17,7 +17,7 @@ TextBox::TextBox(float x, float y, std::wstring text, std::wstring* data = nullp
 	TextBox::SetStartIndex(); // this sets start value
 	TextBox::VisibleString = MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd);
 	TextBox::SelectedPoint = VisiblePointerEnd - TextBox::VisiblePointerStart;
-	TextBox::SelectedPosition = GetTextSize(TextBox::MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectedPoint), "Verdana").x;
+	TextBox::SelectedPosition = GetTextSize(TextBox::MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectedPoint), Font).x;
 	TextBox::ContextSize = {80.0f, 20.0f * (int)TextBox::ContextNames.size()};
 	TextBox::hide_text = hide;
 	TextBox::UnicodeSupport = unicode;
@@ -28,11 +28,11 @@ void TextBox::SetStartIndex()
 {
 	// Sets the value to be the right most character at the end.
 	TextBox::VisiblePointerStart = 0;
-	TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana").x;
+	TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font).x;
 	while (TextBox::TextWidth > TextBox::Size.x - 6)
 	{
 		TextBox::VisiblePointerStart++; // update position
-		TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana").x; // update width so we can exit
+		TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font).x; // update width so we can exit
 	}
 }
 
@@ -110,18 +110,18 @@ void TextBox::ArrowKeyNavition()
 		{
 			TextBox::SelectedPoint--;
 			TextBox::VisiblePointerStart--;
-			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x;
+			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 			// if the value exceeds the textbox bounds decrement the ending
 			while (TextBox::TextWidth > TextBox::Size.x - 6 && TextBox::VisiblePointerStart != 0)
 			{
 				TextBox::VisiblePointerEnd--;
-				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
+				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 			}
 			while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::MainString->length() > TextBox::VisiblePointerEnd && TextBox::VisiblePointerStart == 0)
 			{
 				TextBox::VisiblePointerEnd++; // update position
 				TextBox::SelectedPoint++;
-				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
+				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 			}
 		}
 		Char = NULL;
@@ -138,12 +138,12 @@ void TextBox::ArrowKeyNavition()
 		{
 			TextBox::SelectedPoint++;
 			TextBox::VisiblePointerEnd++;
-			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x;
+			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 			// decrement start
 			while (TextBox::TextWidth > TextBox::Size.x - 6)
 			{
 				TextBox::VisiblePointerStart++; // update position
-				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
+				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 			}
 		}
 		Char = NULL;
@@ -180,13 +180,13 @@ void TextBox::InputText()
 			while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::VisiblePointerStart > 0)
 			{
 				TextBox::VisiblePointerStart--; 
-				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x;
+				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 			}
 
 			while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::VisiblePointerEnd < TextBox::MainString->length())
 			{
 				TextBox::VisiblePointerEnd++; 
-				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x;
+				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 			}
 
 			TextBox::SelectionStart = TextBox::SelectedPoint;
@@ -197,13 +197,13 @@ void TextBox::InputText()
 
 		Selecting = false;
 		TextBox::VisiblePointerEnd++;
-		TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x;
+		TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 		MainString->insert(TextBox::SelectedPoint, 1, Char);
 		TextBox::SelectedPoint++;
 		while (TextBox::TextWidth > TextBox::Size.x - 6)
 		{
 			TextBox::VisiblePointerStart++; // update position
-			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
+			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 		}
 		
 	}
@@ -235,7 +235,7 @@ void TextBox::DeleteText()
 				TextBox::VisiblePointerEnd--;
 			}
 
-			if (TextBox::VisiblePointerStart != 0 && GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x < TextBox::Size.x - 6)
+			if (TextBox::VisiblePointerStart != 0 && GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x < TextBox::Size.x - 6)
 			{
 				TextBox::VisiblePointerStart--;
 			}
@@ -244,7 +244,7 @@ void TextBox::DeleteText()
 			{
 				TextBox::VisiblePointerEnd++; // update position
 				TextBox::SelectedPoint++;
-				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart + 1, TextBox::VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
+				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart + 1, TextBox::VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 			}
 		}
 		else
@@ -265,14 +265,14 @@ void TextBox::DeleteText()
 			while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::VisiblePointerStart > 0)
 			{
 				TextBox::VisiblePointerStart--; // Move the starting point up
-				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x;
+				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 			}
 
 			// If the text still doesn't fill the TextBox, try to extend from the end
 			while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::VisiblePointerEnd < TextBox::MainString->length())
 			{
 				TextBox::VisiblePointerEnd++; // Extend the ending point
-				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x;
+				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 			}
 
 			//reset selected points
@@ -304,7 +304,7 @@ void TextBox::SetSelection()
 		int instance = 0;
 		for (int i = TextBox::VisiblePointerStart; i <= TextBox::VisiblePointerEnd; i++)
 		{
-			float width = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, i - TextBox::VisiblePointerStart), "Verdana", 11).x;
+			float width = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, i - TextBox::VisiblePointerStart), Font, TextSize).x;
 			float distance = std::abs(relativemousepos.x - width);
 			if (distance > lastdistance)
 			{
@@ -394,11 +394,11 @@ void TextBox::ContextPasteText()
 		TextBox::VisiblePointerEnd += clipboard.length();
 		MainString->insert(TextBox::SelectedPoint, clipboard);
 		TextBox::SelectedPoint += clipboard.length();
-		TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x;
+		TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 		while (TextBox::TextWidth > TextBox::Size.x - 6)
 		{
 			TextBox::VisiblePointerStart++; // update position
-			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
+			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 		}
 	}
 	else
@@ -417,18 +417,18 @@ void TextBox::ContextPasteText()
 		TextBox::VisiblePointerEnd += clipboard.length();
 		MainString->insert(TextBox::SelectedPoint, clipboard);
 		TextBox::SelectedPoint += clipboard.length();
-		TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x;
+		TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 		while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::VisiblePointerStart > 0)
 		{
 			TextBox::VisiblePointerStart--; // Move the starting point up
-			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x;
+			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 		}
 
 		// If the text still doesn't fill the TextBox, try to extend from the end
 		while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::VisiblePointerEnd < TextBox::MainString->length())
 		{
 			TextBox::VisiblePointerEnd++; // Extend the ending point
-			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x;
+			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 		}
 
 		//reset selected points
@@ -455,7 +455,7 @@ void TextBox::SetSelectionPoint()
 		int instance = 0;
 		for (int i = TextBox::VisiblePointerStart; i <= TextBox::VisiblePointerEnd; i++)
 		{
-			float width = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, i - TextBox::VisiblePointerStart), "Verdana", 11).x;
+			float width = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, i - TextBox::VisiblePointerStart), Font, TextSize).x;
 			float distance = std::abs(relativemousepos.x - width);
 			if (distance > lastdistance)
 			{
@@ -577,11 +577,11 @@ void TextBox::PasteText()
 			TextBox::VisiblePointerEnd += clipboard.length();
 			MainString->insert(TextBox::SelectedPoint, clipboard);
 			TextBox::SelectedPoint += clipboard.length();
-			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x;
+			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 			while (TextBox::TextWidth > TextBox::Size.x - 6)
 			{
 				TextBox::VisiblePointerStart++; // update position
-				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
+				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 			}
 		}
 		else
@@ -600,18 +600,18 @@ void TextBox::PasteText()
 			TextBox::VisiblePointerEnd += clipboard.length();
 			MainString->insert(TextBox::SelectedPoint, clipboard);
 			TextBox::SelectedPoint += clipboard.length();
-			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x;
+			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 			while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::VisiblePointerStart > 0)
 			{
 				TextBox::VisiblePointerStart--; // Move the starting point up
-				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x;
+				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 			}
 
 			// If the text still doesn't fill the TextBox, try to extend from the end
 			while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::VisiblePointerEnd < TextBox::MainString->length())
 			{
 				TextBox::VisiblePointerEnd++; // Extend the ending point
-				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), "Verdana", 11).x;
+				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 			}
 
 			//reset selected points
@@ -671,7 +671,7 @@ void TextBox::Update()
 	if (!TextBox::IsVisible())
 		return;
 
-	TextBox::TextWidth = GetTextSize(VisibleString, "Verdana", 11).x;
+	TextBox::TextWidth = GetTextSize(VisibleString, Font, TextSize).x;
 	
 	TextBox::VisibleString = MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd);
 	TextBox::SetState();
@@ -703,15 +703,15 @@ void TextBox::Update()
 		if (TextBox::hide_text)
 		{
 			std::fill(TextBox::VisibleString.begin(), TextBox::VisibleString.end(), L'*');
-			TextBox::SelectedPosition = GetTextSize(TextBox::VisibleString.substr(TextBox::VisiblePointerStart, TextBox::SelectedPoint - TextBox::VisiblePointerStart), "Verdana", 11).x;
-			TextBox::SelectingStartPosition = GetTextSize(TextBox::VisibleString.substr(TextBox::VisiblePointerStart, TextBox::SelectionStart - TextBox::VisiblePointerStart), "Verdana", 11).x;
-			TextBox::SelectingEndPosition = GetTextSize(TextBox::VisibleString.substr(TextBox::VisiblePointerStart, TextBox::SelectionEnd - TextBox::VisiblePointerStart), "Verdana", 11).x;
+			TextBox::SelectedPosition = GetTextSize(TextBox::VisibleString.substr(TextBox::VisiblePointerStart, TextBox::SelectedPoint - TextBox::VisiblePointerStart), Font, TextSize).x;
+			TextBox::SelectingStartPosition = GetTextSize(TextBox::VisibleString.substr(TextBox::VisiblePointerStart, TextBox::SelectionStart - TextBox::VisiblePointerStart), Font, TextSize).x;
+			TextBox::SelectingEndPosition = GetTextSize(TextBox::VisibleString.substr(TextBox::VisiblePointerStart, TextBox::SelectionEnd - TextBox::VisiblePointerStart), Font, TextSize).x;
 		}
 		else
 		{
-			TextBox::SelectedPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectedPoint - TextBox::VisiblePointerStart), "Verdana", 11).x;
-			TextBox::SelectingStartPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectionStart - TextBox::VisiblePointerStart), "Verdana", 11).x;
-			TextBox::SelectingEndPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectionEnd - TextBox::VisiblePointerStart), "Verdana", 11).x;
+			TextBox::SelectedPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectedPoint - TextBox::VisiblePointerStart), Font, TextSize).x;
+			TextBox::SelectingStartPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectionStart - TextBox::VisiblePointerStart), Font, TextSize).x;
+			TextBox::SelectingEndPosition = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::SelectionEnd - TextBox::VisiblePointerStart), Font, TextSize).x;
 		}
 	}
 }
@@ -733,10 +733,10 @@ void TextBox::Draw()
 
 	FilledRoundedRectangle(TextBox::Pos.x + TextBox::ParentPos.x - 1, TextBox::Pos.y + +TextBox::ParentPos.y - 1, TextBox::Size.x + 2, TextBox::Size.y + 2, 4, rectOutlineColour);
 	FilledRoundedRectangle(TextBox::Pos.x + TextBox::ParentPos.x, TextBox::Pos.y + +TextBox::ParentPos.y, TextBox::Size.x, TextBox::Size.y, 4, rectColour);
-	DrawText(TextBox::ParentPos.x + TextBox::Pos.x, TextBox::ParentPos.y + TextBox::Pos.y - (TextBox::Size.y / 1.5) - 1, TextBox::Name + L":", "Verdana", 11, textColour, None); // Title
+	DrawText(TextBox::ParentPos.x + TextBox::Pos.x, TextBox::ParentPos.y + TextBox::Pos.y - (TextBox::Size.y / 1.5) - 1, TextBox::Name + L":", Font, TextSize, textColour, None); // Title
 	if (TextBox::hide_text)
 		std::fill(TextBox::VisibleString.begin(), TextBox::VisibleString.end(), L'*');
-	DrawText(TextBox::ParentPos.x + TextBox::Pos.x + 3, (TextBox::ParentPos.y + TextBox::Pos.y) + (TextBox::Size.y / 6), TextBox::VisibleString, "Verdana", 11, textColour, None);
+	DrawText(TextBox::ParentPos.x + TextBox::Pos.x + 3, (TextBox::ParentPos.y + TextBox::Pos.y) + (TextBox::Size.y / 6), TextBox::VisibleString, Font, TextSize, textColour, None);
 
 	std::chrono::duration<float> elapsed = std::chrono::high_resolution_clock::now() - TextBox::AnimationStart;
 	float time = std::fmodf(elapsed.count(), TextBox::AnimationInterval) / TextBox::AnimationInterval;
@@ -770,7 +770,7 @@ void TextBox::Draw()
 
 			if (IsMouseInRectangle(TextBox::ContextPos.x, TextBox::ContextPos.y + (i * 20), TextBox::ContextSize.x, 20))
 				FilledRectangle(TextBox::ContextPos.x, TextBox::ContextPos.y + (i * 20), TextBox::ContextSize.x, 20, contextOutlineColour);
-			DrawText(TextBox::ContextPos.x + (TextBox::ContextSize.x / 2), TextBox::ContextPos.y + (i * 20) + 10, pair.first, "Verdana", 11, textColour, CentreCentre);
+			DrawText(TextBox::ContextPos.x + (TextBox::ContextSize.x / 2), TextBox::ContextPos.y + (i * 20) + 10, pair.first, Font, TextSize, textColour, CentreCentre);
 
 			i++;
 		}

@@ -13,6 +13,8 @@ protected:
 	std::chrono::milliseconds AnimationDelay = std::chrono::milliseconds(15);
 	std::chrono::steady_clock::time_point NextAnimation = std::chrono::steady_clock::now();
 	bool Status = true;
+	int TextSize = 12;
+	std::string Font = "Verdana";
 public:
 	LoadingBar(float x, float y,float width, float height, const std::wstring& text, int* value,const std::wstring& iconpath);
 	void SetText(const std::wstring& text);

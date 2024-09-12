@@ -36,7 +36,7 @@ void ComboBox::SetComboBoxWidth()
 	float width = 0;
 	for (std::wstring str : ComboBox::Names)
 	{
-		float wdth = GetTextSize(str, "Verdana", 11).x;
+		float wdth = GetTextSize(str, Font, TextSize).x;
 		if (wdth > width)
 			width = wdth;
 	}
@@ -60,7 +60,7 @@ void ComboBox::ConvertSelectedName()
 	if (combinedstr.length() == 0)
 	{
 		combinedstr = L"Unselected";
-		float originalwidth = GetTextSize(combinedstr, "Verdana", 11).x;
+		float originalwidth = GetTextSize(combinedstr, Font, TextSize).x;
 		if (originalwidth < ComboBox::Size.x - ComboBox::CutOffBuffer)
 		{
 			ComboBox::TextWidth = originalwidth;
@@ -72,7 +72,7 @@ void ComboBox::ConvertSelectedName()
 			for (int i = combinedstr.length(); i > 0; i--)
 			{
 				combinedstr.erase(std::prev((combinedstr).end()));
-				float width = GetTextSize(combinedstr + L"..", "Verdana", 11).x;
+				float width = GetTextSize(combinedstr + L"..", Font, TextSize).x;
 				if (width < ComboBox::Size.x - ComboBox::CutOffBuffer)
 				{
 					ComboBox::SelectedName = combinedstr + L"..";
@@ -84,7 +84,7 @@ void ComboBox::ConvertSelectedName()
 	}
 
 	combinedstr.erase(std::prev((combinedstr).end())); // last character will be "," and we dont need that
-	float originalwidth = GetTextSize(combinedstr, "Verdana", 11).x;
+	float originalwidth = GetTextSize(combinedstr, Font, TextSize).x;
 
 	if (originalwidth < ComboBox::Size.x - ComboBox::CutOffBuffer)
 	{
@@ -98,7 +98,7 @@ void ComboBox::ConvertSelectedName()
 		for (int i = str.length(); i > 0; i--)
 		{
 			str.erase(std::prev((str).end()));
-			float width = GetTextSize(str + L"..", "Verdana", 11).x;
+			float width = GetTextSize(str + L"..", Font, TextSize).x;
 			if (width < ComboBox::Size.x - ComboBox::CutOffBuffer)
 			{
 				ComboBox::SelectedName = str + L"..";
@@ -107,7 +107,7 @@ void ComboBox::ConvertSelectedName()
 			}
 		}
 		ComboBox::SelectedName = str + L"..";
-		ComboBox::TextWidth = GetTextSize(str + L"..", "Verdana", 11).x;
+		ComboBox::TextWidth = GetTextSize(str + L"..", Font, TextSize).x;
 	}
 }
 
@@ -267,7 +267,7 @@ void ComboBox::Draw()
 	if (!ComboBox::Active)
 		FilledTriangle(trianglex1, triangley1, trianglex2, triangley2, trianglex3, triangley3, dropdownColour);
 
-	DrawText(ComboBox::ParentPos.x + ComboBox::Pos.x + 5, ComboBox::ParentPos.y + ComboBox::Pos.y + (ComboBox::Size.y / 8), ComboBox::SelectedName, "Verdana", 11, textColour, None);
+	DrawText(ComboBox::ParentPos.x + ComboBox::Pos.x + 5, ComboBox::ParentPos.y + ComboBox::Pos.y + (ComboBox::Size.y / 8), ComboBox::SelectedName, Font, TextSize, textColour, None);
 
 	if (ComboBox::DropWidth < ComboBox::Size.x)
 	{
@@ -303,9 +303,9 @@ void ComboBox::Draw()
 			std::advance(it, i);
 
 			if (**it == true)
-				DrawText(ComboBox::ParentPos.x + ComboBox::Pos.x + 5 - (ComboBox::SizeDifference / 2), itemposy + (ComboBox::Size.y / 8), name, "Verdana", 11, selectedTextColour, None);
+				DrawText(ComboBox::ParentPos.x + ComboBox::Pos.x + 5 - (ComboBox::SizeDifference / 2), itemposy + (ComboBox::Size.y / 8), name, Font, TextSize, selectedTextColour, None);
 			else
-				DrawText(ComboBox::ParentPos.x + ComboBox::Pos.x + 5 - (ComboBox::SizeDifference / 2), itemposy + (ComboBox::Size.y / 8), name, "Verdana", 11, textColour, None);
+				DrawText(ComboBox::ParentPos.x + ComboBox::Pos.x + 5 - (ComboBox::SizeDifference / 2), itemposy + (ComboBox::Size.y / 8), name, Font, TextSize, textColour, None);
 			i++;
 		}
 		OutlineRectangle(ComboBox::ParentPos.x + ComboBox::Pos.x + ComboBox::Size.x + (ComboBox::SizeDifference / 2), ComboBox::ParentPos.y + ComboBox::Pos.y + ComboBox::Size.y + 5, 6, (ComboBox::PointerEnd - ComboBox::PointerStart) * ComboBox::Size.y + 1, 1, rectOutlineColour);

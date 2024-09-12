@@ -41,6 +41,8 @@ protected:
 	bool Selecting = false;
 	bool Held = false;
 
+	int TextSize = 11;
+	std::string Font = "Verdana";
 	void ConvertValueToString()
 	{
 		OutputString = std::to_wstring(OutputValue);
@@ -128,11 +130,11 @@ protected:
 	{
 		// Sets the value to be the right most character at the end.
 		 VisiblePointerStart = 0;
-		 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana").x;
+		 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), Font,TextSize).x;
 		while ( TextWidth > Size.x - (MeasurementSize.x + 6))
 		{
 			 VisiblePointerStart++; // update position
-			 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana").x; // update width so we can exit
+			 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 		}
 	}
 	void SetState()
@@ -186,18 +188,18 @@ protected:
 			{
 				 SelectedPoint--;
 				 VisiblePointerStart--;
-				 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana", 11).x;
+				 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), Font, TextSize).x;
 				// if the value exceeds the textbox bounds decrement the ending
 				while ( TextWidth > Size.x - (MeasurementSize.x + 6) &&  VisiblePointerStart != 0)
 				{
 					 VisiblePointerEnd--;
-					 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
+					 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 				}
 				while ( TextWidth <  Size.x - (MeasurementSize.x + 6) &&  OutputString.length() >  VisiblePointerEnd &&  VisiblePointerStart == 0)
 				{
 					 VisiblePointerEnd++; // update position
 					 SelectedPoint++;
-					 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
+					 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 				}
 			}
 			Char = NULL;
@@ -214,12 +216,12 @@ protected:
 			{
 				 SelectedPoint++;
 				 VisiblePointerEnd++;
-				 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana", 11).x;
+				 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), Font, TextSize).x;
 				// decrement start
 				while ( TextWidth > Size.x - (MeasurementSize.x + 6))
 				{
 					 VisiblePointerStart++; // update position
-					 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
+					 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 				}
 			}
 			Char = NULL;
@@ -256,13 +258,13 @@ protected:
 				while ( TextWidth < Size.x - (MeasurementSize.x + 6) &&  VisiblePointerStart > 0)
 				{
 					 VisiblePointerStart--;
-					 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana", 11).x;
+					 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), Font, TextSize).x;
 				}
 
 				while ( TextWidth < Size.x - (MeasurementSize.x + 6) &&  VisiblePointerEnd <  OutputString.length())
 				{
 					 VisiblePointerEnd++;
-					 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana", 11).x;
+					 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), Font, TextSize).x;
 				}
 
 				 SelectionStart =  SelectedPoint;
@@ -273,7 +275,7 @@ protected:
 
 			Selecting = false;
 			 VisiblePointerEnd++;
-			 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana", 11).x;
+			 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), Font, TextSize).x;
 			OutputString.insert( SelectedPoint, 1, Char);
 			SetValue();
 
@@ -281,7 +283,7 @@ protected:
 			while ( TextWidth > Size.x - (MeasurementSize.x + 6))
 			{
 				 VisiblePointerStart++; // update position
-				 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
+				 TextWidth = GetTextSize(OutputString.substr( VisiblePointerStart,  VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 			}
 
 		}
@@ -301,7 +303,7 @@ protected:
 			int instance = 0;
 			for (int i = VisiblePointerStart; i <= VisiblePointerEnd; i++)
 			{
-				float width = GetTextSize(OutputString.substr(VisiblePointerStart, i - VisiblePointerStart), "Verdana", 11).x;
+				float width = GetTextSize(OutputString.substr(VisiblePointerStart, i - VisiblePointerStart), Font, TextSize).x;
 				float distance = std::abs(relativemousepos.x - width);
 				if (distance > lastdistance)
 				{
@@ -350,7 +352,7 @@ protected:
 			int instance = 0;
 			for (int i = VisiblePointerStart; i <= VisiblePointerEnd; i++)
 			{
-				float width = GetTextSize(OutputString.substr(VisiblePointerStart, i - VisiblePointerStart), "Verdana", 11).x;
+				float width = GetTextSize(OutputString.substr(VisiblePointerStart, i - VisiblePointerStart), Font, TextSize).x;
 				float distance = std::abs(relativemousepos.x - width);
 				if (distance > lastdistance)
 				{
@@ -431,7 +433,7 @@ protected:
 					SetValue();
 				}
 
-				if (VisiblePointerStart != 0 && GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), "Verdana", 11).x < Size.x - (MeasurementSize.x + 6))
+				if (VisiblePointerStart != 0 && GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), Font, TextSize).x < Size.x - (MeasurementSize.x + 6))
 				{
 					VisiblePointerStart--;
 				}
@@ -440,7 +442,7 @@ protected:
 				{
 					VisiblePointerEnd++; // update position
 					SelectedPoint++;
-					TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart + 1, VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
+					TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart + 1, VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 				}
 			}
 			else
@@ -464,14 +466,14 @@ protected:
 				while (TextWidth < Size.x - (MeasurementSize.x + 6) && VisiblePointerStart > 0)
 				{
 					VisiblePointerStart--; // Move the starting point up
-					TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), "Verdana", 11).x;
+					TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), Font, TextSize).x;
 				}
 
 				// If the text still doesn't fill the TextBox, try to extend from the end
 				while (TextWidth < Size.x - (MeasurementSize.x + 6) && VisiblePointerEnd < OutputString.length())
 				{
 					VisiblePointerEnd++; // Extend the ending point
-					TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), "Verdana", 11).x;
+					TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), Font, TextSize).x;
 				}
 
 				//reset selected points
@@ -559,11 +561,11 @@ protected:
 				VisiblePointerEnd += clipboard.length();
 				OutputString.insert(SelectedPoint, clipboard);
 				SelectedPoint += clipboard.length();
-				TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), "Verdana", 11).x;
+				TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), Font, TextSize).x;
 				while (TextWidth > Size.x - (MeasurementSize.x + 6))
 				{
 					VisiblePointerStart++; // update position
-					TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), "Verdana", 11).x; // update width so we can exit
+					TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 				}
 				SetValue();
 			}
@@ -586,18 +588,18 @@ protected:
 				OutputString.insert(SelectedPoint, clipboard);
 				SetValue();
 				SelectedPoint += clipboard.length();
-				TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), "Verdana", 11).x;
+				TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), Font, TextSize).x;
 				while (TextWidth < Size.x - (MeasurementSize.x + 6) && VisiblePointerStart > 0)
 				{
 					VisiblePointerStart--; // Move the starting point up
-					TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), "Verdana", 11).x;
+					TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), Font, TextSize).x;
 				}
 
 				// If the text still doesn't fill the TextBox, try to extend from the end
 				while (TextWidth < Size.x - (MeasurementSize.x + 6) && VisiblePointerEnd < OutputString.length())
 				{
 					VisiblePointerEnd++; // Extend the ending point
-					TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), "Verdana", 11).x;
+					TextWidth = GetTextSize(OutputString.substr(VisiblePointerStart, VisiblePointerEnd), Font, TextSize).x;
 				}
 
 				//reset selected points
@@ -616,7 +618,7 @@ public:
 		ParentPos = Parent->GetParentPos();
 		if (!IsVisible())
 			return;
-		TextWidth = GetTextSize(VisibleString, "Verdana", 11).x;
+		TextWidth = GetTextSize(VisibleString, Font, TextSize).x;
 	
 		VisibleString = OutputString.substr(VisiblePointerStart, VisiblePointerEnd);
 		SetState();
@@ -645,9 +647,9 @@ public:
 			}
 
 
-			SelectedPosition = GetTextSize(OutputString.substr(VisiblePointerStart, SelectedPoint - VisiblePointerStart), "Verdana", 11).x;
-			SelectingStartPosition = GetTextSize(OutputString.substr(VisiblePointerStart, SelectionStart - VisiblePointerStart), "Verdana", 11).x;
-			SelectingEndPosition = GetTextSize(OutputString.substr(VisiblePointerStart, SelectionEnd - VisiblePointerStart), "Verdana", 11).x;
+			SelectedPosition = GetTextSize(OutputString.substr(VisiblePointerStart, SelectedPoint - VisiblePointerStart), Font, TextSize).x;
+			SelectingStartPosition = GetTextSize(OutputString.substr(VisiblePointerStart, SelectionStart - VisiblePointerStart), Font, TextSize).x;
+			SelectingEndPosition = GetTextSize(OutputString.substr(VisiblePointerStart, SelectionEnd - VisiblePointerStart), Font, TextSize).x;
 
 		}
 		if (!Active)
@@ -685,9 +687,9 @@ public:
 		FilledRectangle(ParentPos.x + Pos.x, ParentPos.y + Pos.y, Size.x, Size.y, outline);
 		FilledRectangle(ParentPos.x + Pos.x + 2, ParentPos.y + Pos.y + 2, Size.x - (MeasurementSize.x + 4), Size.y - 4, fill);
 
-		DrawText(ParentPos.x + Pos.x + (Size.x - (MeasurementSize.x +1)), ParentPos.y + (Pos.y + 2), Measurement, "Verdana", 12, Active ? textactive : text, None);
+		DrawText(ParentPos.x + Pos.x + (Size.x - (MeasurementSize.x +1)), ParentPos.y + (Pos.y + 2), Measurement, Font, TextSize + 1, Active ? textactive : text, None);
 
-		DrawText(ParentPos.x + Pos.x + 3, (ParentPos.y + Pos.y) + (Size.y / 6), VisibleString, "Verdana", 11, text, None);
+		DrawText(ParentPos.x + Pos.x + 3, (ParentPos.y + Pos.y) + (Size.y / 6), VisibleString, Font, TextSize, text, None);
 
 		std::chrono::duration<float> elapsed = std::chrono::high_resolution_clock::now() - AnimationStart;
 		float time = std::fmodf(elapsed.count(), AnimationInterval) / AnimationInterval;
@@ -720,14 +722,14 @@ public:
 		OutputValue = *Value;
 		ConvertValueToString();
 		SetVisible(true);
-		MeasurementSize = GetTextSize(Measurement, "Verdana", 12);
+		MeasurementSize = GetTextSize(Measurement, Font, TextSize + 1);
 	
 
 		VisiblePointerEnd = OutputString.length();
 		SetStartIndex(); // this sets start value
 		VisibleString = OutputString.substr(VisiblePointerStart, VisiblePointerEnd);
 		SelectedPoint = VisiblePointerEnd - VisiblePointerStart;
-		SelectedPosition = GetTextSize(OutputString.substr(VisiblePointerStart,SelectedPoint), "Verdana").x;
+		SelectedPosition = GetTextSize(OutputString.substr(VisiblePointerStart,SelectedPoint), Font).x;
 	
 
 	}

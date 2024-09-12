@@ -137,7 +137,7 @@ void Form::Draw()
 		OutlineRectangle((Form::Pos.x - Form::Border.x / 2) + 1, (Form::Pos.y - Form::Border.x / 2) + 1, Form::Size.x + Form::Border.x - 1, Form::Size.y + Form::Border.x - 1, 1, rectOutlineColour); // Draw Border
 		FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Size.y, rectColour);
 		FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Border.y, rectHeaderColour); // header
-		DrawText(Form::Pos.x + 5, Form::Pos.y + (Form::Border.y / 4), Form::Name, "Verdana", 12, textColour, None);
+		DrawText(Form::Pos.x + 5, Form::Pos.y + (Form::Border.y / 4), Form::Name, Font, TextSize, textColour, None);
 	}
 	else
 	{
@@ -145,7 +145,7 @@ void Form::Draw()
 		FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Size.y, rectColour);
 		FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Border.y, rectHeaderColour); // header
 		DrawBitmap(Form::Bitmap,Form::Pos.x + 5, Form::Pos.y + 5, Form::Border.y - 10, Form::Border.y - 10);
-		DrawText(Form::Pos.x + (Form::Border.y - 10) + 7, Form::Pos.y + (Form::Border.y/4), Form::Name, "Verdana", 12, textColour, None);
+		DrawText(Form::Pos.x + (Form::Border.y - 10) + 7, Form::Pos.y + (Form::Border.y/4), Form::Name, Font, TextSize, textColour, None);
 	}
 	Container::Draw();
 }

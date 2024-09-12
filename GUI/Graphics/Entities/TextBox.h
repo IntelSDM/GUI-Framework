@@ -58,7 +58,8 @@ protected:
 	void PasteText();
 	void ContextMenu();
 	void SetSelection();
-
+	int TextSize = 11;
+	std::string Font = "Verdana";
 public:
 	TextBox(float x, float y, std::wstring text, std::wstring* data, bool hide = false, bool unicode = true);
 	void Update();

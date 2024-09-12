@@ -18,6 +18,9 @@ protected:
 	std::wstring Measurement;
 	std::wstring OutputString;
 
+	int TextSize = 11;
+	std::string Font = "Verdana";
+
 	void ConvertValueToString()
 	{
 		OutputString = std::to_wstring(OutputValue);
@@ -74,7 +77,7 @@ public:
 		MyColour textColour = MenuColours["Text"];
 		MyColour insideColour = MenuColours["SliderInside"];
 
-		DrawText(ParentPos.x + Pos.x, (ParentPos.y + Pos.y) - 5, Name + L": " + OutputString + Measurement, "Verdana", 12, textColour, None);
+		DrawText(ParentPos.x + Pos.x, (ParentPos.y + Pos.y) - 5, Name + L": " + OutputString + Measurement, Font, TextSize, textColour, None);
 		OutlineRectangle(ParentPos.x + Pos.x - 1, ParentPos.y + (Pos.y + 15) - 1, Size.x + 2, Size.y + 2, 1, textColour);
 		FilledRectangle(ParentPos.x + Pos.x, ParentPos.y + (Pos.y + 15), Size.x, Size.y, rectColour);
 		float ratio = (float)(*Value - (float)MinValue) / float(MaxValue - MinValue);

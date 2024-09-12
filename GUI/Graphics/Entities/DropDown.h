@@ -26,7 +26,8 @@ protected:
 
     bool ScrollBar = false;
 
-
+    int TextSize = 11;
+    std::string Font = "Verdana";
 public:
     DropDown(float x, float y, std::wstring text, int* items, std::list<std::wstring>names);
     void Update();

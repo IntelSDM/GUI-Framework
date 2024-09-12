@@ -25,7 +25,8 @@ protected:
 	int CachedHeight;
 
 	bool FirstItem = false;
-
+	int TextSize = 11;
+	std::string Font = "Verdana";
 public:
 	TabListBoxController(float x, float y, float width, float height);
 	void Update();
