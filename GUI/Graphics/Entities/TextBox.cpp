@@ -112,12 +112,12 @@ void TextBox::ArrowKeyNavition()
 			TextBox::VisiblePointerStart--;
 			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 			// if the value exceeds the textbox bounds decrement the ending
-			while (TextBox::TextWidth > TextBox::Size.x - 6 && TextBox::VisiblePointerStart != 0)
+			while (TextBox::TextWidth > TextBox::Size.x - 10 && TextBox::VisiblePointerStart != 0)
 			{
 				TextBox::VisiblePointerEnd--;
 				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
 			}
-			while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::MainString->length() > TextBox::VisiblePointerEnd && TextBox::VisiblePointerStart == 0)
+			while (TextBox::TextWidth < TextBox::Size.x - 10 && TextBox::MainString->length() > TextBox::VisiblePointerEnd && TextBox::VisiblePointerStart == 0)
 			{
 				TextBox::VisiblePointerEnd++; // update position
 				TextBox::SelectedPoint++;
@@ -140,7 +140,7 @@ void TextBox::ArrowKeyNavition()
 			TextBox::VisiblePointerEnd++;
 			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 			// decrement start
-			while (TextBox::TextWidth > TextBox::Size.x - 6)
+			while (TextBox::TextWidth > TextBox::Size.x - 10)
 			{
 				TextBox::VisiblePointerStart++; // update position
 				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
@@ -177,13 +177,13 @@ void TextBox::InputText()
 				}
 			}
 
-			while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::VisiblePointerStart > 0)
+			while (TextBox::TextWidth < TextBox::Size.x - 10 && TextBox::VisiblePointerStart > 0)
 			{
 				TextBox::VisiblePointerStart--; 
 				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 			}
 
-			while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::VisiblePointerEnd < TextBox::MainString->length())
+			while (TextBox::TextWidth < TextBox::Size.x - 10 && TextBox::VisiblePointerEnd < TextBox::MainString->length())
 			{
 				TextBox::VisiblePointerEnd++; 
 				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
@@ -200,7 +200,7 @@ void TextBox::InputText()
 		TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 		MainString->insert(TextBox::SelectedPoint, 1, Char);
 		TextBox::SelectedPoint++;
-		while (TextBox::TextWidth > TextBox::Size.x - 6)
+		while (TextBox::TextWidth > TextBox::Size.x - 10)
 		{
 			TextBox::VisiblePointerStart++; // update position
 			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
@@ -235,12 +235,12 @@ void TextBox::DeleteText()
 				TextBox::VisiblePointerEnd--;
 			}
 
-			if (TextBox::VisiblePointerStart != 0 && GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x < TextBox::Size.x - 6)
+			if (TextBox::VisiblePointerStart != 0 && GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x < TextBox::Size.x - 10)
 			{
 				TextBox::VisiblePointerStart--;
 			}
 			// detect if there is any other text that we might need to add so our string doesn't randomly get cut off
-			while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::MainString->length() > TextBox::VisiblePointerEnd)
+			while (TextBox::TextWidth < TextBox::Size.x - 10 && TextBox::MainString->length() > TextBox::VisiblePointerEnd)
 			{
 				TextBox::VisiblePointerEnd++; // update position
 				TextBox::SelectedPoint++;
@@ -262,14 +262,14 @@ void TextBox::DeleteText()
 				TextBox::MainString->erase(TextBox::SelectionStart, TextBox::SelectionEnd - TextBox::SelectionStart);
 				TextBox::VisiblePointerEnd -= TextBox::SelectionEnd - TextBox::SelectionStart;
 			}
-			while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::VisiblePointerStart > 0)
+			while (TextBox::TextWidth < TextBox::Size.x - 10 && TextBox::VisiblePointerStart > 0)
 			{
 				TextBox::VisiblePointerStart--; // Move the starting point up
 				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 			}
 
 			// If the text still doesn't fill the TextBox, try to extend from the end
-			while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::VisiblePointerEnd < TextBox::MainString->length())
+			while (TextBox::TextWidth < TextBox::Size.x - 10 && TextBox::VisiblePointerEnd < TextBox::MainString->length())
 			{
 				TextBox::VisiblePointerEnd++; // Extend the ending point
 				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
@@ -395,7 +395,7 @@ void TextBox::ContextPasteText()
 		MainString->insert(TextBox::SelectedPoint, clipboard);
 		TextBox::SelectedPoint += clipboard.length();
 		TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
-		while (TextBox::TextWidth > TextBox::Size.x - 6)
+		while (TextBox::TextWidth > TextBox::Size.x - 10)
 		{
 			TextBox::VisiblePointerStart++; // update position
 			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
@@ -418,14 +418,14 @@ void TextBox::ContextPasteText()
 		MainString->insert(TextBox::SelectedPoint, clipboard);
 		TextBox::SelectedPoint += clipboard.length();
 		TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
-		while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::VisiblePointerStart > 0)
+		while (TextBox::TextWidth < TextBox::Size.x - 10 && TextBox::VisiblePointerStart > 0)
 		{
 			TextBox::VisiblePointerStart--; // Move the starting point up
 			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 		}
 
 		// If the text still doesn't fill the TextBox, try to extend from the end
-		while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::VisiblePointerEnd < TextBox::MainString->length())
+		while (TextBox::TextWidth < TextBox::Size.x - 10 && TextBox::VisiblePointerEnd < TextBox::MainString->length())
 		{
 			TextBox::VisiblePointerEnd++; // Extend the ending point
 			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
@@ -578,7 +578,7 @@ void TextBox::PasteText()
 			MainString->insert(TextBox::SelectedPoint, clipboard);
 			TextBox::SelectedPoint += clipboard.length();
 			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
-			while (TextBox::TextWidth > TextBox::Size.x - 6)
+			while (TextBox::TextWidth > TextBox::Size.x - 10)
 			{
 				TextBox::VisiblePointerStart++; // update position
 				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x; // update width so we can exit
@@ -601,14 +601,14 @@ void TextBox::PasteText()
 			MainString->insert(TextBox::SelectedPoint, clipboard);
 			TextBox::SelectedPoint += clipboard.length();
 			TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
-			while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::VisiblePointerStart > 0)
+			while (TextBox::TextWidth < TextBox::Size.x - 10 && TextBox::VisiblePointerStart > 0)
 			{
 				TextBox::VisiblePointerStart--; // Move the starting point up
 				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
 			}
 
 			// If the text still doesn't fill the TextBox, try to extend from the end
-			while (TextBox::TextWidth < TextBox::Size.x - 6 && TextBox::VisiblePointerEnd < TextBox::MainString->length())
+			while (TextBox::TextWidth < TextBox::Size.x - 10 && TextBox::VisiblePointerEnd < TextBox::MainString->length())
 			{
 				TextBox::VisiblePointerEnd++; // Extend the ending point
 				TextBox::TextWidth = GetTextSize(MainString->substr(TextBox::VisiblePointerStart, TextBox::VisiblePointerEnd), Font, TextSize).x;
