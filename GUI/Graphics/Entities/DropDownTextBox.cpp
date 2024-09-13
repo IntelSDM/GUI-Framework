@@ -112,7 +112,9 @@ void DropDownTextBox::SetState()
 		DropDownTextBox::SelectedPosition = GetTextSize(DropDownTextBox::MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::SelectedPoint), Font, TextSize).x;
 
 	}
-	else if (IsKeyClicked(VK_LBUTTON) && !IsMouseInRectangle(DropDownTextBox::Pos + DropDownTextBox::ParentPos, DropDownTextBox::Size) && DropDownTextBox::Active)
+	else if (IsKeyClicked(VK_LBUTTON) && !IsMouseInRectangle(DropDownTextBox::Pos + DropDownTextBox::ParentPos, DropDownTextBox::Size)
+		&& !IsMouseInRectangle(DropDownTextBox::ParentPos.x + DropDownTextBox::Pos.x - (DropDownTextBox::SizeDifference / 2), DropDownTextBox::ParentPos.y + DropDownTextBox::Pos.y + DropDownTextBox::Size.y + 5,
+			DropDownTextBox::DropWidth, (DropDownTextBox::Size.y * VisibleNames.size())) && DropDownTextBox::Active)
 	{
 		DropDownTextBox::Selecting = false;
 		DropDownTextBox::Held = false;
@@ -822,18 +824,34 @@ void DropDownTextBox::Update()
 			}
 			VisibleNames = tempnames;
 		}
-		else
+		std::vector<int> visibleindexs;
+		for (int i = 0; i < Names.size(); i++)
 		{
-			/*if (*Index >= 0 && *Index < Names.size())
-			if (MainString != Names[*Index])
+			if (std::find(VisibleNames.begin(), VisibleNames.end(), Names[i]) != VisibleNames.end())
 			{
+				visibleindexs.push_back(i);
+			}
+		}
+		for (int i = 0; i < VisibleNames.size(); i++)
+		{
+			float itemposy = DropDownTextBox::ParentPos.y + DropDownTextBox::Pos.y + DropDownTextBox::Size.y + 5 + ((i)*DropDownTextBox::Size.y);
+
+			if (IsMouseInRectangle(DropDownTextBox::ParentPos.x + DropDownTextBox::Pos.x - (DropDownTextBox::SizeDifference / 2), itemposy, DropDownTextBox::DropWidth, DropDownTextBox::Size.y) && IsKeyClicked(VK_LBUTTON))
+			{
+				*Index = visibleindexs[i];
 				MainString = Names[*Index];
-				printf("MainString: %s\n", MainString.c_str());
-			
-			}*/
-		//	printf("Names[Index]: %s\n", Names[*Index].c_str());
-			// print index
-	
+				ConvertSelectedName();
+				DropDownTextBox::CutOffBuffer = 0;
+				DropDownTextBox::VisiblePointerEnd = MainString.length();
+				DropDownTextBox::SetStartIndex(); // this sets start value
+				DropDownTextBox::VisibleString = MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd);
+				DropDownTextBox::SelectedPoint = VisiblePointerEnd - DropDownTextBox::VisiblePointerStart;
+				DropDownTextBox::SelectedPosition = GetTextSize(DropDownTextBox::MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::SelectedPoint), Font, TextSize).x;
+				DropDownTextBox::Selecting = false;
+				DropDownTextBox::Held = false;
+				DropDownTextBox::Active = false; // prevent 2 being active at the same time unless they are somehow fucking merged
+				DropDownTextBox::ValueChangeEvent();
+			}
 		}
 	}
 	else
@@ -927,12 +945,30 @@ void DropDownTextBox::Draw()
 	}
 	if (DropDownTextBox::Active)
 	{
-		OutlineRectangle(DropDownTextBox::ParentPos.x + DropDownTextBox::Pos.x - (DropDownTextBox::SizeDifference / 2), DropDownTextBox::ParentPos.y + DropDownTextBox::Pos.y + DropDownTextBox::Size.y + 5, DropDownTextBox::DropWidth + 1,(DropDownTextBox::Size.y * Names.size()) + 1, 1, rectOutlineColour);
-		
+	
+		OutlineRectangle(DropDownTextBox::ParentPos.x + DropDownTextBox::Pos.x - (DropDownTextBox::SizeDifference / 2), DropDownTextBox::ParentPos.y + DropDownTextBox::Pos.y + DropDownTextBox::Size.y + 5, DropDownTextBox::DropWidth + 1,(DropDownTextBox::Size.y * VisibleNames.size()) + 1, 1, rectOutlineColour);
+		FilledRectangle(DropDownTextBox::ParentPos.x + DropDownTextBox::Pos.x - (DropDownTextBox::SizeDifference / 2), DropDownTextBox::ParentPos.y + DropDownTextBox::Pos.y + DropDownTextBox::Size.y + 5, DropDownTextBox::DropWidth, (DropDownTextBox::Size.y * VisibleNames.size()), rectColour);
+		std::vector<int> visibleindexs;
+		for (int i = 0; i < Names.size(); i++)
+		{
+			if (std::find(VisibleNames.begin(), VisibleNames.end(), Names[i]) != VisibleNames.end())
+			{
+				visibleindexs.push_back(i);
+			}
+		}
 		for (int i = 0; i < VisibleNames.size(); i++)
 		{
 			float itemposy = DropDownTextBox::ParentPos.y + DropDownTextBox::Pos.y + DropDownTextBox::Size.y + 5 + ((i ) * DropDownTextBox::Size.y);
-			DrawText(DropDownTextBox::ParentPos.x + DropDownTextBox::Pos.x + 5 - (DropDownTextBox::SizeDifference / 2), itemposy + (DropDownTextBox::Size.y / 8), VisibleNames[i], Font, TextSize, selectedTextColour, None);
+			
+			if (IsMouseInRectangle(DropDownTextBox::ParentPos.x + DropDownTextBox::Pos.x - (DropDownTextBox::SizeDifference / 2), itemposy, DropDownTextBox::DropWidth, DropDownTextBox::Size.y))
+			{
+				FilledRectangle(DropDownTextBox::ParentPos.x + DropDownTextBox::Pos.x - (DropDownTextBox::SizeDifference / 2), itemposy, DropDownTextBox::DropWidth, DropDownTextBox::Size.y, activeArrowColour);
+			}
+			if(visibleindexs[i] == *DropDownTextBox::Index)
+				DrawText(DropDownTextBox::ParentPos.x + DropDownTextBox::Pos.x + 5 - (DropDownTextBox::SizeDifference / 2), itemposy + (DropDownTextBox::Size.y / 8), VisibleNames[i], Font, TextSize, selectedTextColour, None);
+			else
+				DrawText(DropDownTextBox::ParentPos.x + DropDownTextBox::Pos.x + 5 - (DropDownTextBox::SizeDifference / 2), itemposy + (DropDownTextBox::Size.y / 8), VisibleNames[i], Font, TextSize, textColour, None);
+			//DrawText(DropDownTextBox::ParentPos.x + DropDownTextBox::Pos.x + 5 - (DropDownTextBox::SizeDifference / 2), itemposy + (DropDownTextBox::Size.y / 8), VisibleNames[i], Font, TextSize, textColour, None);
 		}
 	}
 	if (!DropDownTextBox::ContextActive && !DropDownTextBox::Active)
