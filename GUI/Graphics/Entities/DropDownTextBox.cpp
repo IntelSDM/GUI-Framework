@@ -6,7 +6,7 @@
 #include "Graphics.h"
 #include "Animation.h"
 
-DropDownTextBox::DropDownTextBox(float x, float y, std::wstring text, int* items, std::list<std::wstring>names)
+DropDownTextBox::DropDownTextBox(float x, float y, std::wstring text, int* items, std::vector<std::wstring>names)
 {
 	DropDownTextBox::Pos = { x, y };
 	DropDownTextBox::Size = { 120, 20 };
@@ -22,6 +22,7 @@ DropDownTextBox::DropDownTextBox(float x, float y, std::wstring text, int* items
 	DropDownTextBox::SelectedPosition = GetTextSize(DropDownTextBox::MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::SelectedPoint), Font,TextSize).x;
 	DropDownTextBox::ContextSize = { 80.0f, 20.0f * (int)DropDownTextBox::ContextNames.size() };
 	DropDownTextBox::SetVisible(true);
+	VisibleNames = Names;
 
 }
 
@@ -34,13 +35,17 @@ void DropDownTextBox::CalculateBuffer()
 }
 void DropDownTextBox::ConvertSelectedName()
 {
-	auto it = DropDownTextBox::Names.begin();
-	std::advance(it, *Index);
-	float originalwidth = GetTextSize(*it, Font, TextSize).x;
+	if (*Index < 0 || *Index > Names.size())
+	{
+		return;
+	}
+
+	std::wstring it = Names[*Index];
+	float originalwidth = GetTextSize(it, Font, TextSize).x;
 
 	if (originalwidth < DropDownTextBox::Size.x - DropDownTextBox::CutOffBuffer)
 	{
-		DropDownTextBox::MainString = *it;
+		DropDownTextBox::MainString = it;
 		DropDownTextBox::VisiblePointerStart = 0;
 		DropDownTextBox::VisiblePointerEnd = MainString.length();
 		TextWidth = originalwidth;
@@ -48,7 +53,7 @@ void DropDownTextBox::ConvertSelectedName()
 	}
 	else
 	{
-		std::wstring str = *it;
+		std::wstring str = it;
 		for (int i = str.length(); i > 0; i--)
 		{
 			str.erase(std::prev((str).end()));
@@ -98,6 +103,14 @@ void DropDownTextBox::SetState()
 		DropDownTextBox::Active = true;
 		DropDownTextBox::ContextActive = false;
 		Char = NULL;
+		// very stupid way of dealing with this but there is no reason someone would put a fucking 25 character option in here which would make the text go over the boundaries
+		MainString = Names[*Index];
+		DropDownTextBox::VisiblePointerEnd = MainString.length();
+		DropDownTextBox::SetStartIndex(); // this sets start value
+		DropDownTextBox::VisibleString = MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd);
+		DropDownTextBox::SelectedPoint = VisiblePointerEnd - DropDownTextBox::VisiblePointerStart;
+		DropDownTextBox::SelectedPosition = GetTextSize(DropDownTextBox::MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::SelectedPoint), Font, TextSize).x;
+
 	}
 	else if (IsKeyClicked(VK_LBUTTON) && !IsMouseInRectangle(DropDownTextBox::Pos + DropDownTextBox::ParentPos, DropDownTextBox::Size) && DropDownTextBox::Active)
 	{
@@ -105,6 +118,23 @@ void DropDownTextBox::SetState()
 		DropDownTextBox::Held = false;
 		DropDownTextBox::Active = false; // prevent 2 being active at the same time unless they are somehow fucking merged
 		DropDownTextBox::ValueChangeEvent();
+		DropDownTextBox::CutOffBuffer = 15;
+		for (int i = 0; i < Names.size(); i++)
+		{
+			if (MainString == Names[i])
+			{
+
+				*Index = i;
+				break;
+			}
+		}
+		ConvertSelectedName();
+		DropDownTextBox::CutOffBuffer = 0;
+		DropDownTextBox::VisiblePointerEnd = MainString.length();
+		DropDownTextBox::SetStartIndex(); // this sets start value
+		DropDownTextBox::VisibleString = MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd);
+		DropDownTextBox::SelectedPoint = VisiblePointerEnd - DropDownTextBox::VisiblePointerStart;
+		DropDownTextBox::SelectedPosition = GetTextSize(DropDownTextBox::MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::SelectedPoint), Font, TextSize).x;
 	}
 	else if ((character == VK_RETURN || character == VK_ESCAPE) && DropDownTextBox::Active)
 	{
@@ -112,6 +142,22 @@ void DropDownTextBox::SetState()
 		DropDownTextBox::ValueChangeEvent();
 		DropDownTextBox::Selecting = false;
 		Char = NULL;
+		DropDownTextBox::CutOffBuffer = 15;
+		for (int i =0; i < Names.size(); i++)
+		{
+			if (MainString == Names[i])
+			{
+				*Index = i;
+				break;
+			}
+		}
+		ConvertSelectedName();
+		DropDownTextBox::CutOffBuffer = 0;
+		DropDownTextBox::VisiblePointerEnd = MainString.length();
+		DropDownTextBox::SetStartIndex(); // this sets start value
+		DropDownTextBox::VisibleString = MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::VisiblePointerEnd);
+		DropDownTextBox::SelectedPoint = VisiblePointerEnd - DropDownTextBox::VisiblePointerStart;
+		DropDownTextBox::SelectedPosition = GetTextSize(DropDownTextBox::MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::SelectedPoint), Font, TextSize).x;
 	}
 
 	if (!IsKeyDown(VK_LBUTTON))
@@ -208,6 +254,7 @@ void DropDownTextBox::InputText()
 		return;
 	if (DropDownTextBox::IsKeyAcceptable() && std::iswprint(Char))
 	{
+		HasTyped = true;
 		if (DropDownTextBox::Selecting) // delete selected text
 		{
 
@@ -268,6 +315,7 @@ void DropDownTextBox::DeleteText()
 	WPARAM character = Char;
 	if (character == VK_BACK && (DropDownTextBox::MainString).length() != 0 && DropDownTextBox::VisiblePointerEnd != 0 && SelectedPoint != 0) // backspace
 	{
+		HasTyped = true;
 		// no selection
 		if (DropDownTextBox::SelectionStart == DropDownTextBox::SelectedPoint && DropDownTextBox::SelectionEnd == DropDownTextBox::SelectedPoint && !DropDownTextBox::Selecting)
 		{
@@ -424,6 +472,7 @@ void DropDownTextBox::ContextPasteText()
 {
 	if (!OpenClipboard(nullptr))
 		return;
+	HasTyped = true;
 	std::wstring clipboard = L"";
 	HANDLE data = GetClipboardData(CF_UNICODETEXT);
 	if (data != nullptr)
@@ -606,6 +655,7 @@ void DropDownTextBox::PasteText()
 		return;
 	if (!OpenClipboard(nullptr))
 		return;
+	HasTyped = true;
 	std::wstring clipboard = L"";
 	HANDLE data = GetClipboardData(CF_UNICODETEXT);
 	if (data != nullptr)
@@ -734,11 +784,7 @@ void DropDownTextBox::Update()
 	DropDownTextBox::CopyText();
 	DropDownTextBox::PasteText();
 	DropDownTextBox::ContextMenu();
-	if (DropDownTextBox::DropWidth < DropDownTextBox::Size.x)
-	{
-		DropDownTextBox::DropWidth = DropDownTextBox::Size.x;
-		DropDownTextBox::SizeDifference = 0;
-	}
+	
 	if (DropDownTextBox::Active) // take input
 	{
 		DropDownTextBox::SizeDifference = DropDownTextBox::DropWidth - DropDownTextBox::TextWidth;
@@ -760,8 +806,48 @@ void DropDownTextBox::Update()
 		DropDownTextBox::SelectingStartPosition = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::SelectionStart - DropDownTextBox::VisiblePointerStart), Font, TextSize).x;
 		DropDownTextBox::SelectingEndPosition = GetTextSize(MainString.substr(DropDownTextBox::VisiblePointerStart, DropDownTextBox::SelectionEnd - DropDownTextBox::VisiblePointerStart), Font, TextSize).x;
 
+		if (DropDownTextBox::MainString.size() == 0)
+		{
+			VisibleNames = Names;
+		}
+		if (HasTyped)
+		{
+			std::vector<std::wstring> tempnames;
+			for (auto& name : Names)
+			{
+				if (name.find(MainString) != std::string::npos)
+				{
+					tempnames.push_back(name);
+				}
+			}
+			VisibleNames = tempnames;
+		}
+		else
+		{
+			/*if (*Index >= 0 && *Index < Names.size())
+			if (MainString != Names[*Index])
+			{
+				MainString = Names[*Index];
+				printf("MainString: %s\n", MainString.c_str());
+			
+			}*/
+		//	printf("Names[Index]: %s\n", Names[*Index].c_str());
+			// print index
+	
+		}
 	}
+	else
+	{
+		HasTyped = false;
 		
+	}
+	
+	if (DropDownTextBox::DropWidth < DropDownTextBox::Size.x)
+	{
+		DropDownTextBox::DropWidth = DropDownTextBox::Size.x;
+		DropDownTextBox::SizeDifference = 0;
+	}
+
 }
 
 void DropDownTextBox::Draw()
@@ -809,6 +895,7 @@ void DropDownTextBox::Draw()
 		float alpha = 255.0f * (1.0f - easedtime * 2.0f);
 		FilledLine(DropDownTextBox::Pos.x + DropDownTextBox::ParentPos.x + DropDownTextBox::SelectedPosition + 5.f, DropDownTextBox::Pos.y + DropDownTextBox::ParentPos.y + DropDownTextBox::Size.y - 3, DropDownTextBox::Pos.x + DropDownTextBox::ParentPos.x + DropDownTextBox::SelectedPosition + 5.f, DropDownTextBox::Pos.y + DropDownTextBox::ParentPos.y + 3, 1,
 			currentLocColour.Modify(currentLocColour.r, currentLocColour.g, currentLocColour.b, static_cast<float>(alpha) / 255.0f));
+	
 	}
 	if (DropDownTextBox::SelectingStartPosition >= 0 || DropDownTextBox::SelectingEndPosition >= 0)
 	{
@@ -836,6 +923,16 @@ void DropDownTextBox::Draw()
 			DrawText(DropDownTextBox::ContextPos.x + (DropDownTextBox::ContextSize.x / 2), DropDownTextBox::ContextPos.y + (i * 20) + 10, pair.first, Font, TextSize, textColour, CentreCentre);
 
 			i++;
+		}
+	}
+	if (DropDownTextBox::Active)
+	{
+		OutlineRectangle(DropDownTextBox::ParentPos.x + DropDownTextBox::Pos.x - (DropDownTextBox::SizeDifference / 2), DropDownTextBox::ParentPos.y + DropDownTextBox::Pos.y + DropDownTextBox::Size.y + 5, DropDownTextBox::DropWidth + 1,(DropDownTextBox::Size.y * Names.size()) + 1, 1, rectOutlineColour);
+		
+		for (int i = 0; i < VisibleNames.size(); i++)
+		{
+			float itemposy = DropDownTextBox::ParentPos.y + DropDownTextBox::Pos.y + DropDownTextBox::Size.y + 5 + ((i ) * DropDownTextBox::Size.y);
+			DrawText(DropDownTextBox::ParentPos.x + DropDownTextBox::Pos.x + 5 - (DropDownTextBox::SizeDifference / 2), itemposy + (DropDownTextBox::Size.y / 8), VisibleNames[i], Font, TextSize, selectedTextColour, None);
 		}
 	}
 	if (!DropDownTextBox::ContextActive && !DropDownTextBox::Active)
