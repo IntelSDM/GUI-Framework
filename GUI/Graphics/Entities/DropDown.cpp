@@ -170,6 +170,8 @@ void DropDown::Update()
 
 			if (IsMouseInRectangle(DropDown::ParentPos.x + DropDown::Pos.x, itemposy, DropDown::DropWidth + (DropDown::SizeDifference / 2), DropDown::Size.y) && IsKeyClicked(VK_LBUTTON))
 			{
+				// print SizeDifference
+				printf("SizeDifference: %f\n", DropDown::SizeDifference);
 				*DropDown::Index = i;
 				DropDown::Active = false;
 				DropDown::SetBlockedSiblings(false);

@@ -192,33 +192,6 @@ void ComboBox::Update()
 	{
 		ComboBox::SizeDifference = ComboBox::DropWidth - ComboBox::TextWidth;
 		ComboBox::SetComboBoxWidth();
-		int i = 0;
-		for (const std::wstring& name : ComboBox::Names)
-		{
-			if (i < ComboBox::PointerStart)
-			{
-				i++;
-				continue;
-			}
-			if (i > ComboBox::PointerEnd - 1)
-			{
-				i++;
-				continue;
-			}
-			float itemposy = ComboBox::ParentPos.y + ComboBox::Pos.y + ComboBox::Size.y + 5 + ((i - ComboBox::PointerStart) * ComboBox::Size.y);
-
-			if (IsMouseInRectangle(ComboBox::ParentPos.x + ComboBox::Pos.x, itemposy, ComboBox::DropWidth + (ComboBox::SizeDifference / 2), ComboBox::Size.y) && IsKeyClicked(VK_LBUTTON) && ComboBox::LastClick < (clock() * 0.00001f))
-			{
-				auto it = ComboBox::Items.begin();
-				std::advance(it, i);
-				ComboBox::ValueChangeEvent();
-				**it = !**it;
-				ComboBox::LastClick = (clock() * 0.00001f) + 0.002f;
-				ComboBox::ConvertSelectedName();
-				Sleep(50); // bandage click through fix
-			}
-			i++;
-		}
 	}
 	if(!ComboBox::Active && !ComboBox::Blocked)
 		DrawTooltip();
@@ -306,6 +279,18 @@ void ComboBox::Draw()
 				DrawText(ComboBox::ParentPos.x + ComboBox::Pos.x + 5 - (ComboBox::SizeDifference / 2), itemposy + (ComboBox::Size.y / 8), name, Font, TextSize, selectedTextColour, None);
 			else
 				DrawText(ComboBox::ParentPos.x + ComboBox::Pos.x + 5 - (ComboBox::SizeDifference / 2), itemposy + (ComboBox::Size.y / 8), name, Font, TextSize, textColour, None);
+
+			if (IsMouseInRectangle(ComboBox::ParentPos.x + ComboBox::Pos.x - (ComboBox::SizeDifference / 2), itemposy, ComboBox::DropWidth, ComboBox::Size.y) && IsKeyClicked(VK_LBUTTON) && ComboBox::LastClick < (clock() * 0.00001f))
+			{
+
+				auto it = ComboBox::Items.begin();
+				std::advance(it, i);
+				ComboBox::ValueChangeEvent();
+				**it = !**it;
+				ComboBox::LastClick = (clock() * 0.00001f) + 0.002f;
+				ComboBox::ConvertSelectedName();
+				Sleep(50); // bandage click through fix
+			}
 			i++;
 		}
 		OutlineRectangle(ComboBox::ParentPos.x + ComboBox::Pos.x + ComboBox::Size.x + (ComboBox::SizeDifference / 2), ComboBox::ParentPos.y + ComboBox::Pos.y + ComboBox::Size.y + 5, 6, (ComboBox::PointerEnd - ComboBox::PointerStart) * ComboBox::Size.y + 1, 1, rectOutlineColour);
