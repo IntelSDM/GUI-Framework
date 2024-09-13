@@ -4,7 +4,7 @@
 #include "DropDown.h"
 #include "Font.h"
 
-DropDown::DropDown(float x, float y, std::wstring text, int* index, std::list<std::wstring> names)
+DropDown::DropDown(float x, float y, std::wstring text, int* index, std::vector<std::wstring> names)
 {
 	DropDown::Pos = {x, y};
 	DropDown::Name = text;
@@ -44,19 +44,18 @@ void DropDown::SetDropDownWidth()
 
 void DropDown::ConvertSelectedName()
 {
-	auto it = DropDown::Names.begin();
-	std::advance(it, *Index);
-	float originalwidth = GetTextSize(*it, Font, TextSize).x;
+	auto it = DropDown::Names[*Index];
+	float originalwidth = GetTextSize(it, Font, TextSize).x;
 
 	if (originalwidth < DropDown::Size.x - DropDown::CutOffBuffer)
 	{
-		DropDown::SelectedName = *it;
+		DropDown::SelectedName = it;
 		TextWidth = originalwidth;
 		return;
 	}
 	else
 	{
-		std::wstring str = *it;
+		std::wstring str = it;
 		for (int i = str.length(); i > 0; i--)
 		{
 			str.erase(std::prev((str).end()));

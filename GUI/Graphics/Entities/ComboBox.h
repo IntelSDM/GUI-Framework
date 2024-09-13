@@ -5,8 +5,8 @@ class ComboBox : public Entity
 {
 protected:
 	float DropWidth;
-	std::list<std::wstring> Names;
-	std::list<bool*> Items;
+	std::vector<std::wstring> Names;
+	std::vector<bool*> Items;
 	bool Active = false;
 	std::wstring SelectedName;
 	float TextWidth = 0;
@@ -28,7 +28,7 @@ protected:
 	int TextSize = 11;
 	std::string Font = "Verdana";
 public:
-	ComboBox(float x, float y, std::wstring text, std::list<bool*> items, std::list<std::wstring> names);
+	ComboBox(float x, float y, std::wstring text, std::vector<bool*> items, std::vector<std::wstring> names);
 	void Update();
 	void Draw();
 };

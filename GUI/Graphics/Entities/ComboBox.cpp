@@ -4,7 +4,7 @@
 #include "ComboBox.h"
 #include "Font.h"
 
-ComboBox::ComboBox(float x, float y, std::wstring text, std::list<bool*> items, std::list<std::wstring> names)
+ComboBox::ComboBox(float x, float y, std::wstring text, std::vector<bool*> items, std::vector<std::wstring> names)
 {
 	ComboBox::Pos = {x, y};
 	ComboBox::Name = text;

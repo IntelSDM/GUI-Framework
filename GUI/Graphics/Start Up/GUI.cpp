@@ -64,11 +64,11 @@ void CreateGUI()
 			tab->Push(sliderint);
 			auto sliderfloat = std::make_shared<Slider<float>>(10, 110, L"Slider Float", L"%", 0.0f, 100.0f, &SliderFloat);
 			tab->Push(sliderfloat);
-			std::list<std::wstring> downvalues = {L"Value 12345", L"Value 2", L"Value 3", L"Value 4", L"Value 5", L"Value 6", L"Value 7", L"Value 8", L"Value 9", L"Value 9"};
+			std::vector<std::wstring> downvalues = {L"Value 12345", L"Value 2", L"Value 3", L"Value 4", L"Value 5", L"Value 6", L"Value 7", L"Value 8", L"Value 9", L"Value 9"};
 			auto dropdown = std::make_shared<DropDown>(10, 140, L"DropDown", &DropDownValue, downvalues);
 			tab->Push(dropdown);
-			std::list<std::wstring> combovalues = {L"Value 12345", L"Value 2", L"Value 3", L"Value 4", L"Value 5", L"Value 6", L"Value 7", L"Value 8"};
-			std::list<bool*> bools = {&Combo1, &Combo2, &Combo3, &Combo4, &Combo5, &Combo5, &Combo5, &Combo5};
+			std::vector<std::wstring> combovalues = {L"Value 12345", L"Value 2", L"Value 3", L"Value 4", L"Value 5", L"Value 6", L"Value 7", L"Value 8"};
+			std::vector<bool*> bools = {&Combo1, &Combo2, &Combo3, &Combo4, &Combo5, &Combo5, &Combo5, &Combo5};
 			auto combo = std::make_shared<ComboBox>(10, 170, L"ComboBox", bools, combovalues);
 			tab->Push(combo);
 			auto keybind = std::make_shared<KeyBind>(10, 215, L"KeyBind", &Key);

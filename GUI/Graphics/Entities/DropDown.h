@@ -4,7 +4,7 @@ class DropDown : public Entity
 {
 protected:
    
-    std::list<std::wstring>Names;
+    std::vector<std::wstring>Names;
     int* Index;
     bool Active = false;
     std::wstring SelectedName;
@@ -29,7 +29,7 @@ protected:
     int TextSize = 11;
     std::string Font = "Verdana";
 public:
-    DropDown(float x, float y, std::wstring text, int* items, std::list<std::wstring>names);
+    DropDown(float x, float y, std::wstring text, int* items, std::vector<std::wstring>names);
     void Update();
     void Draw();
 };
