@@ -19,6 +19,8 @@ protected:
 	bool Dragging = false;
 	void DragAction();
 	void StretchAction();
+	bool Stretching = false;
+	Vector2 Stretch;
 public:
 	Radar(int* x, int* y, int* width, int* height,bool* enabled, ID2D1Bitmap* bitmap);
 	void Update();
