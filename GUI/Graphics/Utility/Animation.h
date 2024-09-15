@@ -9,3 +9,5 @@ T Lerp(const T& start, const T& end, float t)
 
 	return start + t * (end - start);
 }
+
+static inline Vector2 VecLerp(const Vector2& a, const Vector2& b, float t) { return Vector2(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t); }

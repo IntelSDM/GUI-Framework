@@ -300,6 +300,13 @@ void DrawBitmap(ID2D1Bitmap* bmp, int x, int y, int width, int height)
 	RenderTarget->DrawBitmap(bmp, D2D1::RectF(static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y)), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, D2D1::RectF(0.0f, 0.0f, bmp->GetSize().width, bmp->GetSize().height));
 }
 
+void DrawBitmap(ID2D1Bitmap* bmp, int x, int y, int width, int height, float imageposx, float imageposy, float imagewidth, float imageheight)
+{
+	RenderTarget->DrawBitmap(bmp, D2D1::RectF(static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y)), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, D2D1::RectF(imageposx, imageposy, imagewidth, imageheight));
+}
+
+
+
 void DrawBitmap(ID2D1Bitmap* bmp, int x, int y, int width, int height,float rotation)
 {
 	D2D1_POINT_2F center = D2D1::Point2F(x + (width / 2), y + (height / 2));

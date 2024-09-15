@@ -141,7 +141,9 @@ void CreateGUI()
 		tabcontroller->Push(tab1);
 		tabcontroller->Push(tab2);
 	}
-	auto radar = std::make_shared<Radar>(&Radarx, &Radary, &RadarWidth, &RadarHeight, &RadarEnabled, nullptr);
+	ID2D1Bitmap* Bitmap = nullptr;
+	CreateDirectXBitmap(L"C:\\Program Files (x86)\\Steam\\steamapps\\common\\Rust\\map_3000_1234.png", &Bitmap);
+	auto radar = std::make_shared<Radar>(&Radarx, &Radary, &RadarWidth, &RadarHeight, &RadarEnabled, Bitmap);
 
 
 	MenuEntity->Push(form);

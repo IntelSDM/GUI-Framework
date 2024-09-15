@@ -19,8 +19,15 @@ protected:
 	bool Dragging = false;
 	void DragAction();
 	void StretchAction();
+	void MapInput();
+	void AddPointOfInterest(Vector3 pos);
+	void HandlePointsOfInterest();
 	bool Stretching = false;
 	Vector2 Stretch;
+	float Zoom = 1.0f;
+	float Scale = 1.0f;
+	Vector2 MapOffset;
+	std::vector<Vector3> PointsOfInterest;
 public:
 	Radar(int* x, int* y, int* width, int* height,bool* enabled, ID2D1Bitmap* bitmap);
 	void Update();

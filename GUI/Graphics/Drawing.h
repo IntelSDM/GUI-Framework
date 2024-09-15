@@ -16,3 +16,4 @@ void HueSlider(int x, int y, int width, int height);
 void FilledTriangle(int x1, int y1, int x2, int y2, int x3, int y3, MyColour colour);
 void CreateDirectXBitmap(const std::wstring& filename, ID2D1Bitmap** bmp);
 void DrawBitmap(ID2D1Bitmap* bmp, int x, int y, int width, int height, float rotation);
+void DrawBitmap(ID2D1Bitmap* bmp, int x, int y, int width, int height, float imageposx, float imageposy, float imagewidth, float imageheight);
