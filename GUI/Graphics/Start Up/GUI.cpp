@@ -19,6 +19,7 @@
 #include "LoadingBar.h"
 #include "AssetManager.h"
 #include "DropDownTextBox.h"
+#include "Radar.h"
 int SelectedTab = 1;
 int SelectedSubTab = 0;
 int TabCount = 0;
@@ -40,6 +41,11 @@ int Key = 0;
 std::wstring TextBoxText = L"Text Box";
 std::wstring PasswordText = L"Password";
 
+int Radarx = 900;
+int Radary = 40;
+int RadarWidth = 300;
+int RadarHeight = 300;
+bool RadarEnabled = true;
 void CreateGUI()
 {
 	MenuEntity = std::make_shared<Container>();
@@ -135,8 +141,11 @@ void CreateGUI()
 		tabcontroller->Push(tab1);
 		tabcontroller->Push(tab2);
 	}
+	auto radar = std::make_shared<Radar>(&Radarx, &Radary, &RadarWidth, &RadarHeight, &RadarEnabled, nullptr);
+
 
 	MenuEntity->Push(form);
+	MenuEntity->Push(radar);
 	MenuEntity->Draw();
 	MenuEntity->Update();
 }

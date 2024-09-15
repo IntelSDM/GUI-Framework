@@ -59,6 +59,10 @@ std::map<std::string, MyColour> MenuColours =
     {"NumericFill", MyColour(30, 30, 30, 255)},
     {"NumericBorder", MyColour(130, 130, 130, 255)},
 
+    {"Radar", MyColour(180, 30, 30, 255)},
+    {"RadarBackground", MyColour(10, 10, 10, 255)},
+    {"RadarAccents", MyColour(100, 100, 100, 255)},
+
 };
 
 D2D1::ColorF Colour(UINT8 R, UINT8 G, UINT8 B, UINT8 A)

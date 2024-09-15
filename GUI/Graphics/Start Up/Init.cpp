@@ -21,9 +21,9 @@ void InitD2D(HWND hWnd)
 	result = DWriteCreateFactory(DWRITE_FACTORY_TYPE_ISOLATED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&FontFactory));
 	if (!SUCCEEDED(result))
 		return;
-
-	CreateFonts("Verdana", L"Verdana", 10, DWRITE_FONT_WEIGHT_NORMAL);
 	CreateFonts("VerdanaBold", L"Verdana", 10, DWRITE_FONT_WEIGHT_SEMI_BOLD);
+	CreateFonts("Verdana", L"Verdana", 10, DWRITE_FONT_WEIGHT_NORMAL);
+	
 	RenderTarget->CreateSolidColorBrush(D2D1::ColorF(0, 0, 0, 0), &Brush); // create global brush
 	RenderTarget->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE); // set aa mode
 	SetUpAssets();

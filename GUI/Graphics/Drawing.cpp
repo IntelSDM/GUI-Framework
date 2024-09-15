@@ -6,6 +6,21 @@ ID2D1GradientStopCollection* GradientStops = NULL;
 
 std::map<std::wstring, IDWriteTextLayout*> TextCache;
 
+void PrintHRESULTError(HRESULT hr)
+{
+	LPVOID errorMsg;
+	FormatMessage(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		NULL,
+		hr,
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		(LPWSTR)&errorMsg,
+		0, NULL);
+
+	wprintf(L"Error: %s\n", (LPWSTR)errorMsg);
+	LocalFree(errorMsg); // Free the buffer allocated by FormatMessage
+}
+
 void DrawText(int x, int y, std::wstring text, std::string font, int fontsize, MyColour colour, FontAlignment alignment)
 {
 	Brush->SetColor(colour.Get());
@@ -16,6 +31,8 @@ void DrawText(int x, int y, std::wstring text, std::string font, int fontsize, M
 		const HRESULT status = FontFactory->CreateTextLayout(text.data(), static_cast<std::uint32_t>(text.length()), Fonts[font].font, 4096.f, 4096.f, &TextCache[text]);
 		if (!SUCCEEDED(status))
 		{
+			printf("Failed to create text layout. HRESULT: 0x%lx\n", status);
+			PrintHRESULTError(status); // Print the error message
 			return;
 		}
 		layout = TextCache[text];
