@@ -193,7 +193,7 @@ void Radar::Draw()
 		FilledTriangle(point1.x, point1.y, point2.x, point2.y, point3.x, point3.y, rectOutlineColour);
 
 	}
-	DrawBitmap(Bitmap,*Radar::X, *Radar::Y, *Radar::Width, *Radar::Height, MapOffset.x - (*Radar::Width / 2), MapOffset.y - (*Radar::Height / 2), MapOffset.x + (*Radar::Width / 2), MapOffset.y + (*Radar::Height / 2));
+	DrawBitmap(Bitmap,*Radar::X, *Radar::Y, *Radar::Width, *Radar::Height, MapOffset.x - ((*Radar::Width / 2) * Zoom), MapOffset.y - ((*Radar::Height / 2)* Zoom), MapOffset.x + ((*Radar::Width / 2) * Zoom), MapOffset.y + ((*Radar::Height / 2) * Zoom));
 	HandlePointsOfInterest();
-//	AddPointOfInterest(Vector3(1500, 1500, 1500));
+	//AddPointOfInterest(Vector3(, 0, 0));
 }

@@ -24,7 +24,7 @@ protected:
 	void HandlePointsOfInterest();
 	bool Stretching = false;
 	Vector2 Stretch;
-	float Zoom = 1.0f;
+	float Zoom = 2.0f;
 	float Scale = 1.0f;
 	Vector2 MapOffset;
 	std::vector<Vector3> PointsOfInterest;
