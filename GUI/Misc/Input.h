@@ -1,7 +1,7 @@
 #pragma once
 
 extern Vector2 MousePos;
-extern std::map<std::string, HCURSOR> Cursors;
+extern std::unordered_map<std::string, HCURSOR> Cursors;
 extern WPARAM Char;
 LRESULT CALLBACK InputWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 

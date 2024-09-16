@@ -10,14 +10,14 @@ enum class KeyState
 };
 
 // could do dictionaries but we only want to handle ascii
-std::map<int, bool> KeyHeld;
-std::map<int, KeyState> KeyStates;
-std::map<int, float> KeyTimes;
+std::unordered_map<int, bool> KeyHeld;
+std::unordered_map<int, KeyState> KeyStates;
+std::unordered_map<int, float> KeyTimes;
 
 Vector2 MousePos;
 WPARAM Char = NULL;
 HCURSOR CurrentCursor;
-std::map<std::string, HCURSOR> Cursors;
+std::unordered_map<std::string, HCURSOR> Cursors;
 
 void CreateCursor(std::string name, HCURSOR cursor)
 {

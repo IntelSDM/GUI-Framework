@@ -36,7 +36,7 @@ struct HsvColour
 	float V;
 };
 
-extern std::map<std::string, MyColour> MenuColours;
+extern std::unordered_map<std::string, MyColour> MenuColours;
 
 D2D1::ColorF HueToRGB(float hue);
 float RGBToHue(float r, float g, float b);

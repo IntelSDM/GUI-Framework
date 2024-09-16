@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Font.h"
 
-std::map<std::string, FontInformation> Fonts;
+std::unordered_map<std::string, FontInformation> Fonts;
 std::unordered_map<std::wstring, IDWriteTextLayout*> TextLayouts;
 
 void CreateFonts(std::string customfontname, std::wstring_view fontname, float size, DWRITE_FONT_WEIGHT weight)

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Colour.h"
 
-std::map<std::string, MyColour> MenuColours =
+std::unordered_map<std::string, MyColour> MenuColours =
 {
 	/*Main Form colors*/
 	{"Background", MyColour(40, 40, 40, 255)},

@@ -27,7 +27,7 @@ protected:
 	void ContextMenu();
 	void Copy();
 	void Paste();
-	std::map<std::wstring, std::function<void()>> ContextNames = {
+	std::unordered_map<std::wstring, std::function<void()>> ContextNames = {
 		{L"Copy", [this]() { Copy(); }},
 		{L"Paste", [this]() { Paste(); }}
 	};

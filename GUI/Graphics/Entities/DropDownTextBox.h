@@ -34,7 +34,7 @@ protected:
 	void ContextCopyText();
 	void ContextSelectAll();
 	void ContextPasteText();
-	std::map<std::wstring, std::function<void()>> ContextNames = {
+	std::unordered_map<std::wstring, std::function<void()>> ContextNames = {
 		{L"Select All", [this]() { ContextSelectAll(); }},
 		{L"Copy", [this]() { ContextCopyText(); }},
 		{L"Paste", [this]() { ContextPasteText(); }}

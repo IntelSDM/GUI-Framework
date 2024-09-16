@@ -4,7 +4,7 @@
 ID2D1LinearGradientBrush* LinearBrush;
 ID2D1GradientStopCollection* GradientStops = NULL;
 
-std::map<std::wstring, IDWriteTextLayout*> TextCache;
+std::unordered_map<std::wstring, IDWriteTextLayout*> TextCache;
 
 void PrintHRESULTError(HRESULT hr)
 {
