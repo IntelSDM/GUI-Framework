@@ -200,17 +200,19 @@ void Radar::Zooming()
 Vector2 Radar::WorldToRadar(Vector3 worldPos)
 {
 
+	worldPos.x += Bitmap->GetSize().width/2;
+	worldPos.z = (Bitmap->GetSize().height / 2) - worldPos.z;
+
+
 	Vector2 start = Vector2(MapOffset.x - ((*Radar::Width / 2) * Zoom), MapOffset.y - ((*Radar::Height / 2) * Zoom));
 	Vector2 end = Vector2(MapOffset.x + ((*Radar::Width / 2) * Zoom), MapOffset.y + ((*Radar::Height / 2) * Zoom));
 	float mapWidth = end.x - start.x;
 	float mapHeight = end.y - start.y;
 
-	// Map the world coordinates to a position on the radar
 	float radarX = ((*Radar::X) + ((worldPos.x - start.x) / mapWidth) * (*Radar::Width));
-	float radarY = ((*Radar::Y) + ((worldPos.z - start.y) / mapHeight) * (*Radar::Height));  // Use worldPos.z for Y mapping
+	float radarY = ((*Radar::Y) + ((worldPos.z - start.y) / mapHeight) * (*Radar::Height));
+	
 	return Vector2(radarX, radarY);
-	return end;
-	return Vector2(worldPos.x, worldPos.z);
 }
 void Radar::Draw()
 {
@@ -257,7 +259,7 @@ void Radar::Draw()
 	{
 	//	AddPointOfInterest(Vector3(-500, 500, -1500));
 	}
-	Vector2 pos1 = WorldToRadar(Vector3(849, 0, 811)); // should be top right
+	Vector2 pos1 = WorldToRadar(Vector3(-811, 0, -500)); // should be top right
 //	Vector2 pos2 = WorldToRadar(Vector3(1385, 0, 142)); // should be top right
 	Vector2 pos2 = WorldToRadar(Vector3(2000, 0, 2000));
 	printf("X: %f Y: %f\n", pos1.x, pos1.y);
