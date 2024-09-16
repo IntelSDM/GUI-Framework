@@ -27,11 +27,13 @@ protected:
 	void Zooming();
 	bool Stretching = false;
 	Vector2 Stretch;
-	float Zoom = 2.0f;
+	float Zoom = 1.0f;
 	float Scale = 1.0f;
 	Vector2 MapOffset;
 	std::vector<Vector3> PointsOfInterest;
 	bool CentreRadar = true;
+	Vector2 WorldToRadar(Vector3 pos);
+	Vector2 RealRadarSize;
 public:
 	Radar(int* x, int* y, int* width, int* height,bool* enabled, ID2D1Bitmap* bitmap);
 	void Update();

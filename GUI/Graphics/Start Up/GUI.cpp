@@ -41,10 +41,10 @@ int Key = 0;
 std::wstring TextBoxText = L"Text Box";
 std::wstring PasswordText = L"Password";
 
-int Radarx = 900;
-int Radary = 40;
-int RadarWidth = 300;
-int RadarHeight = 300;
+int Radarx = 0;
+int Radary = 0;
+int RadarWidth = 1920;
+int RadarHeight = 1080;
 bool RadarEnabled = true;
 void CreateGUI()
 {

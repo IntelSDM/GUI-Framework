@@ -15,7 +15,9 @@ Radar::Radar(int* x, int* y, int* width, int* height, bool* enabled, ID2D1Bitmap
 	Radar::Border = { 4,20 };
 	Radar::Dragging = false;
 	Radar::Drag = { 0, 0 };
+	Radar::RealRadarSize = { bitmap->GetSize().width - 1000, bitmap->GetSize().height - 1000 };
 	Radar::MapOffset = { bitmap->GetSize().width/2, bitmap->GetSize().height / 2 };
+	
 }
 
 void Radar::Update()
@@ -47,8 +49,19 @@ void Radar::DragAction()
 		return;
 	if (Radar::Dragging)
 	{ 
-		*Radar::X = Radar::Cursor.x - Radar::Drag.x;
-		*Radar::Y = Radar::Cursor.y - Radar::Drag.y;
+		float tempvaluex  = Radar::Cursor.x - Radar::Drag.x;
+		float tempvaluey = Radar::Cursor.y - Radar::Drag.y;
+		if (tempvaluex < 0)
+			tempvaluex = 0;
+		if (tempvaluex > Bitmap->GetSize().width)
+			tempvaluex = Bitmap->GetSize().width;
+		if (tempvaluey < 0)
+			tempvaluey = 0;
+		if (tempvaluey > Bitmap->GetSize().height)
+			tempvaluey = Bitmap->GetSize().height;
+		*Radar::X = tempvaluex;
+		*Radar::Y = tempvaluey;
+		printf("!!!!!!!!!!X: %d Y: %d\n", *Radar::X, *Radar::Y);
 	}
 	if (IsMouseInRectangle(*Radar::X - Radar::Border.x, *Radar::Y - Radar::Border.y, *Radar::Width + (Radar::Border.x * 2), Radar::Border.y))
 	{
@@ -176,13 +189,28 @@ void Radar::Zooming()
 		{
 			
 
-			if (Radar::Zoom < 3.0f)
+			if (Radar::Zoom < 2.5f)
 			{
 				Radar::Zoom += 0.15f;
 			}
 
 		}
 	}
+}
+Vector2 Radar::WorldToRadar(Vector3 worldPos)
+{
+
+	Vector2 start = Vector2(MapOffset.x - ((*Radar::Width / 2) * Zoom), MapOffset.y - ((*Radar::Height / 2) * Zoom));
+	Vector2 end = Vector2(MapOffset.x + ((*Radar::Width / 2) * Zoom), MapOffset.y + ((*Radar::Height / 2) * Zoom));
+	float mapWidth = end.x - start.x;
+	float mapHeight = end.y - start.y;
+
+	// Map the world coordinates to a position on the radar
+	float radarX = ((*Radar::X) + ((worldPos.x - start.x) / mapWidth) * (*Radar::Width));
+	float radarY = ((*Radar::Y) + ((worldPos.z - start.y) / mapHeight) * (*Radar::Height));  // Use worldPos.z for Y mapping
+	return Vector2(radarX, radarY);
+	return end;
+	return Vector2(worldPos.x, worldPos.z);
 }
 void Radar::Draw()
 {
@@ -229,5 +257,13 @@ void Radar::Draw()
 	{
 	//	AddPointOfInterest(Vector3(-500, 500, -1500));
 	}
-
+	Vector2 pos1 = WorldToRadar(Vector3(849, 0, 811)); // should be top right
+//	Vector2 pos2 = WorldToRadar(Vector3(1385, 0, 142)); // should be top right
+	Vector2 pos2 = WorldToRadar(Vector3(2000, 0, 2000));
+	printf("X: %f Y: %f\n", pos1.x, pos1.y);
+	printf("X: %f Y: %f\n", pos2.x, pos2.y);
+	printf("X: %f Y: %f\n", MapOffset.x, MapOffset.y);
+	FilledRectangle(pos1.x, pos1.y, 5, 5, MyColour(255, 0, 0, 255));
+	FilledRectangle(pos2.x, pos2.y, 5, 5, MyColour(255, 255, 255, 255));
+	//FilledRectangle(MapOffset.x, MapOffset.y, 5, 5, MyColour(255, 255, 255, 255));
 }
