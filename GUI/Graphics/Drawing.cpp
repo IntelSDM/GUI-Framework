@@ -302,6 +302,15 @@ void DrawBitmap(ID2D1Bitmap* bmp, int x, int y, int width, int height)
 
 void DrawBitmap(ID2D1Bitmap* bmp, int x, int y, int width, int height, float imageposx, float imageposy, float imagewidth, float imageheight)
 {
+	if(imageposx < 0)
+		imageposx = 0;
+	if(imageposy < 0)
+		imageposy = 0;
+	if(imagewidth > bmp->GetSize().width)
+		imagewidth = bmp->GetSize().width;
+	if(imageheight > bmp->GetSize().height)
+		imageheight = bmp->GetSize().height;
+
 	RenderTarget->DrawBitmap(bmp, D2D1::RectF(static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y)), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, D2D1::RectF(imageposx, imageposy, imagewidth, imageheight));
 }
 

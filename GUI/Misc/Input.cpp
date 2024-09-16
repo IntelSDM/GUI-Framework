@@ -51,10 +51,55 @@ void UpdateKeyState(int key, bool down)
 	KeyHeld[key] = down;
 }
 
+bool ScrolledDown = false;
+ULONGLONG ScrollDownTime = 0;
+bool ScrolledUp = false;
+ULONGLONG ScrollUpTime = 0;
+
+bool HasScrolledDown()
+{
+	if (ScrolledDown && ScrollDownTime < GetTickCount64())
+	{
+		ScrolledDown = false;
+		return true;
+	}
+	return false;
+}
+bool HasScrolledUp()
+{
+	if (ScrolledUp && ScrollUpTime < GetTickCount64())
+	{
+		ScrolledUp = false;
+		return true;
+	}
+	return false;
+}
 LRESULT CALLBACK InputWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
+	case WM_MOUSEWHEEL:
+	{
+	
+		int wheelDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+		if (wheelDelta > 0)
+		{
+			ScrolledUp = true;
+			ScrolledDown = false;
+			ScrollUpTime = GetTickCount64() + 10;
+		}
+		else if (wheelDelta < 0)
+		{
+
+			ScrolledDown = true;
+			ScrolledUp = false;
+			ScrollDownTime = GetTickCount64() + 10;
+		}
+
+		break;
+	}
+	ScrolledDown = false;
+	ScrolledUp = false;
 	case WM_CHAR:
 		Char = wParam;
 	case WM_SETCURSOR:

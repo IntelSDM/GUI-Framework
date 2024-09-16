@@ -43,7 +43,8 @@ void Radar::DragAction()
 		return;
 	if (Radar::Dragging && !IsKeyDown(VK_LBUTTON))
 		Radar::Dragging = false;
-
+	if (Radar::Moving || Radar::Stretching)
+		return;
 	if (Radar::Dragging)
 	{ 
 		*Radar::X = Radar::Cursor.x - Radar::Drag.x;
@@ -68,6 +69,8 @@ void Radar::StretchAction()
 	if (Radar::Blocked)
 		return;
 	if (!MenuOpen)
+		return;
+	if (Radar::Moving || Radar::Dragging)
 		return;
 	Vector2 point1 = Vector2(*Radar::X + *Radar::Width, *Radar::Y + *Radar::Height);
 	Vector2 point2 = Vector2(*Radar::X + *Radar::Width - 10, *Radar::Y + *Radar::Height);
@@ -104,64 +107,90 @@ void Radar::StretchAction()
 void Radar::HandlePointsOfInterest()
 {
 
-		if (PointsOfInterest.empty())
-			return;
-		Vector3 WorldPos = PointsOfInterest[0];
-		Vector2 pos = Vector2(*Radar::X,*Radar::Y);
+	if (PointsOfInterest.empty())
+		return;
+	Vector3 WorldPos = PointsOfInterest[0];
+	Vector2 pos = Vector2(*Radar::X, *Radar::Y);
 
-		Vector2 targetScreenPos = Vector2(
-			pos.x + (WorldPos.x * Radar::Scale * Zoom) + (MapOffset.x * Zoom) + MapOffset.x,
-			pos.y - (WorldPos.z * Radar::Scale * Zoom) + (MapOffset.y * Zoom) + MapOffset.y
-		);
+	Vector2 targetScreenPos = Vector2(
+		pos.x + (WorldPos.x * Radar::Scale * Zoom) + (MapOffset.x * Zoom) + MapOffset.x,
+		pos.y - (WorldPos.z * Radar::Scale * Zoom) + (MapOffset.y * Zoom) + MapOffset.y
+	);
 
-		Vector2 screenCenter = Vector2(pos.x + *Radar::Width / 2, pos.y + *Radar::Height / 2);
-		Vector2 diff = screenCenter - targetScreenPos;
-		MapOffset = VecLerp(MapOffset, MapOffset + diff, 0.1);
-		if (std::abs(diff.x) < 1 && std::abs(diff.y) < 1)
-			PointsOfInterest.erase(PointsOfInterest.begin());
-	
+	Vector2 screenCenter = Vector2(pos.x + *Radar::Width / 2, pos.y + *Radar::Height / 2);
+	Vector2 diff = screenCenter - targetScreenPos;
+	MapOffset = VecLerp(MapOffset, MapOffset + diff, 0.1);
+	if (std::abs(diff.x) < 1 && std::abs(diff.y) < 1)
+		PointsOfInterest.erase(PointsOfInterest.begin());
+
 }
 void Radar::MapInput()
 {
-	Vector2 pos = Vector2(*Radar::X, *Radar::Y);
-	Vector2 size = Vector2(*Radar::Width, *Radar::Height);
+	if (Radar::Blocked)
+		return;
+	if (Radar::Dragging || Radar::Stretching)
+		return;
+	if (Radar::Moving && !IsKeyDown(VK_LBUTTON))
+		Radar::Moving = false;
 
-	if (IsMouseInRectangle(pos, pos + size))
+	Vector2 point1 = Vector2(*Radar::X + *Radar::Width, *Radar::Y + *Radar::Height);
+	Vector2 point2 = Vector2(*Radar::X + *Radar::Width - 10, *Radar::Y + *Radar::Height);
+	Vector2 point3 = Vector2(*Radar::X + *Radar::Width, *Radar::Y + *Radar::Height - 10);
+	if (IsMouseInTriangle(point1, point2, point3)) // Stops it messing with the stretching functionality
+		return;
+
+	if (Radar::Moving)
 	{
-	//	ImVec2 mouseOffset = ImVec2((Radar::Cursor.x - pos.x - mapOffset.x) / (mapWidth * mapZoom.load()), (Radar::Cursor.y - pos.y - mapOffset.y) / (mapHeight * mapZoom.load()));
-	//	float newZoom = mapZoom.load() * (1.0f + io.MouseWheel * 0.1f);
-
-	//	mapOffset.x -= (mapWidth * newZoom * mouseOffset.x) - (mapWidth * mapZoom.load() * mouseOffset.x);
-	//	mapOffset.y -= (mapHeight * newZoom * mouseOffset.y) - (mapHeight * mapZoom.load() * mouseOffset.y);
-
-	//	mapZoom.store(newZoom);
-
-	/*	// Dragging
-		if (ImGui::IsMouseDragging(ImGuiMouseButton_Left))
-		{
-			ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeAll);
-			was_dragging = true;
-			mapOffset.x += io.MouseDelta.x;
-			mapOffset.y += io.MouseDelta.y;
-		}
-		else if (was_dragging)
-		{
-			ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
-			was_dragging = false;
-			CentreRadar.store(false);
-		}*/
-
+		// This is inverted so it moves in the right direction that you move against it
+		MapOffset.x = Radar::Movement.x - Radar::Cursor.x; 
+		MapOffset.y = Radar::Movement.y - Radar::Cursor.y; 
 	}
 
-	//DrawMap(mapTexture, mapWidth, mapHeight);
+	if (IsMouseInRectangle(*Radar::X, *Radar::Y, *Radar::Width, *Radar::Height))
+	{
+		if (IsKeyClicked(VK_LBUTTON))
+		{
+			Radar::Moving = true;
+			CentreRadar = false;
+			Radar::Movement.x = Radar::Cursor.x + MapOffset.x;  
+			Radar::Movement.y = Radar::Cursor.y + MapOffset.y;
+		}
+	}
+}
+void Radar::Zooming()
+{
+	if (Radar::Blocked)
+		return;
+	if (Radar::Moving || Radar::Dragging || Radar::Stretching)
+		return;
+	if (IsMouseInRectangle(*Radar::X, *Radar::Y, *Radar::Width, *Radar::Height))
+	{
+		if (HasScrolledUp())
+		{
+			if (Radar::Zoom > 0.1f)
+			{
+				Radar::Zoom -= 0.15f;
+			}
+		}
+		if (HasScrolledDown())
+		{
+			
+
+			if (Radar::Zoom < 3.0f)
+			{
+				Radar::Zoom += 0.15f;
+			}
+
+		}
+	}
 }
 void Radar::Draw()
 {
-		if (!Radar::Parent)
+	if (!Radar::Parent)
 		Radar::SetVisible(false);
 	if (!Radar::IsVisible())
 		return;
-	if(!*Radar::Enabled)
+	if (!*Radar::Enabled)
 		return;
 	MyColour rectColour = MenuColours["Radar"];
 	MyColour rectBackground = MenuColours["RadarBackground"];
@@ -181,10 +210,13 @@ void Radar::Draw()
 	}
 	else
 	{
-		FilledRectangle(*Radar::X  - 1, *Radar::Y - 1, *Radar::Width + 2, *Radar::Height + 2, rectOutlineColour);
+		FilledRectangle(*Radar::X - 1, *Radar::Y - 1, *Radar::Width + 2, *Radar::Height + 2, rectOutlineColour);
 	}
 	FilledRectangle(*Radar::X, ParentPos.y + *Radar::Y, *Radar::Width, *Radar::Height, rectBackground);
-
+	DrawBitmap(Bitmap, *Radar::X, *Radar::Y, *Radar::Width, *Radar::Height, MapOffset.x - ((*Radar::Width / 2) * Zoom), MapOffset.y - ((*Radar::Height / 2) * Zoom), MapOffset.x + ((*Radar::Width / 2) * Zoom), MapOffset.y + ((*Radar::Height / 2) * Zoom));
+	HandlePointsOfInterest();
+	MapInput();
+	Zooming();
 	if (MenuOpen)
 	{
 		Vector2 point1 = Vector2(*Radar::X + *Radar::Width, *Radar::Y + *Radar::Height);
@@ -193,7 +225,9 @@ void Radar::Draw()
 		FilledTriangle(point1.x, point1.y, point2.x, point2.y, point3.x, point3.y, rectOutlineColour);
 
 	}
-	DrawBitmap(Bitmap,*Radar::X, *Radar::Y, *Radar::Width, *Radar::Height, MapOffset.x - ((*Radar::Width / 2) * Zoom), MapOffset.y - ((*Radar::Height / 2)* Zoom), MapOffset.x + ((*Radar::Width / 2) * Zoom), MapOffset.y + ((*Radar::Height / 2) * Zoom));
-	HandlePointsOfInterest();
-	//AddPointOfInterest(Vector3(, 0, 0));
+	if (CentreRadar)
+	{
+	//	AddPointOfInterest(Vector3(-500, 500, -1500));
+	}
+
 }

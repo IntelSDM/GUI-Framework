@@ -15,3 +15,6 @@ bool IsMouseInTriangle(Vector2 point1, Vector2 point2, Vector2 point3);
 void SetCurrentCursor(std::string name);
 void CreateCursor(std::string name, HCURSOR cursor);
 HCURSOR GetCurrentCursor();
+
+extern bool HasScrolledUp();
+extern bool HasScrolledDown();
