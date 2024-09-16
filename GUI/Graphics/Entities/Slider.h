@@ -78,7 +78,7 @@ public:
 		MyColour insideColour = MenuColours["SliderInside"];
 
 		DrawText(ParentPos.x + Pos.x, (ParentPos.y + Pos.y) - 5, Name + L": " + OutputString + Measurement, Font, TextSize, textColour, None);
-		OutlineRectangle(ParentPos.x + Pos.x - 1, ParentPos.y + (Pos.y + 15) - 1, Size.x + 2, Size.y + 2, 1, textColour);
+		OutlineRectangle(ParentPos.x + Pos.x, ParentPos.y + (Pos.y + 15), Size.x + 1, Size.y + 1, 1, textColour);
 		FilledRectangle(ParentPos.x + Pos.x, ParentPos.y + (Pos.y + 15), Size.x, Size.y, rectColour);
 		float ratio = (float)(*Value - (float)MinValue) / float(MaxValue - MinValue);
 		FilledRectangle(ParentPos.x + Pos.x, ParentPos.y + (Pos.y + 15), (int)Size.x * ratio, Size.y, insideColour);
