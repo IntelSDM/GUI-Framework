@@ -3,3 +3,4 @@
 #define _CRT_SECURE_NO_WARNINGS
 extern void SetUpAssets();
 extern std::wstring GetFormIconPath();
+extern std::wstring GetMapPath();
