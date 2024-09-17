@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "Radar.h"
 #include "Drawing.h"
 #include "GUI.h"
@@ -225,6 +225,7 @@ Vector2 Radar::WorldToRadar(Vector3 worldPos)
 	
 	return Vector2(radarX, radarY);
 }
+
 void Radar::Draw()
 {
 	if (!Radar::Parent)
@@ -267,10 +268,57 @@ void Radar::Draw()
 		FilledTriangle(point1.x, point1.y, point2.x, point2.y, point3.x, point3.y, rectOutlineColour);
 
 	}
-	if (CentreRadar)
+
+	MyColour iconcolour1 = MenuColours["Text"];
+	MyColour iconcolour2 = MenuColours["Text"];
+	MyColour iconcolour3 = MenuColours["Text"];
+	if (IsMouseInRectangle(*Radar::X, *Radar::Y + *Radar::Height + Radar::Border.x + 1, 17, 17))
 	{
+		iconcolour1 = MenuColours["Radar"];
+		if (IsKeyClicked(VK_LBUTTON))
+		{
+			CentreRadar = true;
+			LastWidgetClick = GetTickCount64() + 35;
+		}
 	
 	}
+	if (IsMouseInRectangle(*Radar::X + 18, *Radar::Y + *Radar::Height + Radar::Border.x + 1, 17, 17))
+	{
+		iconcolour2 = MenuColours["Radar"];
+		if (IsKeyClicked(VK_LBUTTON) && LastWidgetClick < GetTickCount64())
+		{
+			if (Radar::Zoom > 0.1f)
+			{
+				Radar::Zoom -= 0.10f;
+			}
+				LastWidgetClick = GetTickCount64() + 45;
+		}
+
+	}
+	if (IsMouseInRectangle(*Radar::X + 36, *Radar::Y + *Radar::Height + Radar::Border.x + 1, 17, 17))
+	{
+		iconcolour3 = MenuColours["Radar"];
+		if (IsKeyClicked(VK_LBUTTON) && LastWidgetClick < GetTickCount64())
+		{
+			if (Radar::Zoom < 2.5f)
+			{
+				Radar::Zoom += 0.10f;
+			}
+			LastWidgetClick = GetTickCount64() + 45;
+		}
+
+	}
+	OutlineRectangle(*Radar::X, *Radar::Y + *Radar::Height + Radar::Border.x + 1, 17, 17, 1, Colour(255,255,255));
+	FilledRectangle(*Radar::X, *Radar::Y + *Radar::Height + Radar::Border.x + 1, 16, 16, rectOutlineColour);
+	DrawText(*Radar::X + 9, *Radar::Y + *Radar::Height + Radar::Border.x + 8, L"🏠︎", Font, TextSize, iconcolour1, CentreCentre);
+
+	OutlineRectangle(*Radar::X + 18, *Radar::Y + *Radar::Height + Radar::Border.x + 1, 17, 17, 1, Colour(255, 255, 255));
+	FilledRectangle(*Radar::X + 18, *Radar::Y + *Radar::Height + Radar::Border.x + 1, 16, 16, rectOutlineColour);
+	DrawText(*Radar::X + 27, *Radar::Y + *Radar::Height + Radar::Border.x + 8, L"+", Font, TextSize, iconcolour2, CentreCentre);
+
+	OutlineRectangle(*Radar::X + 36, *Radar::Y + *Radar::Height + Radar::Border.x + 1, 17, 17, 1, Colour(255, 255, 255));
+	FilledRectangle(*Radar::X + 36, *Radar::Y + *Radar::Height + Radar::Border.x + 1, 16, 16, rectOutlineColour);
+	DrawText(*Radar::X + 44, *Radar::Y + *Radar::Height + Radar::Border.x + 8, L"-", Font, TextSize, iconcolour3, CentreCentre);
 
 	Vector2 pos = WorldToRadar(*LocalPlayerPos);
 	FilledRectangle(pos.x, pos.y, 10,10, Colour(255,0,0));

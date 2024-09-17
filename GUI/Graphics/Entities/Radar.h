@@ -16,6 +16,8 @@ protected:
 	float Scale = 1.0f;
 	float Zoom = 1.0f;
 	
+	ULONGLONG LastWidgetClick = 0;
+	
 	int TextSize = 13;
 	std::string Font = "Verdana";
 
