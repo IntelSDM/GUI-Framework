@@ -8,34 +8,44 @@ protected:
 	int* Y = nullptr;
 	int* Width = nullptr;
 	int* Height = nullptr;
+	float* MapSizeX = nullptr;
+	float* MapSizeY = nullptr;
 	bool* Enabled = nullptr;
 	ID2D1Bitmap* Bitmap = nullptr;
+
+	float Scale = 1.0f;
+	float Zoom = 1.0f;
+	
 	int TextSize = 13;
 	std::string Font = "Verdana";
 
 	Vector2 Drag;
 	Vector2 Cursor;
 	Vector2 Border;
+	Vector2 Stretch;
+	Vector2 Movement;
+	Vector2 MapOffset;
+
 	bool Dragging = false;
 	bool Moving = false;
-	Vector2 Movement;
+	bool Stretching = false;
+	bool CentreRadar = true;
+
 	void DragAction();
 	void StretchAction();
 	void MapInput();
-	void AddPointOfInterest(Vector3 pos);
+	void AddPointOfInterest(Vector2 pos);
 	void HandlePointsOfInterest();
 	void Zooming();
-	bool Stretching = false;
-	Vector2 Stretch;
-	float Zoom = 1.0f;
-	float Scale = 1.0f;
-	Vector2 MapOffset;
-	std::vector<Vector3> PointsOfInterest;
-	bool CentreRadar = true;
+	
 	Vector2 WorldToRadar(Vector3 pos);
-	Vector2 RealRadarSize;
+	
+	std::vector<Vector2> PointsOfInterest;
+
+	Vector3* LocalPlayerPos = nullptr;
 public:
-	Radar(int* x, int* y, int* width, int* height,bool* enabled, ID2D1Bitmap* bitmap);
+	Radar(int* x, int* y, int* width, int* height,bool* enabled, Vector3* localplayerpos, ID2D1Bitmap* bitmap);
+	Radar(int* x, int* y, int* width, int* height, bool* enabled, Vector3* localplayerpos, float* mapsizex, float* mapsizey);
 	void Update();
 	void Draw();
 };

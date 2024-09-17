@@ -42,9 +42,12 @@ std::wstring TextBoxText = L"Text Box";
 std::wstring PasswordText = L"Password";
 
 int Radarx = 0;
-int Radary = 0;
-int RadarWidth = 1920;
-int RadarHeight = 1080;
+int Radary = 50;
+int RadarWidth = 500;
+int RadarHeight = 500;
+float RadarSizeX = 4000;
+float RadarSizeY = 4000;
+Vector3 LocalPlayerPos(800, 0, 800);
 bool RadarEnabled = true;
 void CreateGUI()
 {
@@ -143,7 +146,7 @@ void CreateGUI()
 	}
 	ID2D1Bitmap* Bitmap = nullptr;
 	CreateDirectXBitmap(L"C:\\Program Files (x86)\\Steam\\steamapps\\common\\Rust\\map_3000_1234.png", &Bitmap);
-	auto radar = std::make_shared<Radar>(&Radarx, &Radary, &RadarWidth, &RadarHeight, &RadarEnabled, Bitmap);
+	auto radar = std::make_shared<Radar>(&Radarx, &Radary, &RadarWidth, &RadarHeight, &RadarEnabled,&LocalPlayerPos, Bitmap);
 
 
 	MenuEntity->Push(form);

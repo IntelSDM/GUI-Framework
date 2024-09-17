@@ -3,7 +3,8 @@
 #include "Drawing.h"
 #include "GUI.h"
 #include "Animation.h"
-Radar::Radar(int* x, int* y, int* width, int* height, bool* enabled, ID2D1Bitmap* bitmap = nullptr)
+// Radar maths is specifically for the game RUST, You must adapt the maths to your own needs. 
+Radar::Radar(int* x, int* y, int* width, int* height, bool* enabled, Vector3* localplayerpos, ID2D1Bitmap* bitmap = nullptr)
 {
 	Radar::X = x;
 	Radar::Y = y;
@@ -15,10 +16,27 @@ Radar::Radar(int* x, int* y, int* width, int* height, bool* enabled, ID2D1Bitmap
 	Radar::Border = { 4,20 };
 	Radar::Dragging = false;
 	Radar::Drag = { 0, 0 };
-	Radar::RealRadarSize = { bitmap->GetSize().width - 1000, bitmap->GetSize().height - 1000 };
 	Radar::MapOffset = { bitmap->GetSize().width/2, bitmap->GetSize().height / 2 };
-	
+	Radar::LocalPlayerPos = localplayerpos;
 }
+
+Radar::Radar(int* x, int* y, int* width, int* height, bool* enabled,Vector3* localplayerpos, float* mapsizex, float* mapsizey)
+{
+	Radar::X = x;
+	Radar::Y = y;
+	Radar::Width = width;
+	Radar::Height = height;
+	Radar::Enabled = enabled;
+	Radar::SetVisible(true);
+	Radar::Border = { 4,20 };
+	Radar::Dragging = false;
+	Radar::Drag = { 0, 0 };
+	Radar::MapSizeX = mapsizex;
+	Radar::MapSizeY = mapsizey;
+	Radar::MapOffset = {  *mapsizex / 2, *mapsizey / 2 };
+	Radar::LocalPlayerPos = localplayerpos;
+}
+
 
 void Radar::Update()
 {
@@ -53,15 +71,14 @@ void Radar::DragAction()
 		float tempvaluey = Radar::Cursor.y - Radar::Drag.y;
 		if (tempvaluex < 0)
 			tempvaluex = 0;
-		if (tempvaluex > Bitmap->GetSize().width)
-			tempvaluex = Bitmap->GetSize().width;
+		if (tempvaluex > (Bitmap != nullptr ? Radar::Bitmap->GetSize().width  : *Radar::MapSizeX))
+			tempvaluex = (Bitmap != nullptr ? Radar::Bitmap->GetSize().width : *Radar::MapSizeX);
 		if (tempvaluey < 0)
 			tempvaluey = 0;
-		if (tempvaluey > Bitmap->GetSize().height)
-			tempvaluey = Bitmap->GetSize().height;
+		if (tempvaluey > (Bitmap != nullptr ? Radar::Bitmap->GetSize().width : *Radar::MapSizeY))
+			tempvaluey = (Bitmap != nullptr ? Radar::Bitmap->GetSize().width : *Radar::MapSizeY);
 		*Radar::X = tempvaluex;
 		*Radar::Y = tempvaluey;
-		printf("!!!!!!!!!!X: %d Y: %d\n", *Radar::X, *Radar::Y);
 	}
 	if (IsMouseInRectangle(*Radar::X - Radar::Border.x, *Radar::Y - Radar::Border.y, *Radar::Width + (Radar::Border.x * 2), Radar::Border.y))
 	{
@@ -73,7 +90,7 @@ void Radar::DragAction()
 	}
 
 }
-void Radar::AddPointOfInterest(Vector3 WorldPos)
+void Radar::AddPointOfInterest(Vector2 WorldPos)
 {
 	Radar::PointsOfInterest.push_back(WorldPos);
 }
@@ -119,23 +136,17 @@ void Radar::StretchAction()
 }
 void Radar::HandlePointsOfInterest()
 {
+	if (CentreRadar)
+	{
+		MapOffset.x = LocalPlayerPos->x + (Bitmap != nullptr ? Radar::Bitmap->GetSize().width / 2 : *Radar::MapSizeX / 2);
+		MapOffset.y = (Bitmap != nullptr ? Radar::Bitmap->GetSize().height / 2 : *Radar::MapSizeY / 2) - LocalPlayerPos->z;
+	}
 
-	if (PointsOfInterest.empty())
-		return;
-	Vector3 WorldPos = PointsOfInterest[0];
-	Vector2 pos = Vector2(*Radar::X, *Radar::Y);
-
-	Vector2 targetScreenPos = Vector2(
-		pos.x + (WorldPos.x * Radar::Scale * Zoom) + (MapOffset.x * Zoom) + MapOffset.x,
-		pos.y - (WorldPos.z * Radar::Scale * Zoom) + (MapOffset.y * Zoom) + MapOffset.y
-	);
-
-	Vector2 screenCenter = Vector2(pos.x + *Radar::Width / 2, pos.y + *Radar::Height / 2);
-	Vector2 diff = screenCenter - targetScreenPos;
-	MapOffset = VecLerp(MapOffset, MapOffset + diff, 0.1);
-	if (std::abs(diff.x) < 1 && std::abs(diff.y) < 1)
-		PointsOfInterest.erase(PointsOfInterest.begin());
-
+	for (const auto& point : PointsOfInterest)
+	{
+		Vector2 radarPos = WorldToRadar(Vector3(point.x, 0, point.y));
+		FilledRectangle(radarPos.x, radarPos.y, 5, 5, Colour(0, 255, 0));  
+	}
 }
 void Radar::MapInput()
 {
@@ -200,8 +211,8 @@ void Radar::Zooming()
 Vector2 Radar::WorldToRadar(Vector3 worldPos)
 {
 
-	worldPos.x += Bitmap->GetSize().width/2;
-	worldPos.z = (Bitmap->GetSize().height / 2) - worldPos.z;
+	worldPos.x += (Bitmap != nullptr ? Radar::Bitmap->GetSize().width /2  : *Radar::MapSizeX/2);
+	worldPos.z = (Bitmap != nullptr ? Radar::Bitmap->GetSize().height /2 : *Radar::MapSizeY/2) - worldPos.z;
 
 
 	Vector2 start = Vector2(MapOffset.x - ((*Radar::Width / 2) * Zoom), MapOffset.y - ((*Radar::Height / 2) * Zoom));
@@ -243,6 +254,7 @@ void Radar::Draw()
 		FilledRectangle(*Radar::X - 1, *Radar::Y - 1, *Radar::Width + 2, *Radar::Height + 2, rectOutlineColour);
 	}
 	FilledRectangle(*Radar::X, ParentPos.y + *Radar::Y, *Radar::Width, *Radar::Height, rectBackground);
+	if(Radar::Bitmap)
 	DrawBitmap(Bitmap, *Radar::X, *Radar::Y, *Radar::Width, *Radar::Height, MapOffset.x - ((*Radar::Width / 2) * Zoom), MapOffset.y - ((*Radar::Height / 2) * Zoom), MapOffset.x + ((*Radar::Width / 2) * Zoom), MapOffset.y + ((*Radar::Height / 2) * Zoom));
 	HandlePointsOfInterest();
 	MapInput();
@@ -257,15 +269,9 @@ void Radar::Draw()
 	}
 	if (CentreRadar)
 	{
-	//	AddPointOfInterest(Vector3(-500, 500, -1500));
+	
 	}
-	Vector2 pos1 = WorldToRadar(Vector3(-811, 0, -500)); // should be top right
-//	Vector2 pos2 = WorldToRadar(Vector3(1385, 0, 142)); // should be top right
-	Vector2 pos2 = WorldToRadar(Vector3(2000, 0, 2000));
-	printf("X: %f Y: %f\n", pos1.x, pos1.y);
-	printf("X: %f Y: %f\n", pos2.x, pos2.y);
-	printf("X: %f Y: %f\n", MapOffset.x, MapOffset.y);
-	FilledRectangle(pos1.x, pos1.y, 5, 5, MyColour(255, 0, 0, 255));
-	FilledRectangle(pos2.x, pos2.y, 5, 5, MyColour(255, 255, 255, 255));
-	//FilledRectangle(MapOffset.x, MapOffset.y, 5, 5, MyColour(255, 255, 255, 255));
+
+	Vector2 pos = WorldToRadar(*LocalPlayerPos);
+	FilledRectangle(pos.x, pos.y, 10,10, Colour(255,0,0));
 }
