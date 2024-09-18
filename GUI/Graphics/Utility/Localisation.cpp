@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "Localisation.h"
+#include <regex>
 
-Languages Language = Languages::English;
+Languages Language = Languages::Chinese;
 
 // language, English, translation
 std::unordered_map<Languages, std::unordered_map<std::wstring, std::wstring>> Translations;
@@ -12,19 +13,56 @@ void AddTranslation(Languages language, std::wstring english, std::wstring trans
 	Translations[language][english] = translation;
 }
 
+void AddTranslation(Languages language, std::vector<std::wstring> english, std::vector<std::wstring> translation)
+{
+	for (int i = 0; i < english.size(); i++)
+	{
+		Translations[language][english[i]] = translation[i];
+	}
+}
+
+
 std::wstring GetTranslation(std::wstring english)
 {
-	if (Translations.find(Language) == Translations.end())
-	{
-		return english;
-	}
+    // Check if Language exists in the Translations map
+    if (Translations.find(Language) == Translations.end())
+    {
+        return english;
+    }
+    if (Translations[Language].find(english) == Translations[Language].end())
+    {
 
-	if (Translations[Language].find(english) == Translations[Language].end())
-	{
-		return english;
-	}
+        std::wregex regex(L"(.*?)(\\d+)$");
+        std::wsmatch match;
 
-	return Translations[Language][english];
+        if (std::regex_match(english, match, regex))
+        {
+
+            std::wstring wordPart = match[1].str();
+            std::wstring numberPart = match[2].str();
+
+            if (Translations[Language].find(wordPart) != Translations[Language].end())
+            {
+
+                std::wstring translatedString = Translations[Language][wordPart] + numberPart;
+
+
+                Translations[Language][english] = translatedString;
+
+                return translatedString;
+            }
+            else
+            {
+
+                return english;
+            }
+        }
+
+
+        return english;
+    }
+
+    return Translations[Language][english];
 }
 
 void SetLanguage(Languages language)

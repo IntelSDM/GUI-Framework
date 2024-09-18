@@ -52,15 +52,18 @@ bool RadarEnabled = true;
 void CreateGUI()
 {
 	MenuEntity = std::make_shared<Container>();
+	AddTranslation(Languages::Chinese, L"FORM", L"表格");
 	auto form = std::make_shared<Form>(100, 100.0f, 533, 350, 2, 30, L"FORM", false, GetFormIconPath());
 	{
 		auto tabcontroller = std::make_shared<TabController>();
 		form->Push(tabcontroller);
 
+		
+		AddTranslation(Languages::Chinese, L"Tab", L"选项卡");
 		auto tab = std::make_shared<Tab>(L"Tab1", 5, 55, &SelectedTab,50,20);
 		{
-			auto toggle = std::make_shared<Toggle>(10, 10, L"Toggle", &ToggleTest);
 			AddTranslation(Languages::Chinese, L"Toggle", L"切换");
+			auto toggle = std::make_shared<Toggle>(10, 10, L"Toggle", &ToggleTest);
 			tab->Push(toggle);
 			toggle->SetToolTip(L"Toggle Tooltip");
 			AddTranslation(Languages::Chinese, L"Toggle Tooltip", L"切换工具提示");
@@ -68,6 +71,7 @@ void CreateGUI()
 			AddTranslation(Languages::Chinese, L"Buttons", L"按钮");
 			tab->Push(button);
 			button->SetToolTip(L"Button Tooltip");
+			AddTranslation(Languages::Chinese, L"Button Tooltip", L"按钮工具提示");
 			auto colourpicker = std::make_shared<ColourPicker>(75, 10, &ColourPick);
 			tab->Push(colourpicker);
 			auto label = std::make_shared<Label>(L"Label", 10, 55);
@@ -77,17 +81,11 @@ void CreateGUI()
 			AddTranslation(Languages::Chinese, L"Slider Int", L"滑块整数");
 			tab->Push(sliderint);
 			auto sliderfloat = std::make_shared<Slider<float>>(10, 110, L"Slider Float", L"%", 0.0f, 100.0f, &SliderFloat);
+			AddTranslation(Languages::Chinese, L"Slider Float", L"滑块浮点数");
 			tab->Push(sliderfloat);
 			std::vector<std::wstring> downvalues = {L"Value 12345", L"Value 2", L"Value 3", L"Value 4", L"Value 5", L"Value 6", L"Value 7", L"Value 8", L"Value 9", L"Value 9"};
-			AddTranslation(Languages::Chinese, L"Value 12345", L"值 12345");
-			AddTranslation(Languages::Chinese, L"Value 2", L"值 2");
-			AddTranslation(Languages::Chinese, L"Value 3", L"值 3");
-			AddTranslation(Languages::Chinese, L"Value 4", L"值 4");
-			AddTranslation(Languages::Chinese, L"Value 5", L"值 5");
-			AddTranslation(Languages::Chinese, L"Value 6", L"值 6");
-			AddTranslation(Languages::Chinese, L"Value 7", L"值 7");
-			AddTranslation(Languages::Chinese, L"Value 8", L"值 8");
-			AddTranslation(Languages::Chinese, L"Value 9", L"值 9");
+			std::vector<std::wstring> chinesedownvalues = {L"值 12345", L"值 2", L"值 3", L"值 4", L"值 5", L"值 6", L"值 7", L"值 8", L"值 9", L"值 9"};
+			AddTranslation(Languages::Chinese, downvalues, chinesedownvalues);
 
 			auto dropdown = std::make_shared<DropDown>(10, 140, L"DropDown", &DropDownValue, downvalues);
 			AddTranslation(Languages::Chinese, L"DropDown", L"下拉框");
@@ -110,6 +108,7 @@ void CreateGUI()
 			tab->Push(numericslider);
 		
 		}
+		AddTranslation(Languages::Chinese, L"Tab2", L"选项卡2");
 		auto tab1 = std::make_shared<Tab>(L"Tab2", 65, 55, &SelectedTab,50,20);
 		{
 			auto tablist = std::make_shared<TabListBoxController>(10, 40, 160, 160);
@@ -120,15 +119,6 @@ void CreateGUI()
 				auto label = std::make_shared<Label>(L"List Instance 1", 180, 10);
 				listtab1->Push(label);
 				std::vector<std::wstring> downvalues = { L"Value 12345678910", L"Value 2", L"Value 3", L"Value 4", L"Value 5", L"Value 6", L"Value 7", L"Value 8", L"Value 9", L"Value 9" };
-				AddTranslation(Languages::Chinese, L"Value 12345678910", L"值 12345678910");
-				AddTranslation(Languages::Chinese, L"Value 2", L"值 2");
-				AddTranslation(Languages::Chinese, L"Value 3", L"值 3");
-				AddTranslation(Languages::Chinese, L"Value 4", L"值 4");
-				AddTranslation(Languages::Chinese, L"Value 5", L"值 5");
-				AddTranslation(Languages::Chinese, L"Value 6", L"值 6");
-				AddTranslation(Languages::Chinese, L"Value 7", L"值 7");
-				AddTranslation(Languages::Chinese, L"Value 8", L"值 8");
-				AddTranslation(Languages::Chinese, L"Value 9", L"值 9");
 				auto textbox1 = std::make_shared<DropDownTextBox>(180, 100, L"TextDropDown", &DropDownValue, downvalues);
 				listtab1->Push(textbox1);
 
@@ -171,10 +161,11 @@ void CreateGUI()
 			tablist->PushBack(listtab6);
 			tab1->Push(tablist);
 		}
-		AddTranslation(Languages::Chinese, L"Tab1", L"选项卡1");
+
+		AddTranslation(Languages::Chinese, L"Tab3", L"选项卡3");
 		auto tab2 = std::make_shared<Tab>(L"Tab3", 125, 55, &SelectedTab, 50, 20);
 		{
-			AddTranslation(Languages::Chinese, L"Tab3", L"选项卡3");
+	
 			AddTranslation(Languages::Chinese, L"Test", L"测试");
 						auto loadingbar = std::make_shared<LoadingBar>(50, 50, 100, 100,L"Test",&SliderInt, GetFormIconPath());
 			tab2->Push(loadingbar);
