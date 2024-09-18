@@ -108,7 +108,6 @@ void CreateGUI()
 			tab->Push(numericslider);
 		
 		}
-		AddTranslation(Languages::Chinese, L"Tab2", L"选项卡2");
 		auto tab1 = std::make_shared<Tab>(L"Tab2", 65, 55, &SelectedTab,50,20);
 		{
 			auto tablist = std::make_shared<TabListBoxController>(10, 40, 160, 160);
@@ -162,7 +161,6 @@ void CreateGUI()
 			tab1->Push(tablist);
 		}
 
-		AddTranslation(Languages::Chinese, L"Tab3", L"选项卡3");
 		auto tab2 = std::make_shared<Tab>(L"Tab3", 125, 55, &SelectedTab, 50, 20);
 		{
 	

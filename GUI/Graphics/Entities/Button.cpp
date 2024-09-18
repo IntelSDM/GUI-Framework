@@ -17,7 +17,7 @@ Button::Button(float x, float y, std::wstring text, std::function<void()> click)
 
 void Button::SetWidth()
 {
-	Button::Size.x = GetTextSize(Button::Name, Font, TextSize).x + 20;
+	Button::Size.x = GetTextSize(GetTranslation(Button::Name), Font, TextSize).x + 20;
 }
 
 void Button::Update()
@@ -27,7 +27,7 @@ void Button::Update()
 	Button::ParentPos = Button::Parent->GetParentPos();
 	if (!Button::IsVisible())
 		return;
-
+	Button::SetWidth();
 
 	if (!Button::Blocked)
 	{
