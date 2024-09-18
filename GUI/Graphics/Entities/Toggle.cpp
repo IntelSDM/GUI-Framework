@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "Drawing.h"
 #include "Font.h"
+#include "Localisation.h"
 
 Toggle::Toggle(float x, float y, std::wstring text, bool* data = nullptr)
 {
@@ -59,7 +60,7 @@ void Toggle::Draw()
 	if (*Toggle::Data == true)
 		FilledRectangle(ParentPos.x + Pos.x + 1, ParentPos.y + Pos.y + 1, Size.x - 2, Size.y - 2, activeColour);
 
-	DrawText(Toggle::ParentPos.x + Toggle::Pos.x + (Toggle::Size.x) + 3, Toggle::ParentPos.y + Toggle::Pos.y - (Toggle::Size.y / 8), Toggle::Name, Font,TextSize, textColour, None);
+	DrawText(Toggle::ParentPos.x + Toggle::Pos.x + (Toggle::Size.x) + 3, Toggle::ParentPos.y + Toggle::Pos.y - (Toggle::Size.y / 8), GetTranslation(Toggle::Name), Font,TextSize, textColour, None);
 	DrawTooltip();
 	DrawTooltip(Vector2(Toggle::Pos.x + (Toggle::Size.x), Toggle::Pos.y - 1), Vector2(Toggle::TextMeasurement.x + 4, Toggle::TextMeasurement.y));
 }

@@ -145,7 +145,7 @@ void Form::Draw()
 		FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Size.y, rectColour);
 		FilledRectangle(Form::Pos.x, Form::Pos.y, Form::Size.x, Form::Border.y, rectHeaderColour); // header
 		DrawBitmap(Form::Bitmap,Form::Pos.x + 5, Form::Pos.y + 5, Form::Border.y - 10, Form::Border.y - 10);
-		DrawText(Form::Pos.x + (Form::Border.y - 10) + 7, Form::Pos.y + (Form::Border.y/4), Form::Name, Font, TextSize, textColour, None);
+		DrawText(Form::Pos.x + (Form::Border.y - 10) + 7, Form::Pos.y + (Form::Border.y/4), GetTranslation(Form::Name), Font, TextSize, textColour, None);
 	}
 	Container::Draw();
 }

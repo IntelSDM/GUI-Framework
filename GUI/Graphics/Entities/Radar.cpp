@@ -247,7 +247,7 @@ void Radar::Draw()
 	{
 		FilledRoundedRectangle(*Radar::X - Radar::Border.x - 1, *Radar::Y - Radar::Border.y - 1, *Radar::Width + (Radar::Border.x * 2) + 2, Radar::Border.y + *Radar::Height + Radar::Border.x + 2, 3, rectBackground);
 		FilledRoundedRectangle(*Radar::X - Radar::Border.x, *Radar::Y - Radar::Border.y, *Radar::Width + (Radar::Border.x * 2), Radar::Border.y + *Radar::Height + Radar::Border.x, 3, rectColour);
-		DrawText(*Radar::X + (Radar::Border.x * 2), *Radar::Y - (Radar::Border.y / 1.2), L"Radar", Font, TextSize, textColour, None);
+		DrawText(*Radar::X + (Radar::Border.x * 2), *Radar::Y - (Radar::Border.y / 1.2), GetTranslation(L"Radar"), Font, TextSize, textColour, None);
 
 	}
 	else
@@ -291,7 +291,7 @@ void Radar::Draw()
 			{
 				Radar::Zoom -= 0.10f;
 			}
-				LastWidgetClick = GetTickCount64() + 45;
+			LastWidgetClick = GetTickCount64() + 45;
 		}
 
 	}

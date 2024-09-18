@@ -35,7 +35,7 @@ void DropDown::SetDropDownWidth()
 	float width = 0;
 	for (std::wstring str : DropDown::Names)
 	{
-		float wdth = GetTextSize(str, Font, TextSize).x;
+		float wdth = GetTextSize(GetTranslation(str), Font, TextSize).x;
 		if (wdth > width)
 			width = wdth;
 	}
@@ -44,7 +44,7 @@ void DropDown::SetDropDownWidth()
 
 void DropDown::ConvertSelectedName()
 {
-	auto it = DropDown::Names[*Index];
+	auto it = GetTranslation(DropDown::Names[*Index]);
 	float originalwidth = GetTextSize(it, Font, TextSize).x;
 
 	if (originalwidth < DropDown::Size.x - DropDown::CutOffBuffer)
@@ -154,34 +154,7 @@ void DropDown::Update()
 		DropDown::SizeDifference = DropDown::DropWidth - DropDown::TextWidth;
 		DropDown::SetDropDownWidth();
 		int i = 0;
-		for (const std::wstring& name : DropDown::Names)
-		{
-			if (i < DropDown::PointerStart)
-			{
-				i++;
-				continue;
-			}
-			if (i > DropDown::PointerEnd - 1)
-			{
-				i++;
-				continue;
-			}
-			float itemposy = DropDown::ParentPos.y + DropDown::Pos.y + DropDown::Size.y + 5 + ((i - DropDown::PointerStart) * DropDown::Size.y);
-
-			if (IsMouseInRectangle(DropDown::ParentPos.x + DropDown::Pos.x, itemposy, DropDown::DropWidth + (DropDown::SizeDifference / 2), DropDown::Size.y) && IsKeyClicked(VK_LBUTTON))
-			{
-				// print SizeDifference
-				printf("SizeDifference: %f\n", DropDown::SizeDifference);
-				*DropDown::Index = i;
-				DropDown::Active = false;
-				DropDown::SetBlockedSiblings(false);
-				DropDown::CalculateBuffer();
-				DropDown::ConvertSelectedName();
-				DropDown::ValueChangeEvent();
-				Sleep(50); // bandage fix to stop click through
-			}
-			i++;
-		}
+	
 	}
 }
 
@@ -253,14 +226,25 @@ void DropDown::Draw()
 				continue;
 			}
 			float itemposy = DropDown::ParentPos.y + DropDown::Pos.y + DropDown::Size.y + 5 + ((i - DropDown::PointerStart) * DropDown::Size.y);
+			if (IsMouseInRectangle(DropDown::ParentPos.x + DropDown::Pos.x, itemposy, DropDown::DropWidth + (DropDown::SizeDifference / 2), DropDown::Size.y) && IsKeyClicked(VK_LBUTTON))
+			{
+				// print SizeDifference
+				*DropDown::Index = i;
+				DropDown::Active = false;
+				DropDown::SetBlockedSiblings(false);
+				DropDown::CalculateBuffer();
+				DropDown::ConvertSelectedName();
+				DropDown::ValueChangeEvent();
+				Sleep(50); // bandage fix to stop click through
+			}
 			if (IsMouseInRectangle(DropDown::ParentPos.x + DropDown::Pos.x - (DropDown::SizeDifference / 2), itemposy, DropDown::DropWidth, DropDown::Size.y))
 			{
 				FilledRectangle(DropDown::ParentPos.x + DropDown::Pos.x - (DropDown::SizeDifference / 2), itemposy, DropDown::DropWidth, DropDown::Size.y, activeArrowColour);
 			}
 			if (i == *DropDown::Index)
-				DrawText(DropDown::ParentPos.x + DropDown::Pos.x + 5 - (DropDown::SizeDifference / 2), itemposy + (DropDown::Size.y / 8), name, Font, TextSize, selectedTextColour, None);
+				DrawText(DropDown::ParentPos.x + DropDown::Pos.x + 5 - (DropDown::SizeDifference / 2), itemposy + (DropDown::Size.y / 8), GetTranslation(name), Font, TextSize, selectedTextColour, None);
 			else
-				DrawText(DropDown::ParentPos.x + DropDown::Pos.x + 5 - (DropDown::SizeDifference / 2), itemposy + (DropDown::Size.y / 8), name, Font, TextSize, textColour, None);
+				DrawText(DropDown::ParentPos.x + DropDown::Pos.x + 5 - (DropDown::SizeDifference / 2), itemposy + (DropDown::Size.y / 8), GetTranslation(name), Font, TextSize, textColour, None);
 			i++;
 		}
 		OutlineRectangle(DropDown::ParentPos.x + DropDown::Pos.x + DropDown::Size.x + (DropDown::SizeDifference / 2), DropDown::ParentPos.y + DropDown::Pos.y + DropDown::Size.y + 5, 6, (DropDown::PointerEnd - DropDown::PointerStart) * DropDown::Size.y + 1, 1, rectOutlineColour);

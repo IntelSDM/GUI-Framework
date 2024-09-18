@@ -36,7 +36,7 @@ void ComboBox::SetComboBoxWidth()
 	float width = 0;
 	for (std::wstring str : ComboBox::Names)
 	{
-		float wdth = GetTextSize(str, Font, TextSize).x;
+		float wdth = GetTextSize(GetTranslation(str), Font, TextSize).x;
 		if (wdth > width)
 			width = wdth;
 	}
@@ -55,11 +55,11 @@ void ComboBox::ConvertSelectedName()
 		std::advance(itbool, i);
 
 		if (**itbool == true)
-			combinedstr += *it + L",";
+			combinedstr += GetTranslation(*it) + L",";
 	}
 	if (combinedstr.length() == 0)
 	{
-		combinedstr = L"Unselected";
+		combinedstr = GetTranslation(L"Unselected");
 		float originalwidth = GetTextSize(combinedstr, Font, TextSize).x;
 		if (originalwidth < ComboBox::Size.x - ComboBox::CutOffBuffer)
 		{
@@ -276,9 +276,9 @@ void ComboBox::Draw()
 			std::advance(it, i);
 
 			if (**it == true)
-				DrawText(ComboBox::ParentPos.x + ComboBox::Pos.x + 5 - (ComboBox::SizeDifference / 2), itemposy + (ComboBox::Size.y / 8), name, Font, TextSize, selectedTextColour, None);
+				DrawText(ComboBox::ParentPos.x + ComboBox::Pos.x + 5 - (ComboBox::SizeDifference / 2), itemposy + (ComboBox::Size.y / 8), GetTranslation(name), Font, TextSize, selectedTextColour, None);
 			else
-				DrawText(ComboBox::ParentPos.x + ComboBox::Pos.x + 5 - (ComboBox::SizeDifference / 2), itemposy + (ComboBox::Size.y / 8), name, Font, TextSize, textColour, None);
+				DrawText(ComboBox::ParentPos.x + ComboBox::Pos.x + 5 - (ComboBox::SizeDifference / 2), itemposy + (ComboBox::Size.y / 8), GetTranslation(name), Font, TextSize, textColour, None);
 
 			if (IsMouseInRectangle(ComboBox::ParentPos.x + ComboBox::Pos.x - (ComboBox::SizeDifference / 2), itemposy, ComboBox::DropWidth, ComboBox::Size.y) && IsKeyClicked(VK_LBUTTON) && ComboBox::LastClick < (clock() * 0.00001f))
 			{

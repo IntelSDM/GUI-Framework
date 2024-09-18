@@ -902,7 +902,7 @@ void DropDownTextBox::Draw()
 		FilledTriangle(trianglex1, triangley1, trianglex2, triangley2, trianglex3, triangley3, arrowColour);
 
 
-	DrawText(DropDownTextBox::ParentPos.x + DropDownTextBox::Pos.x, DropDownTextBox::ParentPos.y + DropDownTextBox::Pos.y - (DropDownTextBox::Size.y / 1.5) - 1, DropDownTextBox::Name + L":", Font, TextSize, textColour, None); // Title
+	DrawText(DropDownTextBox::ParentPos.x + DropDownTextBox::Pos.x, DropDownTextBox::ParentPos.y + DropDownTextBox::Pos.y - (DropDownTextBox::Size.y / 1.5) - 1, GetTranslation(DropDownTextBox::Name) + L":", Font, TextSize, textColour, None); // Title
 	DrawText(DropDownTextBox::ParentPos.x + DropDownTextBox::Pos.x + 3, (DropDownTextBox::ParentPos.y + DropDownTextBox::Pos.y) + (DropDownTextBox::Size.y / 6), DropDownTextBox::VisibleString, Font, TextSize, textColour, None);
 
 	std::chrono::duration<float> elapsed = std::chrono::high_resolution_clock::now() - DropDownTextBox::AnimationStart;

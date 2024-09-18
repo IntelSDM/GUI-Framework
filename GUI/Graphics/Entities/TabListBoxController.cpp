@@ -39,14 +39,14 @@ void TabListBoxController::UpdateCulledNames()
 	for (std::wstring str : TabListBoxController::Names)
 	{
 		std::wstring culledname = L"";
-		float width = GetTextSize(str, Font, TextSize).x;
+		float width = GetTextSize(GetTranslation(str), Font, TextSize).x;
 		if (width < TabListBoxController::Size.x - TabListBoxController::ScrollWidth + 2)
 		{
-			CulledNames.push_back(str);
+			CulledNames.push_back(GetTranslation(str));
 		}
 		else
 		{
-			culledname = str;
+			culledname = GetTranslation(str);
 			for (int i = culledname.length(); i > 0; i--)
 			{
 				culledname.erase(std::prev((culledname).end()));

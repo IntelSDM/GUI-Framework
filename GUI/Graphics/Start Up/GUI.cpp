@@ -60,31 +60,51 @@ void CreateGUI()
 		auto tab = std::make_shared<Tab>(L"Tab1", 5, 55, &SelectedTab,50,20);
 		{
 			auto toggle = std::make_shared<Toggle>(10, 10, L"Toggle", &ToggleTest);
+			AddTranslation(Languages::Chinese, L"Toggle", L"切换");
 			tab->Push(toggle);
 			toggle->SetToolTip(L"Toggle Tooltip");
+			AddTranslation(Languages::Chinese, L"Toggle Tooltip", L"切换工具提示");
 			auto button = std::make_shared<Button>(10, 30, L"Buttons", []() { Beep(100, 10); });
+			AddTranslation(Languages::Chinese, L"Buttons", L"按钮");
 			tab->Push(button);
 			button->SetToolTip(L"Button Tooltip");
 			auto colourpicker = std::make_shared<ColourPicker>(75, 10, &ColourPick);
 			tab->Push(colourpicker);
 			auto label = std::make_shared<Label>(L"Label", 10, 55);
+			AddTranslation(Languages::Chinese, L"Label", L"标签");
 			tab->Push(label);
 			auto sliderint = std::make_shared<Slider<int>>(10, 80, L"Slider Int", L"%", 0, 100, &SliderInt);
+			AddTranslation(Languages::Chinese, L"Slider Int", L"滑块整数");
 			tab->Push(sliderint);
 			auto sliderfloat = std::make_shared<Slider<float>>(10, 110, L"Slider Float", L"%", 0.0f, 100.0f, &SliderFloat);
 			tab->Push(sliderfloat);
 			std::vector<std::wstring> downvalues = {L"Value 12345", L"Value 2", L"Value 3", L"Value 4", L"Value 5", L"Value 6", L"Value 7", L"Value 8", L"Value 9", L"Value 9"};
+			AddTranslation(Languages::Chinese, L"Value 12345", L"值 12345");
+			AddTranslation(Languages::Chinese, L"Value 2", L"值 2");
+			AddTranslation(Languages::Chinese, L"Value 3", L"值 3");
+			AddTranslation(Languages::Chinese, L"Value 4", L"值 4");
+			AddTranslation(Languages::Chinese, L"Value 5", L"值 5");
+			AddTranslation(Languages::Chinese, L"Value 6", L"值 6");
+			AddTranslation(Languages::Chinese, L"Value 7", L"值 7");
+			AddTranslation(Languages::Chinese, L"Value 8", L"值 8");
+			AddTranslation(Languages::Chinese, L"Value 9", L"值 9");
+
 			auto dropdown = std::make_shared<DropDown>(10, 140, L"DropDown", &DropDownValue, downvalues);
+			AddTranslation(Languages::Chinese, L"DropDown", L"下拉框");
 			tab->Push(dropdown);
 			std::vector<std::wstring> combovalues = {L"Value 12345", L"Value 2", L"Value 3", L"Value 4", L"Value 5", L"Value 6", L"Value 7", L"Value 8"};
 			std::vector<bool*> bools = {&Combo1, &Combo2, &Combo3, &Combo4, &Combo5, &Combo5, &Combo5, &Combo5};
 			auto combo = std::make_shared<ComboBox>(10, 170, L"ComboBox", bools, combovalues);
+			AddTranslation(Languages::Chinese, L"ComboBox", L"组合框");
 			tab->Push(combo);
 			auto keybind = std::make_shared<KeyBind>(10, 215, L"KeyBind", &Key);
+			AddTranslation(Languages::Chinese, L"KeyBind", L"键绑定");
 			tab->Push(keybind);
 			auto textbox = std::make_shared<TextBox>(10, 255, L"Textbox", &TextBoxText,false,false);
+			AddTranslation(Languages::Chinese, L"Textbox", L"文本框");
 			tab->Push(textbox);
 			auto passwordbox = std::make_shared<TextBox>(250, 255, L"Password", &PasswordText, true);
+			AddTranslation(Languages::Chinese, L"Password", L"密码");
 			tab->Push(passwordbox);
 			auto numericslider = std::make_shared<NumericSlider<float>>(250, 10, L"Numeric Slider", L"M", 30.0f, 10000.0f, &SliderFloat);
 			tab->Push(numericslider);
@@ -93,35 +113,51 @@ void CreateGUI()
 		auto tab1 = std::make_shared<Tab>(L"Tab2", 65, 55, &SelectedTab,50,20);
 		{
 			auto tablist = std::make_shared<TabListBoxController>(10, 40, 160, 160);
+			AddTranslation(Languages::Chinese, L"TabListBoxController", L"选项卡列表控制器");
+			AddTranslation(Languages::Chinese, L"List Tab 1", L"列表选项卡 1");
 			auto listtab1 = std::make_shared<TabListBox>(L"List Tab 1");
 			{
 				auto label = std::make_shared<Label>(L"List Instance 1", 180, 10);
 				listtab1->Push(label);
 				std::vector<std::wstring> downvalues = { L"Value 12345678910", L"Value 2", L"Value 3", L"Value 4", L"Value 5", L"Value 6", L"Value 7", L"Value 8", L"Value 9", L"Value 9" };
+				AddTranslation(Languages::Chinese, L"Value 12345678910", L"值 12345678910");
+				AddTranslation(Languages::Chinese, L"Value 2", L"值 2");
+				AddTranslation(Languages::Chinese, L"Value 3", L"值 3");
+				AddTranslation(Languages::Chinese, L"Value 4", L"值 4");
+				AddTranslation(Languages::Chinese, L"Value 5", L"值 5");
+				AddTranslation(Languages::Chinese, L"Value 6", L"值 6");
+				AddTranslation(Languages::Chinese, L"Value 7", L"值 7");
+				AddTranslation(Languages::Chinese, L"Value 8", L"值 8");
+				AddTranslation(Languages::Chinese, L"Value 9", L"值 9");
 				auto textbox1 = std::make_shared<DropDownTextBox>(180, 100, L"TextDropDown", &DropDownValue, downvalues);
 				listtab1->Push(textbox1);
 
 			}
+			AddTranslation(Languages::Chinese, L"List Tab 2", L"列表选项卡 2");
 			auto listtab2 = std::make_shared<TabListBox>(L"List Tab 2");
 			{
 				auto label = std::make_shared<Label>(L"List Instance 2", 180, 10);
 				listtab2->Push(label);
 			}
+			AddTranslation(Languages::Chinese, L"List Tab 3", L"列表选项卡 3");
 			auto listtab3 = std::make_shared<TabListBox>(L"List Tab 3");
 			{
 				auto label = std::make_shared<Label>(L"List Instance 3", 180, 10);
 				listtab3->Push(label);
 			}
+			AddTranslation(Languages::Chinese, L"List Tab 4", L"列表选项卡 4");
 			auto listtab4 = std::make_shared<TabListBox>(L"List Tab 4");
 			{
 				auto label = std::make_shared<Label>(L"List Instance 4", 180, 10);
 				listtab4->Push(label);
 			}
+			AddTranslation(Languages::Chinese, L"List Tab 5", L"列表选项卡 5");
 			auto listtab5 = std::make_shared<TabListBox>(L"List Tab 5");
 			{
 				auto label = std::make_shared<Label>(L"List Instance 5", 180, 10);
 				listtab5->Push(label);
 			}
+			AddTranslation(Languages::Chinese, L"List Tab 6", L"列表选项卡 6");
 			auto listtab6 = std::make_shared<TabListBox>(L"List Tab 6");
 			{
 				auto label = std::make_shared<Label>(L"List Instance 6", 180, 10);
@@ -135,8 +171,11 @@ void CreateGUI()
 			tablist->PushBack(listtab6);
 			tab1->Push(tablist);
 		}
+		AddTranslation(Languages::Chinese, L"Tab1", L"选项卡1");
 		auto tab2 = std::make_shared<Tab>(L"Tab3", 125, 55, &SelectedTab, 50, 20);
 		{
+			AddTranslation(Languages::Chinese, L"Tab3", L"选项卡3");
+			AddTranslation(Languages::Chinese, L"Test", L"测试");
 						auto loadingbar = std::make_shared<LoadingBar>(50, 50, 100, 100,L"Test",&SliderInt, GetFormIconPath());
 			tab2->Push(loadingbar);
 		}

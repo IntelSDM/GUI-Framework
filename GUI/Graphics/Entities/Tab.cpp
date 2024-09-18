@@ -86,7 +86,7 @@ void Tab::Draw()
 		rectColour = MenuColours["TabActive"];
 
 	FilledRectangle(Tab::ParentPos.x + Tab::Pos.x, (Tab::ParentPos.y + Tab::ParentSize.y) - Tab::Pos.y, Tab::Size.x, Tab::Size.y, rectColour);
-	DrawText(Tab::ParentPos.x + Tab::Pos.x + (Tab::Size.x / 2), ((Tab::ParentPos.y + Tab::ParentSize.y) - Tab::Pos.y) + (Tab::Size.y / 2), Tab::Name, Font, TextSize, textColour, CentreCentre);
+	DrawText(Tab::ParentPos.x + Tab::Pos.x + (Tab::Size.x / 2), ((Tab::ParentPos.y + Tab::ParentSize.y) - Tab::Pos.y) + (Tab::Size.y / 2), GetTranslation(Tab::Name), Font, TextSize, textColour, CentreCentre);
 
 	if (selected)
 	{

@@ -156,7 +156,7 @@ void KeyBind::Draw()
 
 	OutlineRectangle(ParentPos.x + Pos.x, ParentPos.y + Pos.y, Size.x + 1, Size.y + 1, 1, rectOutlineColour);
 	FilledRectangle(ParentPos.x + KeyBind::Pos.x, ParentPos.y + KeyBind::Pos.y, KeyBind::Size.x, KeyBind::Size.y, rectColour);
-	DrawText(ParentPos.x + KeyBind::Pos.x, ParentPos.y + KeyBind::Pos.y - KeyBind::Size.y, KeyBind::Name, Font, TextSize, textColour, None);
+	DrawText(ParentPos.x + KeyBind::Pos.x, ParentPos.y + KeyBind::Pos.y - KeyBind::Size.y, GetTranslation(KeyBind::Name), Font, TextSize, textColour, None);
 	DrawText(ParentPos.x + KeyBind::Pos.x + (KeyBind::Size.x / 2), ParentPos.y + KeyBind::Pos.y + (KeyBind::Size.y / 2), KeyName, Font, TextSize - 1, textColour, CentreCentre);
 	if (KeyBind::ContextActive)
 	{

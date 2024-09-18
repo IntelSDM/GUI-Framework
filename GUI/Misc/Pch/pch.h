@@ -71,4 +71,5 @@
 #include "font.h"
 #include "Vector.h"
 #include "Input.h"
+#include "Localisation.h"
 #endif //PCH_H

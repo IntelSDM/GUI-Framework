@@ -733,7 +733,7 @@ void TextBox::Draw()
 
 	FilledRoundedRectangle(TextBox::Pos.x + TextBox::ParentPos.x - 1, TextBox::Pos.y + +TextBox::ParentPos.y - 1, TextBox::Size.x + 2, TextBox::Size.y + 2, 4, rectOutlineColour);
 	FilledRoundedRectangle(TextBox::Pos.x + TextBox::ParentPos.x, TextBox::Pos.y + +TextBox::ParentPos.y, TextBox::Size.x, TextBox::Size.y, 4, rectColour);
-	DrawText(TextBox::ParentPos.x + TextBox::Pos.x, TextBox::ParentPos.y + TextBox::Pos.y - (TextBox::Size.y / 1.5) - 1, TextBox::Name + L":", Font, TextSize, textColour, None); // Title
+	DrawText(TextBox::ParentPos.x + TextBox::Pos.x, TextBox::ParentPos.y + TextBox::Pos.y - (TextBox::Size.y / 1.5) - 1, GetTranslation(TextBox::Name) + L":", Font, TextSize, textColour, None); // Title
 	if (TextBox::hide_text)
 		std::fill(TextBox::VisibleString.begin(), TextBox::VisibleString.end(), L'*');
 	DrawText(TextBox::ParentPos.x + TextBox::Pos.x + 3, (TextBox::ParentPos.y + TextBox::Pos.y) + (TextBox::Size.y / 6), TextBox::VisibleString, Font, TextSize, textColour, None);
@@ -770,7 +770,7 @@ void TextBox::Draw()
 
 			if (IsMouseInRectangle(TextBox::ContextPos.x, TextBox::ContextPos.y + (i * 20), TextBox::ContextSize.x, 20))
 				FilledRectangle(TextBox::ContextPos.x, TextBox::ContextPos.y + (i * 20), TextBox::ContextSize.x, 20, contextOutlineColour);
-			DrawText(TextBox::ContextPos.x + (TextBox::ContextSize.x / 2), TextBox::ContextPos.y + (i * 20) + 10, pair.first, Font, TextSize, textColour, CentreCentre);
+			DrawText(TextBox::ContextPos.x + (TextBox::ContextSize.x / 2), TextBox::ContextPos.y + (i * 20) + 10, GetTranslation(pair.first), Font, TextSize, textColour, CentreCentre);
 
 			i++;
 		}

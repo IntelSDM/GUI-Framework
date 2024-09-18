@@ -28,6 +28,6 @@ void Label::Draw()
 
 	MyColour textColour = MenuColours["Text"];
 
-	DrawText(Label::ParentPos.x + Label::Pos.x, Label::ParentPos.y + Label::Pos.y, Label::Name, Font, TextSize, textColour, None);
+	DrawText(Label::ParentPos.x + Label::Pos.x, Label::ParentPos.y + Label::Pos.y, GetTranslation(Label::Name), Font, TextSize, textColour, None);
 	DrawTooltip();
 }
