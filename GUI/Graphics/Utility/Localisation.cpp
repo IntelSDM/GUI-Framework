@@ -24,7 +24,10 @@ void AddTranslation(Languages language, std::vector<std::wstring> english, std::
 
 std::wstring GetTranslation(std::wstring english)
 {
-    // Check if Language exists in the Translations map
+    if (Language == Languages::English)
+    {
+		return english;
+	}
     if (Translations.find(Language) == Translations.end())
     {
         return english;
