@@ -320,6 +320,10 @@ void Radar::Draw()
 	FilledRectangle(*Radar::X + 36, *Radar::Y + *Radar::Height + Radar::Border.x + 1, 16, 16, rectOutlineColour);
 	DrawText(*Radar::X + 44, *Radar::Y + *Radar::Height + Radar::Border.x + 8, L"-", Font, TextSize, iconcolour3, CentreCentre);
 
-	Vector2 pos = WorldToRadar(*LocalPlayerPos);
-	FilledRectangle(pos.x, pos.y, 10,10, Colour(255,0,0));
+	if (CentreRadar)
+	{
+		Vector2 pos = WorldToRadar(*LocalPlayerPos);
+		FilledRectangle(pos.x, pos.y, 10, 10, Colour(255, 0, 0));
+	}
+	
 }
