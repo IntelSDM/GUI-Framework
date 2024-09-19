@@ -2,10 +2,14 @@
 #include "AssetManager.h"
 #include "Assets/FormIcon.h"
 #include "Assets/map.h"
+#include "Assets/CNFlag.h"
+#include "Assets/UKFlag.h"
 #include <filesystem>
 std::string AssetBasePath = getenv("USERPROFILE") + (std::string)("\\Documents\\GUIFramework\\");
 std::string FormIconPath = AssetBasePath + "FormLogo.png";
 std::string MapPath = AssetBasePath + "Map.png";
+std::string ChineseFlagPath = AssetBasePath + "CNFlag.png";
+std::string UKFlagPath = AssetBasePath + "UKFlag.png";
 std::wstring GetFormIconPath()
 {
 	std::string combined = FormIconPath;
@@ -16,7 +20,16 @@ std::wstring GetMapPath()
 	std::string combined = MapPath;
 	return std::wstring(combined.begin(), combined.end());
 }
-
+std::wstring GetChineseFlagPath()
+{
+	std::string combined = ChineseFlagPath;
+	return std::wstring(combined.begin(), combined.end());
+}
+std::wstring GetUKFlagPath()
+{
+	std::string combined = UKFlagPath;
+	return std::wstring(combined.begin(), combined.end());
+}
 void WriteAssetToFile(const std::string& path, const unsigned char* asset, size_t assetSize)
 {
     std::cout << "Writing asset to file: " << path << std::endl;
@@ -38,4 +51,7 @@ void SetUpAssets()
 
 	WriteAssetToFile(FormIconPath, FormIconBytes,sizeof(FormIconBytes));
 	WriteAssetToFile(MapPath, MapBytes, sizeof(MapBytes));
+    WriteAssetToFile(ChineseFlagPath, ChineseFlag, sizeof(ChineseFlag));
+    WriteAssetToFile(UKFlagPath, UKFlag, sizeof(UKFlag));
 }
+

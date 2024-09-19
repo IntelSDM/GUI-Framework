@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "Localisation.h"
+#include "AssetManager.h"
 #include <regex>
 
-Languages Language = Languages::Chinese;
+Languages Language = Languages::English;
 
 // language, English, translation
 std::unordered_map<Languages, std::unordered_map<std::wstring, std::wstring>> Translations;
@@ -76,4 +77,16 @@ void SetLanguage(Languages language)
 Languages GetLanguage()
 {
 	return Language;
+}
+
+std::wstring GetFlagPath(Languages lang)
+{
+    switch (lang)
+    {
+	case Languages::English:
+		return GetUKFlagPath();
+	case Languages::Chinese:
+		return GetChineseFlagPath();
+	}
+	return L"";
 }

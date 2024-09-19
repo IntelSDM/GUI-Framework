@@ -4,3 +4,5 @@
 extern void SetUpAssets();
 extern std::wstring GetFormIconPath();
 extern std::wstring GetMapPath();
+extern std::wstring GetChineseFlagPath();
+extern std::wstring GetUKFlagPath();

@@ -20,6 +20,7 @@
 #include "AssetManager.h"
 #include "DropDownTextBox.h"
 #include "Radar.h"
+#include "LanguageSelector.h"
 int SelectedTab = 1;
 int SelectedSubTab = 0;
 int TabCount = 0;
@@ -55,6 +56,7 @@ void CreateGUI()
 	AddTranslation(Languages::Chinese, L"FORM", L"表格");
 	auto form = std::make_shared<Form>(100, 100.0f, 533, 350, 2, 30, L"FORM", false, GetFormIconPath());
 	{
+	
 		auto tabcontroller = std::make_shared<TabController>();
 		form->Push(tabcontroller);
 
@@ -62,6 +64,8 @@ void CreateGUI()
 		AddTranslation(Languages::Chinese, L"Tab", L"选项卡");
 		auto tab = std::make_shared<Tab>(L"Tab1", 5, 55, &SelectedTab,50,20);
 		{
+			
+		
 			AddTranslation(Languages::Chinese, L"Toggle", L"切换");
 			auto toggle = std::make_shared<Toggle>(10, 10, L"Toggle", &ToggleTest);
 			tab->Push(toggle);
@@ -74,6 +78,8 @@ void CreateGUI()
 			AddTranslation(Languages::Chinese, L"Button Tooltip", L"按钮工具提示");
 			auto colourpicker = std::make_shared<ColourPicker>(75, 10, &ColourPick);
 			tab->Push(colourpicker);
+			auto langselector = std::make_shared<LanguageSelector>(150, 10);
+			tab->Push(langselector);
 			auto label = std::make_shared<Label>(L"Label", 10, 55);
 			AddTranslation(Languages::Chinese, L"Label", L"标签");
 			tab->Push(label);
