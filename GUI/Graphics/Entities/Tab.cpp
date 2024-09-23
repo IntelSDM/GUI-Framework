@@ -4,7 +4,7 @@
 #include "Gui.h"
 #include "Drawing.h"
 
-Tab::Tab(std::wstring name, float x, float y, int* selectedtab, float width, float height)
+Tab::Tab(const std::wstring& name, float x, float y, int* selectedtab, float width, float height)
 {
 	//Calc Size based off the name size
 	Vector2 txtSize = GetTextSize(name, Font, TextSize);

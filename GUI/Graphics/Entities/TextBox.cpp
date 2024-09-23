@@ -6,7 +6,7 @@
 #include "Graphics.h"
 #include "Animation.h"
 
-TextBox::TextBox(float x, float y, std::wstring text, std::wstring* data = nullptr, bool hide, bool unicode)
+TextBox::TextBox(float x, float y,  const std::wstring& text, std::wstring* data = nullptr, bool hide, bool unicode)
 {
 	TextBox::Pos = {x, y};
 	TextBox::Size = {160, 20};

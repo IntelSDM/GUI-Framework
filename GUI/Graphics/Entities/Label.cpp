@@ -2,7 +2,7 @@
 #include "Drawing.h"
 #include "label.h"
 
-Label::Label(std::wstring text, float posx, float posy)
+Label::Label( const std::wstring& text, float posx, float posy)
 {
 	Label::Pos = {posx, posy};
 	Label::Name = text;

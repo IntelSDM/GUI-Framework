@@ -5,7 +5,7 @@
 #include "Font.h";
 #include "Graphics.h"
 
-Button::Button(float x, float y, std::wstring text, std::function<void()> click)
+Button::Button(float x, float y, const std::wstring& text, std::function<void()> click)
 {
 	Button::Name = text;
 	Button::Pos = {x, y};

@@ -61,7 +61,7 @@ protected:
 	int TextSize = 11;
 	std::string Font = "Verdana";
 public:
-	TextBox(float x, float y, std::wstring text, std::wstring* data, bool hide = false, bool unicode = true);
+	TextBox(float x, float y,  const std::wstring& text, std::wstring* data, bool hide = false, bool unicode = true);
 	void Update();
 	void Draw();
 	bool IsTabbed;

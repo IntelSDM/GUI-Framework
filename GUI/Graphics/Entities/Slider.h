@@ -86,7 +86,7 @@ public:
 		DrawTooltip(Vector2(Pos.x - 1, (Pos.y + 15)),Vector2(Size.x + 2, Size.y + 2));
 	}
 
-	Slider(int x, int y, std::wstring name, std::wstring measurement, T minvalue, T maxvalue, T* value) : Measurement(measurement), MaxValue(maxvalue), MinValue(minvalue), Value(value)
+	Slider(int x, int y, const std::wstring& name, const std::wstring& measurement, T minvalue, T maxvalue, T* value) : Measurement(measurement), MaxValue(maxvalue), MinValue(minvalue), Value(value)
 	{
 		Pos = {(float)x, (float)y};
 		Name = name;

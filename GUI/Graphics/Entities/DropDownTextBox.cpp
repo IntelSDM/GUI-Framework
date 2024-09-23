@@ -6,7 +6,7 @@
 #include "Graphics.h"
 #include "Animation.h"
 
-DropDownTextBox::DropDownTextBox(float x, float y, std::wstring text, int* items, std::vector<std::wstring>names)
+DropDownTextBox::DropDownTextBox(float x, float y,  const std::wstring& text, int* items, std::vector<std::wstring>names)
 {
 	DropDownTextBox::Pos = { x, y };
 	DropDownTextBox::Size = { 120, 20 };

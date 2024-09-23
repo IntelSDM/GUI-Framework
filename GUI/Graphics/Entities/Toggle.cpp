@@ -5,7 +5,7 @@
 #include "Font.h"
 #include "Localisation.h"
 
-Toggle::Toggle(float x, float y, std::wstring text, bool* data = nullptr)
+Toggle::Toggle(float x, float y,  const std::wstring& text, bool* data = nullptr)
 {
 	Toggle::Pos = {x, y};
 	Toggle::Size = {11, 11};

@@ -28,7 +28,7 @@ protected:
 	int TextSize = 11;
 	std::string Font = "Verdana";
 public:
-	ComboBox(float x, float y, std::wstring text, std::vector<bool*> items, std::vector<std::wstring> names);
+	ComboBox(float x, float y,  const std::wstring& text, std::vector<bool*> items, std::vector<std::wstring> names);
 	void Update();
 	void Draw();
 };

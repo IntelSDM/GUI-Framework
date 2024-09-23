@@ -8,7 +8,7 @@ protected:
     int TextSize = 11;
     std::string Font = "Verdana";
 public:
-    Label(std::wstring name, float x, float y);
+    Label(const std::wstring& name, float x, float y);
     void Update();
     void Draw();
 };

@@ -73,7 +73,7 @@ protected:
 	bool HasTyped = false;
 
 public:
-	DropDownTextBox(float x, float y, std::wstring text, int* items, std::vector<std::wstring>names);
+	DropDownTextBox(float x, float y,  const std::wstring& text, int* items, std::vector<std::wstring>names);
 	void Update();
 	void Draw();
 	bool IsTabbed;

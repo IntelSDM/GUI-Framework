@@ -4,7 +4,7 @@
 #include "DropDown.h"
 #include "Font.h"
 
-DropDown::DropDown(float x, float y, std::wstring text, int* index, std::vector<std::wstring> names)
+DropDown::DropDown(float x, float y,  const std::wstring& text, int* index, std::vector<std::wstring> names)
 {
 	DropDown::Pos = {x, y};
 	DropDown::Name = text;

@@ -32,7 +32,7 @@ protected:
 	std::string Font = "Verdana";
 
 public:
-	Form(float x, float y, float w, float h, float borderwidth, float borderheight, std::wstring text, bool drag, const std::wstring& iconpath = L"");
+	Form(float x, float y, float w, float h, float borderwidth, float borderheight,  const std::wstring& text, bool drag, const std::wstring& iconpath = L"");
 	void Draw();
 	void Update();
 };

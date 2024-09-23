@@ -7,7 +7,7 @@ protected:
 	int* Selected;
 
 public:
-	TabListBox(std::wstring name);
+	TabListBox(const std::wstring& name);
 	int Index;
 	void Update();
 	void Draw();

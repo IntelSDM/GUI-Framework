@@ -11,7 +11,7 @@ protected:
 	int TextSize = 12;
 	std::string Font = "Verdana";
 public:
-	Toggle(float x, float y, std::wstring text, bool* data);
+	Toggle(float x, float y,  const std::wstring& text, bool* data);
 	void Update();
 	void Draw();
 };

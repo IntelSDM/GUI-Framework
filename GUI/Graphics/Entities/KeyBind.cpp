@@ -4,7 +4,7 @@
 #include "Input.h"
 #include "GUI.h"
 
-KeyBind::KeyBind(float x, float y, std::wstring text, int* key)
+KeyBind::KeyBind(float x, float y,  const std::wstring& text, int* key)
 {
 	KeyBind::Pos = {x, y};
 	KeyBind::Name = text;

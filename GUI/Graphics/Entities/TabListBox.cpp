@@ -6,7 +6,7 @@
 #include "Font.h"
 #include "Graphics.h"
 
-TabListBox::TabListBox(std::wstring name)
+TabListBox::TabListBox(const std::wstring& name)
 {
 	TabListBox::Name = name;
 	TabListBox::Index = TabCount;

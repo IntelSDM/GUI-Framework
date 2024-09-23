@@ -29,7 +29,7 @@ protected:
     int TextSize = 11;
     std::string Font = "Verdana";
 public:
-    DropDown(float x, float y, std::wstring text, int* items, std::vector<std::wstring>names);
+    DropDown(float x, float y,  const std::wstring& text, int* items, std::vector<std::wstring>names);
     void Update();
     void Draw();
 };

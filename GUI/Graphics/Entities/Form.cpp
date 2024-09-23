@@ -8,7 +8,7 @@
 #include "GUI.h"
 #include "filesystem"
 
-Form::Form(float x, float y, float w, float h, float borderwidth, float borderheight, std::wstring text, bool stretch, const std::wstring& iconpath)
+Form::Form(float x, float y, float w, float h, float borderwidth, float borderheight,  const std::wstring& text, bool stretch, const std::wstring& iconpath)
 {
 	Form::Name = text;
 	Form::Pos = {x, y};
