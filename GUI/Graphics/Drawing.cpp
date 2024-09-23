@@ -6,6 +6,53 @@ ID2D1GradientStopCollection* GradientStops = NULL;
 
 std::unordered_map<std::wstring, IDWriteTextLayout*> TextCache;
 
+void CreateLayer(float alpha)
+{
+	RenderTarget->PushLayer(
+		D2D1::LayerParameters(
+			D2D1::InfiniteRect(),
+			nullptr,
+			D2D1_ANTIALIAS_MODE_PER_PRIMITIVE,
+			D2D1::IdentityMatrix(),
+			alpha,
+			nullptr,
+			D2D1_LAYER_OPTIONS_NONE
+		),
+		nullptr);
+}
+void CreateLayer(int startx, int starty, int limitwidth, int limitheight)
+{
+	RenderTarget->PushLayer(
+		D2D1::LayerParameters(
+			D2D1::RectF(startx, starty, limitwidth, limitheight),
+			nullptr,
+			D2D1_ANTIALIAS_MODE_PER_PRIMITIVE,
+			D2D1::IdentityMatrix(),
+			1.0f,
+			nullptr,
+			D2D1_LAYER_OPTIONS_NONE
+		),
+		nullptr);
+}
+void CreateLayer(int startx, int starty, int limitwidth, int limitheight, float alpha)
+{
+	RenderTarget->PushLayer(
+		D2D1::LayerParameters(
+			D2D1::RectF(startx, starty, limitwidth, limitheight),
+			nullptr,
+			D2D1_ANTIALIAS_MODE_PER_PRIMITIVE,
+			D2D1::IdentityMatrix(),
+			alpha,
+			nullptr,
+			D2D1_LAYER_OPTIONS_NONE
+		),
+		nullptr);
+}
+void EndLayer()
+{
+	RenderTarget->PopLayer();
+}
+
 void PrintHRESULTError(HRESULT hr)
 {
 	LPVOID errorMsg;
