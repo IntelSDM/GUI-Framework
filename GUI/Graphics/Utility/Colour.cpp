@@ -64,10 +64,9 @@ std::unordered_map<std::string, MyColour> MenuColours =
     {"RadarAccents", MyColour(100, 100, 100, 255)},
 
 };
-
-D2D1::ColorF Colour(UINT8 R, UINT8 G, UINT8 B, UINT8 A)
+D2D1::ColorF Colour(const UINT8& R, const UINT8& G, const UINT8& B, const UINT8& A)
 {
-	return D2D1::ColorF(static_cast<float>(R) / 255.0f, static_cast<float>(G) / 255.0f, static_cast<float>(B) / 255.0f, static_cast<float>(A) / 255.0f);
+    return D2D1::ColorF(static_cast<float>(R) / 255.0f, static_cast<float>(G) / 255.0f, static_cast<float>(B) / 255.0f, static_cast<float>(A) / 255.0f);
 }
 
 
@@ -128,7 +127,7 @@ D2D1::ColorF HueToRGB(float hue)
     return col;
 }
 
-float RGBToHue(float r, float g, float b)
+float RGBToHue(const float& r, const float& g, const float& b)
 {
     float hue = 0.0f;
     float rnorm = r;
@@ -159,7 +158,7 @@ float RGBToHue(float r, float g, float b)
     return hue;
 }
 
-D2D1::ColorF HsvToRgb(float hue, float saturation, float value, float alpha)
+D2D1::ColorF HsvToRgb(float hue, float saturation, float value, const float& alpha)
 {
     // Ensure hue is in the range [0, 360)
     hue = fmodf(hue, 360.0f);
@@ -215,7 +214,7 @@ D2D1::ColorF HsvToRgb(float hue, float saturation, float value, float alpha)
     return D2D1::ColorF(r, g, b, alpha);
 }
 
-HsvColour RgbToHsv(float r, float g, float b)
+HsvColour RgbToHsv(const float& r, const float& g, const float& b)
 {
     float rnorm = r;
     float gnorm = g;
@@ -253,7 +252,7 @@ HsvColour RgbToHsv(float r, float g, float b)
     return hsv;
 }
 
-void SetColour(std::string name, D2D1::ColorF col)
+void SetColour(const std::string& name, const D2D1::ColorF& col)
 {
-	MenuColours[name] = MyColour(col);
+    MenuColours[name] = MyColour(col);
 }

@@ -12,7 +12,7 @@ enum FontAlignment
 	None = 6
 };
 
-extern void CreateFonts(std::string customfontname, std::wstring_view fontname, float size, DWRITE_FONT_WEIGHT weight);
-extern Vector2 GetTextSize(std::wstring text, std::string font, size_t font_size = 0);
-extern size_t GetFontSize(std::string fontname);
-extern IDWriteTextFormat* GetFont(std::string fontname);
+extern void CreateFonts(const std::string& customfontname, const std::wstring_view& fontname, const float& size, const DWRITE_FONT_WEIGHT& weight);
+extern Vector2 GetTextSize(const std::wstring& text, const std::string& font, size_t font_size = 0);
+extern size_t GetFontSize(const std::string& fontname);
+extern IDWriteTextFormat* GetFont(const std::string& fontname);

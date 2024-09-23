@@ -4,7 +4,7 @@
 std::unordered_map<std::string, FontInformation> Fonts;
 std::unordered_map<std::wstring, IDWriteTextLayout*> TextLayouts;
 
-void CreateFonts(std::string customfontname, std::wstring_view fontname, float size, DWRITE_FONT_WEIGHT weight)
+void CreateFonts(const std::string& customfontname, const std::wstring_view& fontname, const float& size, const DWRITE_FONT_WEIGHT& weight)
 {
 	IDWriteTextFormat* text_format;
 
@@ -30,7 +30,7 @@ void CreateFonts(std::string customfontname, std::wstring_view fontname, float s
 	}
 }
 
-Vector2 GetTextSize(std::wstring text, std::string font, size_t font_size)
+Vector2 GetTextSize(const std::wstring& text, const std::string& font, size_t font_size)
 {
 	IDWriteTextLayout* layout;
 
@@ -69,12 +69,12 @@ Vector2 GetTextSize(std::wstring text, std::string font, size_t font_size)
 	return Vector2(0, 0);
 }
 
-IDWriteTextFormat* GetFont(std::string fontname)
+IDWriteTextFormat* GetFont(const std::string& fontname)
 {
 	return Fonts[fontname].font;
 }
 
-size_t GetFontSize(std::string fontname)
+size_t GetFontSize(const std::string& fontname)
 {
 	return Fonts[fontname].size;
 }

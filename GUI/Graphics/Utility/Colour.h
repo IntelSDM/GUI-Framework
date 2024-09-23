@@ -1,5 +1,5 @@
 #pragma once
-D2D1::ColorF Colour(UINT8 R, UINT8 G, UINT8 B, UINT8 A = 255);
+D2D1::ColorF Colour(const UINT8& R, const UINT8& G, const UINT8& B, const UINT8& A = 255);
 
 //Fuck you Microsoft for not having a default constructor that will work for mappy map :(
 //should by default work even if you just passthrough D2D1 Color to it (:
@@ -39,7 +39,8 @@ struct HsvColour
 extern std::unordered_map<std::string, MyColour> MenuColours;
 
 D2D1::ColorF HueToRGB(float hue);
-float RGBToHue(float r, float g, float b);
-D2D1::ColorF HsvToRgb(float hue, float saturation, float value, float alpha);
-HsvColour RgbToHsv(float r, float g, float b);
-void SetColour(std::string name, D2D1::ColorF col);
+float RGBToHue(const float& r, const float& g, const float& b);
+D2D1::ColorF HsvToRgb(float hue, float saturation, float value, const float& alpha);
+HsvColour RgbToHsv(const float& r, const float& g, const float& b);
+void SetColour(const std::string& name, const D2D1::ColorF& col);
+
