@@ -6,7 +6,7 @@ ID2D1GradientStopCollection* GradientStops = NULL;
 
 std::unordered_map<std::wstring, IDWriteTextLayout*> TextCache;
 
-void CreateLayer(float alpha)
+void CreateLayer(const float& alpha)
 {
 	RenderTarget->PushLayer(
 		D2D1::LayerParameters(
@@ -20,7 +20,7 @@ void CreateLayer(float alpha)
 		),
 		nullptr);
 }
-void CreateLayer(int startx, int starty, int limitwidth, int limitheight)
+void CreateLayer(const int& startx, const int& starty, const int& limitwidth, const int& limitheight)
 {
 	RenderTarget->PushLayer(
 		D2D1::LayerParameters(
@@ -34,7 +34,7 @@ void CreateLayer(int startx, int starty, int limitwidth, int limitheight)
 		),
 		nullptr);
 }
-void CreateLayer(int startx, int starty, int limitwidth, int limitheight, float alpha)
+void CreateLayer(const int& startx, const int& starty, const int& limitwidth, const int& limitheight, const float& alpha)
 {
 	RenderTarget->PushLayer(
 		D2D1::LayerParameters(
@@ -52,7 +52,64 @@ void EndLayer()
 {
 	RenderTarget->PopLayer();
 }
+void CreateLinearBrush(ID2D1LinearGradientBrush** brush, const float& point1, MyColour colour1, const float& point2, MyColour colour2, const Vector2& start, const Vector2& end)
+{
+	if (*brush)
+		(*brush)->Release();
 
+	D2D1_GRADIENT_STOP stops[] =
+	{
+		{point1, colour1.Get()},
+		{point2, colour2.Get()},
+	};
+
+	ID2D1GradientStopCollection* stopcollection;
+	RenderTarget->CreateGradientStopCollection(
+		stops,
+		_countof(stops),
+		D2D1_GAMMA_2_2,
+		D2D1_EXTEND_MODE_CLAMP,
+		&stopcollection
+	);
+
+	RenderTarget->CreateLinearGradientBrush(
+		D2D1::LinearGradientBrushProperties(
+			D2D1::Point2F(start.x, start.y),
+			D2D1::Point2F(start.x + end.x, start.y + end.y)),
+		stopcollection,
+		brush
+	);
+
+}
+void CreateLinearBrush(ID2D1LinearGradientBrush** brush, const float& point1, MyColour colour1, const float& point2, MyColour colour2, const float& point3, MyColour colour3, const Vector2& start, const Vector2& end)
+{
+	if (*brush)
+		(*brush)->Release();
+
+	D2D1_GRADIENT_STOP stops[] =
+	{
+		{point1, colour1.Get()},
+		{point2, colour2.Get()},
+		{point3, colour3.Get()}
+	};
+
+	ID2D1GradientStopCollection* stopcollection;
+	RenderTarget->CreateGradientStopCollection(
+		stops,
+		_countof(stops),
+		D2D1_GAMMA_2_2,
+		D2D1_EXTEND_MODE_CLAMP,
+		&stopcollection
+	);
+
+	RenderTarget->CreateLinearGradientBrush(
+		D2D1::LinearGradientBrushProperties(
+			D2D1::Point2F(start.x, start.y),
+			D2D1::Point2F(start.x + end.x, start.y + end.y)),
+		stopcollection,
+		brush
+	);
+}
 void PrintHRESULTError(HRESULT hr)
 {
 	LPVOID errorMsg;
@@ -68,10 +125,10 @@ void PrintHRESULTError(HRESULT hr)
 	LocalFree(errorMsg); // Free the buffer allocated by FormatMessage
 }
 
-void DrawText(int x, int y, std::wstring text, std::string font, int fontsize, MyColour colour, FontAlignment alignment)
+void DrawText(int x, int y, const std::wstring& text, const std::string& font, const int& fontsize, MyColour colour, const FontAlignment& alignment)
 {
 	Brush->SetColor(colour.Get());
-
+	Brush->SetOpacity(colour.a);
 	IDWriteTextLayout* layout = nullptr;
 	if (TextCache.find(text) == TextCache.end())
 	{
@@ -129,44 +186,77 @@ void DrawText(int x, int y, std::wstring text, std::string font, int fontsize, M
 	//layout->Release(); // free memory
 }
 
-void OutlineCircle(int x, int y, float radius, float linewidth, MyColour colour)
+void OutlineCircle(const int& x, const int& y, const float& radius, const float& linewidth, MyColour colour)
 {
 	Brush->SetColor(colour.Get());
+	Brush->SetOpacity(colour.a);
 	RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 	RenderTarget->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), Brush, linewidth);
 	RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
 }
 
-void FilledCircle(int x, int y, float radius, MyColour colour)
+void FilledCircle(const int& x, const int& y, const float& radius, MyColour colour)
 {
 	Brush->SetColor(colour.Get());
+	Brush->SetOpacity(colour.a);
 	RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 	RenderTarget->FillEllipse(D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius), Brush);
 	RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
 }
 
-void OutlineRectangle(int x, int y, int width, int height, int linewidth, MyColour colour)
+void OutlineRectangle(const int& x, const int& y, const int& width, const int& height, const int& linewidth, MyColour colour)
 {
 	RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
 	Brush->SetColor(colour.Get());
-	D2D1_RECT_F rect = {static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y)};
+	Brush->SetOpacity(colour.a);
+	D2D1_RECT_F rect = { static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y) };
 	RenderTarget->DrawRectangle(rect, Brush, linewidth);
 	RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 }
 
-void FilledRectangle(int x, int y, int width, int height, MyColour colour)
+void FilledRectangle(const int& x, const int& y, const int& width, const int& height, MyColour colour)
 {
 	Brush->SetColor(colour.Get());
-	D2D1_RECT_F rect = {static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y)};
+	Brush->SetOpacity(colour.a);
+	D2D1_RECT_F rect = { static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y) };
 	RenderTarget->FillRectangle(rect, Brush);
 }
+void FilledRectangle(const int& x, const int& y, const int& width, const int& height, ID2D1LinearGradientBrush* brush, const LinearBrushStyle& style)
+{
+	switch (style)
+	{
+	case LinearBrushStyle::Rightwards:
+		brush->SetStartPoint(D2D1::Point2F(x, y));
+		brush->SetEndPoint(D2D1::Point2F(x + width, y));
+		break;
 
-void OutlineRoundedRectangle(int x, int y, int width, int height, int linewidth, int rounding, MyColour colour)
+	case LinearBrushStyle::Leftwards:
+		brush->SetStartPoint(D2D1::Point2F(x + width, y));
+		brush->SetEndPoint(D2D1::Point2F(x, y));
+		break;
+
+	case LinearBrushStyle::Downwards:
+		brush->SetStartPoint(D2D1::Point2F(x, y));
+		brush->SetEndPoint(D2D1::Point2F(x, y + height));
+		break;
+
+	case LinearBrushStyle::Upwards:
+		brush->SetStartPoint(D2D1::Point2F(x, y + height));
+		brush->SetEndPoint(D2D1::Point2F(x, y));
+		break;
+	}
+	D2D1_RECT_F rect = { static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y) };
+	RenderTarget->FillRectangle(rect, brush);
+}
+
+
+void OutlineRoundedRectangle(const int& x, const int& y, const int& width, const int& height, const int& linewidth, const int& rounding, MyColour colour)
 {
 	// RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
 	RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 	Brush->SetColor(colour.Get());
-	D2D1_RECT_F rect = {static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y)};
+	Brush->SetOpacity(colour.a);
+	D2D1_RECT_F rect = { static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y) };
 	D2D1_ROUNDED_RECT roundedRect = D2D1::RoundedRect(
 		rect,
 		static_cast<float>(rounding),
@@ -176,10 +266,11 @@ void OutlineRoundedRectangle(int x, int y, int width, int height, int linewidth,
 	//RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 }
 
-void FilledRoundedRectangle(int x, int y, int width, int height, int rounding, MyColour colour)
+void FilledRoundedRectangle(const int& x, const int& y, const int& width, const int& height, const int& rounding, MyColour colour)
 {
 	Brush->SetColor(colour.Get());
-	D2D1_RECT_F rect = {static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y)};
+	Brush->SetOpacity(colour.a);
+	D2D1_RECT_F rect = { static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y) };
 	D2D1_ROUNDED_RECT roundedRect = D2D1::RoundedRect(
 		rect,
 		static_cast<float>(rounding),
@@ -188,27 +279,29 @@ void FilledRoundedRectangle(int x, int y, int width, int height, int rounding, M
 	RenderTarget->FillRoundedRectangle(roundedRect, Brush);
 }
 
-void FilledLine(int xstart, int ystart, int xend, int yend, int width, MyColour colour)
+void FilledLine(const int& xstart, const int& ystart, const int& xend, const int& yend, const int& width, MyColour colour)
 {
 	RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
-	D2D1_POINT_2F start = {static_cast<float>(xstart), static_cast<float>(ystart)};
-	D2D1_POINT_2F finish = {static_cast<float>(xend), static_cast<float>(yend)};
+	D2D1_POINT_2F start = { static_cast<float>(xstart), static_cast<float>(ystart) };
+	D2D1_POINT_2F finish = { static_cast<float>(xend), static_cast<float>(yend) };
 	Brush->SetColor(colour.Get());
+	Brush->SetOpacity(colour.a);
 	RenderTarget->DrawLine(start, finish, Brush);
 }
 
 // allows you to draw single lines, rather than being forced to use double
-void FilledLineAliased(int xstart, int ystart, int xend, int yend, int width, MyColour colour)
+void FilledLineAliased(const int& xstart, const int& ystart, const int& xend, const int& yend, const int& width, MyColour colour)
 {
 	RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
-	D2D1_POINT_2F start = {static_cast<float>(xstart), static_cast<float>(ystart)};
-	D2D1_POINT_2F finish = {static_cast<float>(xend), static_cast<float>(yend)};
+	D2D1_POINT_2F start = { static_cast<float>(xstart), static_cast<float>(ystart) };
+	D2D1_POINT_2F finish = { static_cast<float>(xend), static_cast<float>(yend) };
 	Brush->SetColor(colour.Get());
+	Brush->SetOpacity(colour.a);
 	RenderTarget->DrawLine(start, finish, Brush);
 	RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
 }
 
-void SaturationSlider(int x, int y, int width, int height, MyColour colour)
+void SaturationSlider(const int& x, const int& y, const int& width, const int& height, MyColour colour)
 {
 	{
 		D2D1_GRADIENT_STOP stops[] =
@@ -231,7 +324,7 @@ void SaturationSlider(int x, int y, int width, int height, MyColour colour)
 			&LinearBrush
 		);
 
-		D2D1_RECT_F rect = {static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y)};
+		D2D1_RECT_F rect = { static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y) };
 
 		RenderTarget->FillRectangle(rect, LinearBrush);
 		GradientStops->Release();
@@ -262,7 +355,7 @@ void SaturationSlider(int x, int y, int width, int height, MyColour colour)
 			&LinearBrush
 		);
 
-		D2D1_RECT_F rect = {static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y)};
+		D2D1_RECT_F rect = { static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y) };
 
 		RenderTarget->FillRectangle(rect, LinearBrush);
 		GradientStops->Release();
@@ -270,7 +363,7 @@ void SaturationSlider(int x, int y, int width, int height, MyColour colour)
 	}
 }
 
-void AlphaSlider(int x, int y, int width, int height, MyColour col)
+void AlphaSlider(const int& x, const int& y, const int& width, const int& height, MyColour col)
 {
 	D2D1_GRADIENT_STOP stops[] =
 	{
@@ -292,14 +385,14 @@ void AlphaSlider(int x, int y, int width, int height, MyColour col)
 		&LinearBrush
 	);
 
-	D2D1_RECT_F rect = {static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y)};
+	D2D1_RECT_F rect = { static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y) };
 
 	RenderTarget->FillRectangle(rect, LinearBrush);
 	GradientStops->Release();
 	LinearBrush->Release();
 }
 
-void HueSlider(int x, int y, int width, int height)
+void HueSlider(const int& x, const int& y, const int& width, const int& height)
 {
 	D2D1_GRADIENT_STOP stops[] =
 	{
@@ -328,7 +421,7 @@ void HueSlider(int x, int y, int width, int height)
 		&LinearBrush
 	);
 
-	D2D1_RECT_F rect = {static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y)};
+	D2D1_RECT_F rect = { static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y) };
 
 	RenderTarget->FillRectangle(rect, LinearBrush);
 	GradientStops->Release();
@@ -336,26 +429,32 @@ void HueSlider(int x, int y, int width, int height)
 }
 
 // draws at native resolution
-void DrawBitmap(ID2D1Bitmap* bmp, int x, int y)
+void DrawBitmap(ID2D1Bitmap* bmp, const int& x, const int& y)
 {
 	RenderTarget->DrawBitmap(bmp, D2D1::RectF(static_cast<float>(x), static_cast<float>(y), bmp->GetSize().width + x, bmp->GetSize().height + y), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, D2D1::RectF(0.0f, 0.0f, bmp->GetSize().width, bmp->GetSize().height));
 }
 
 // squeezes, compresses or expands the image to set variables.
-void DrawBitmap(ID2D1Bitmap* bmp, int x, int y, int width, int height)
+void DrawBitmap(ID2D1Bitmap* bmp, const int& x, const int& y, const int& width, const int& height)
 {
-	RenderTarget->DrawBitmap(bmp, D2D1::RectF(static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y)), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, D2D1::RectF(0.0f, 0.0f, bmp->GetSize().width, bmp->GetSize().height));
+	RenderTarget->DrawBitmap(
+		bmp,
+		D2D1::RectF(static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y)),
+		1.0f,  // Opacity
+		D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
+		D2D1::RectF(0.0f, 0.0f, bmp->GetSize().width, bmp->GetSize().height)
+	);
 }
 
-void DrawBitmap(ID2D1Bitmap* bmp, int x, int y, int width, int height, float imageposx, float imageposy, float imagewidth, float imageheight)
+void DrawBitmap(ID2D1Bitmap* bmp, const int& x, const int& y, const int& width, const int& height, float imageposx, float imageposy, float imagewidth, float imageheight)
 {
-	if(imageposx < 0)
+	if (imageposx < 0)
 		imageposx = 0;
-	if(imageposy < 0)
+	if (imageposy < 0)
 		imageposy = 0;
-	if(imagewidth > bmp->GetSize().width)
+	if (imagewidth > bmp->GetSize().width)
 		imagewidth = bmp->GetSize().width;
-	if(imageheight > bmp->GetSize().height)
+	if (imageheight > bmp->GetSize().height)
 		imageheight = bmp->GetSize().height;
 
 	RenderTarget->DrawBitmap(bmp, D2D1::RectF(static_cast<float>(x), static_cast<float>(y), static_cast<float>(width + x), static_cast<float>(height + y)), 1.0f, D2D1_BITMAP_INTERPOLATION_MODE::D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, D2D1::RectF(imageposx, imageposy, imagewidth, imageheight));
@@ -363,7 +462,7 @@ void DrawBitmap(ID2D1Bitmap* bmp, int x, int y, int width, int height, float ima
 
 
 
-void DrawBitmap(ID2D1Bitmap* bmp, int x, int y, int width, int height,float rotation)
+void DrawBitmap(ID2D1Bitmap* bmp, const int& x, const int& y, const int& width, const int& height, const float& rotation)
 {
 	D2D1_POINT_2F center = D2D1::Point2F(x + (width / 2), y + (height / 2));
 	RenderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(rotation, center));
@@ -371,7 +470,7 @@ void DrawBitmap(ID2D1Bitmap* bmp, int x, int y, int width, int height,float rota
 	RenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 }
 
-void FilledTriangle(int x1, int y1, int x2, int y2, int x3, int y3, MyColour colour)
+void FilledTriangle(const int& x1, const int& y1, const int& x2, const int& y2, const int& x3, const int& y3, MyColour colour)
 {
 	// Define the points of the triangle
 	D2D1_POINT_2F p1 = D2D1::Point2F(static_cast<FLOAT>(x1), static_cast<FLOAT>(y1));
@@ -380,6 +479,7 @@ void FilledTriangle(int x1, int y1, int x2, int y2, int x3, int y3, MyColour col
 	//render triangle in d2d1 using points
 
 	Brush->SetColor(colour.Get());
+	Brush->SetOpacity(colour.a);
 	ID2D1PathGeometry* pathgeometry = NULL;
 	Factory->CreatePathGeometry(&pathgeometry);
 	ID2D1GeometrySink* sink = NULL;
