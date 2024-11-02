@@ -279,6 +279,38 @@ void FilledRoundedRectangle(const int& x, const int& y, const int& width, const 
 	RenderTarget->FillRoundedRectangle(roundedRect, Brush);
 }
 
+void OutlineCorneredRectangle(const int& x, const int& y, const int& width, const int& height, const int& linewidth, MyColour colour)
+{
+	RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_ALIASED);
+	Brush->SetColor(colour.Get());
+	Brush->SetOpacity(colour.a);
+
+	float lineW = static_cast<float>(width) / 3.0f;
+	float lineH = static_cast<float>(height) / 3.0f;
+
+	struct Corner {
+		float startX, startY, endX, endY;
+	};
+
+	Corner corners[] = {
+		{ x, y, x, y + lineH}, 
+		{ x, y, x + lineW, y},
+		{ x + width - lineW, y, x + width, y},
+		{ x + width, y, x + width, y + lineH},
+		{ x, y + height - lineH, x, y + height},
+		{ x, y + height, x + lineW, y + height},
+		{ x + width - lineW, y + height, x + width, y + height},
+		{ x + width, y + height - lineH, x + width, y + height} 
+	};
+
+	for (const auto& corner : corners) 
+	{
+		D2D1_POINT_2F start = { corner.startX, corner.startY };
+		D2D1_POINT_2F finish = { corner.endX, corner.endY };
+		RenderTarget->DrawLine(start, finish, Brush, linewidth);
+	}
+}
+
 void FilledLine(const int& xstart, const int& ystart, const int& xend, const int& yend, const int& width, MyColour colour)
 {
 	RenderTarget->SetAntialiasMode(D2D1_ANTIALIAS_MODE_PER_PRIMITIVE);
