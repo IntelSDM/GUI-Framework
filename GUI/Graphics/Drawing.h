@@ -13,6 +13,7 @@ extern void OutlineRectangle(const int& x, const int& y, const int& width, const
 extern void FilledRectangle(const int& x, const int& y, const int& width, const int& height, MyColour colour);
 extern void OutlineRoundedRectangle(const int& x, const int& y, const int& width, const int& height, const int& linewidth, const int& rounding, MyColour colour);
 extern void FilledRoundedRectangle(const int& x, const int& y, const int& width, const int& height, const int& rounding, MyColour colour);
+extern void OutlineCorneredRectangle(const int& x, const int& y, const int& width, const int& height, const int& linewidth, MyColour colour);
 extern void FilledLine(const int& xstart, const int& ystart, const int& xend, const int& yend, const int& width, MyColour colour);
 extern void FilledLineAliased(const int& xstart, const int& ystart, const int& xend, const int& yend, const int& width, MyColour colour);
 extern void DrawBitmap(ID2D1Bitmap* bmp, const int& x, const int& y, const int& width, const int& height);
